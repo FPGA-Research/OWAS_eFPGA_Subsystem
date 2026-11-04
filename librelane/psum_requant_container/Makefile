@@ -2,7 +2,7 @@ REPO_ROOT := $(abspath ../..)
 PDK_ROOT ?= $(abspath $(REPO_ROOT)/../PDK)
 PDK ?= ihp-sg13cmos5l
 LL_DIR ?= $(abspath .)
-NIX_DIR ?= $(abspath $(REPO_ROOT)/../librelane)
+NIX_DIR ?= $(abspath $(REPO_ROOT)/OWAS_Fabric/FABulous)
 VIEWS_DIR ?= $(REPO_ROOT)/MACROS/psum_requant_container/views
 
 .PHONY: all

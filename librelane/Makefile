@@ -1,7 +1,7 @@
 REPO_ROOT := $(abspath ..)
 PDK_ROOT ?= $(abspath $(REPO_ROOT)/../PDK)
 PDK ?= ihp-sg13cmos5l
-NIX_DIR ?= $(abspath $(REPO_ROOT)/../librelane)
+NIX_DIR ?= $(abspath ../OWAS_Fabric/FABulous)
 
 .PHONY: all act_bank_container psum_requant_container efpga_subsystem_top zip unzip nix
 
