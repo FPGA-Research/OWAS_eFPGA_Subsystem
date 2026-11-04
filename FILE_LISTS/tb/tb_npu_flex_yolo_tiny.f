@@ -1,5 +1,6 @@
 -f ../internal/fabulous_flex_harness.f
 -f ../npu.f
+-f ../libs/axi_lib.f
 -f ../internal/efpga_connector.f
 TEST/AXI_VIP/arbiter.v
 TEST/AXI_VIP/priority_encoder.v

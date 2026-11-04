@@ -1,6 +1,7 @@
 # tb_npu_flex_crossbar_stress on the real FABulous fabric (set parameter FABRIC_SIM=1).
 -f ../internal/fabulous.f
 -f ../npu.f
+-f ../libs/axi_lib.f
 -f ../internal/efpga_connector.f
 TEST/AXI_VIP/arbiter.v
 TEST/AXI_VIP/priority_encoder.v

@@ -15,8 +15,8 @@ meta:
 DESIGN_NAME: efpga_subsystem_top
 
 VERILOG_FILES:
+  - dir::../../MACROS/target_config_pkg.sv
   - dir::../../RTL/eFPGA_Subsystem/eFPGA_Subsystem_TOP/efpga_subsystem_top.sv
-  - dir::../../RTL/target_config_pkg.sv
   - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/axi_decoupler.sv
   - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/axi_watchdog_master_monitor.sv
   - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/axi_watchdog_slave_monitor.sv
@@ -39,8 +39,8 @@ VERILOG_FILES:
   - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/compute_core_TOP/compute_core_top.sv
   - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/crossbar/npu_crossbar.sv
   - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/quant_config/quant_shift_chain.sv
-  - dir::../../MACROS/clock_gate/cg_cell.sv
-  - dir::../../MACROS/clock_gate/sg13cmos5l_lgcp_1.v
+  - dir::../../MACROS/Cells/cg_cell.sv
+  - dir::../../MACROS/Cells/sg13cmos5l_lgcp_1.v
   - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/systolic_array/pe.sv
   - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/systolic_array/systolic_array.sv
   - dir::../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/psum_requant_TOP/psum_requant_top.sv
@@ -50,7 +50,7 @@ VERILOG_FILES:
   - dir::../../OWAS_Fabric/Fabric/bitbang.v
   - dir::../../OWAS_Fabric/Fabric/config_UART.v
   - dir::../../OWAS_Fabric/Fabric/eFPGA_Config.v
-  - dir::../../MACROS/Fabric/eFPGA_top.v
+  - dir::../../OWAS_Fabric/Fabric/eFPGA_top.v
   - dir::../../OWAS_Fabric/Fabric/models_pack.v
 
 

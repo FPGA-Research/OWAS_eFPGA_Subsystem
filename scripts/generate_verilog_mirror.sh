@@ -561,6 +561,20 @@ else
 fi
 
 # -----------------------------------------------------------------------------
+# Flat Filelist Generation (Full Tree Mode Only)
+# -----------------------------------------------------------------------------
+if [[ -z "${TARGET_SUBDIR}" ]]; then
+    python3 "${REPO_ROOT}/scripts/flatten_filelists.py" \
+        --repo-root "${REPO_ROOT}" \
+        -f FILE_LISTS/efpga_subsystem.f \
+        -o FILE_LISTS/efpga_subsystem_global.f
+    python3 "${REPO_ROOT}/scripts/flatten_filelists.py" \
+        --repo-root "${OUT_DIR}" \
+        -f FILE_LISTS/efpga_subsystem.f \
+        -o FILE_LISTS/efpga_subsystem_global.f
+fi
+
+# -----------------------------------------------------------------------------
 # Post-Generation Verification & Lints (Full Tree Mode Only)
 # -----------------------------------------------------------------------------
 if [[ -z "${TARGET_SUBDIR}" && "${EQUIV_MODE}" != "none" ]]; then
