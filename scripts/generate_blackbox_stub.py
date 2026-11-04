@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 scripts/generate_blackbox_stub.py
-CrocoScale SoC — Automated Blackbox Stub Generator for Hardened Macros
+OWAS eFPGA Subsystem — Automated Blackbox Stub Generator for Hardened Macros
 
 Parses a structural/RTL Verilog or SystemVerilog module header (parameters and
 ports) and generates a clean, synthesis/lint-ready `(* blackbox *)` stub model
@@ -145,17 +145,25 @@ def generate_blackbox_stub(src_path: Path, dst_path: Path):
 def main():
     epilog_text = """
 Examples:
-  # Default: sync MACROS/FABulous/eFPGA_top.v from FABulousProject/CrocoScale_Fabric/Fabric/eFPGA_top.v
+  # Default: sync MACROS/FABulous/eFPGA.v from OWAS_Fabric/Fabric/eFPGA.v
   python3 scripts/generate_blackbox_stub.py
 
-  # Generate a blackbox stub for any custom module:
+  # Generate a blackbox stub for Tier-1 / Tier-2 macros:
   python3 scripts/generate_blackbox_stub.py \\
       -i RTL/eFPGA_Subsystem/NPU_complex/act_buffer/containers/act_bank_container.sv \\
-      -o MACROS/act_buffer/act_bank_container.v
+      -o MACROS/act_bank_container/act_bank_container.v
+
+  python3 scripts/generate_blackbox_stub.py \\
+      -i RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/psum_requant_container.sv \\
+      -o MACROS/psum_requant_container/psum_requant_container.v
+
+  python3 scripts/generate_blackbox_stub.py \\
+      -i RTL/eFPGA_Subsystem/efpga_subsystem_top.sv \\
+      -o MACROS/efpga_subsystem_top/efpga_subsystem_top.v
 """
     parser = argparse.ArgumentParser(
         prog="python3 scripts/generate_blackbox_stub.py",
-        description="CrocoScale SoC — Automated (* blackbox *) Verilog Stub Generator for Hardened Macros.\n"
+        description="OWAS eFPGA Subsystem — Automated (* blackbox *) Verilog Stub Generator for Hardened Macros.\n"
                     "Parses module parameters and ports from an RTL/structural source file and emits a\n"
                     "synthesis/lint-ready blackbox stub with deterministic output tie-offs.",
         epilog=epilog_text,
@@ -185,4 +193,3 @@ Examples:
 
 if __name__ == "__main__":
     main()
-

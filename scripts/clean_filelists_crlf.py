@@ -57,11 +57,11 @@ Examples:
   python3 scripts/clean_filelists_crlf.py
 
   # Sanitize specific directories or files:
-  python3 scripts/clean_filelists_crlf.py FILE_LISTS exports
+  python3 scripts/clean_filelists_crlf.py FILE_LISTS
 """
     parser = argparse.ArgumentParser(
         prog="python3 scripts/clean_filelists_crlf.py",
-        description="CrocoScale SoC — Filelist Line-Ending Sanitizer (CRLF -> Unix LF).\n"
+        description="OWAS eFPGA Subsystem — Filelist Line-Ending Sanitizer (CRLF -> Unix LF).\n"
                     "Strips Windows carriage returns (\\r\\n) across .f and .flist files to prevent\n"
                     "Icarus Verilog 'File name not terminated' parser errors.",
         epilog=epilog_text,
@@ -110,4 +110,3 @@ Examples:
 
 if __name__ == "__main__":
     main()
-

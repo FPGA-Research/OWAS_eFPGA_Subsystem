@@ -1,112 +1,28 @@
-# CrocoScale SoC — Automation Scripts & IP Exporter Guide (`scripts/`)
+# OWAS eFPGA Subsystem — Automation Scripts Guide (`scripts/`)
 
-All build automation, code generation, formal verification, and standalone IP packaging tools live in `scripts/`. Every script supports `-h` / `--help` directly from the terminal.
+All build automation, code generation, formal verification, and bitstream compilation tools live in `scripts/`. Every Python and shell script supports `-h` / `--help` directly from the terminal.
 
 ---
 
-## ⚡ Quick Cheat-Sheet: Which Command Do I Run?
+## Quick Cheat-Sheet
 
 | Goal | Command to Run (in WSL) |
 | :--- | :--- |
-| **Build everything & export all 6 IP packages** (Full formal SAT proofs) | `source ~/custom_functions/custom_functions.sh && pyenv Yosys && ./scripts/export_all.sh` |
-| **Fast export of all 6 IP packages** (~10s, skips SAT proofs) | `source ~/custom_functions/custom_functions.sh && pyenv Yosys && ./scripts/export_all.sh -e none` |
-| **Export Icarus Simulation package** (`.v` + TBs + C HAL) | `python3 scripts/export_subsystem.py --target efpga_subsystem --flow simulation --format v --include-tb --include-hal` |
-| **Export Tier-1 ASIC Container Macros** (`act_bank` / `psum_requant`) | `python3 scripts/export_subsystem.py --target act_bank_container --flow asic --format sv`<br>`python3 scripts/export_subsystem.py --target psum_requant_container --flow asic --format sv` |
-| **Export Tier-2 ASIC eFPGA Subsystem** (`.sv` + TBs + `AXI_LIB`) | `python3 scripts/export_subsystem.py --target efpga_subsystem --flow asic --format sv --include-tb --include-lib` |
-| **Export Unified Multi-Target package** (`+define+` switched, `.sv` or `.v`) | `python3 scripts/export_subsystem.py --target efpga_subsystem --flow unified --format sv --include-tb --include-hal --include-lib`<br>`python3 scripts/export_subsystem.py --target efpga_subsystem --flow unified --format v --include-tb --include-hal --include-lib` |
-| **Regenerate `UNIFIED_GENERATED/` & `FILE_LISTS/unified/`** | `python3 scripts/generate_unified_switches.py` |
-| **Sync `MACROS/FABulous/eFPGA_top.v` blackbox after FABulous regen** | `python3 scripts/generate_blackbox_stub.py` |
+| **Regenerate `VERILOG_MIRROR_GENERATED/`** (with Yosys SAT proofs & Icarus lints) | `source ~/custom_functions/custom_functions.sh && pyenv Yosys && ./scripts/generate_verilog_mirror.sh` |
+| **Fast regenerate `VERILOG_MIRROR_GENERATED/`** (~2s, skips SAT proofs) | `./scripts/generate_verilog_mirror.sh -e none` |
 | **Install/update bitstream tools in `tools/` & compile `flex` bitstream** | `python3 scripts/generate_bitstream.py --install-tools`<br>`python3 scripts/generate_bitstream.py` |
 | **Run full-fabric bitstream simulation in Vivado `xsim`** | `python3 scripts/run_fabric_sim.py` |
-| **Regenerate `VERILOG_MIRROR_GENERATED/` only** | `./scripts/generate_verilog_mirror.sh` *(or `-e none` for fast mode)* |
-| **Flatten a nested `.f` filelist into a single file** | `python3 scripts/flatten_filelists.py -f FILE_LISTS/soc.f -o gemini_workspace/soc_flat.f` |
+| **Sync `MACROS/FABulous/eFPGA.v` blackbox after FABulous regen** | `python3 scripts/generate_blackbox_stub.py` |
+| **Flatten a nested `.f` filelist into a single file** | `python3 scripts/flatten_filelists.py -f FILE_LISTS/efpga_subsystem.f -o FILE_LISTS/efpga_subsystem_global.f` |
 | **Strip Windows CRLF line endings from all `.f` files** | `python3 scripts/clean_filelists_crlf.py` |
 
 ---
 
-## 🛠️ Complete Scripts Reference
+## Scripts Reference
 
-### 1. `export_subsystem.py` — Standalone Subsystem & IP Packaging Tool
+### 1. `generate_verilog_mirror.sh` — Verilog-2001 Mirror & Formal LEC Runner
 
-Resolves a subsystem's filelist tree, rebases submodule paths (via `scripts/export_config.yaml`), and packages a self-contained directory under `exports/<target>_<flow>_<format>/` with a flat `<target>_global.f` filelist and an `EXPORT_MANIFEST.md`.
-
-```bash
-python3 scripts/export_subsystem.py --help
-```
-
-#### Target & Flow Selection
-| Flag | Choices / Default | Description |
-| :--- | :--- | :--- |
-| `-t`, `--target <NAME>` | `efpga_subsystem` *(default)*, `npu`, `soc`, `act_bank_container`, `psum_requant_container` | Predefined subsystem target to export. |
-| `--flow <FLOW>` | `simulation` (`sim`), `asic`, `vivado`, `unified` | Filelist flow tree to walk (`FILE_LISTS/`, `FILE_LISTS/asic/`, `FILE_LISTS/vivado/`, or `FILE_LISTS/unified/`). Defaults to `simulation` when `--format v` and `asic` when `--format sv`. |
-| `-f`, `--filelist <PATH>` | `None` | Export any custom `.f` filelist instead of a named `--target`. |
-
-#### Output Format & Destination
-| Flag | Choices / Default | Description |
-| :--- | :--- | :--- |
-| `--format <FMT>` | `v` *(default)*, `sv`, `both` | `v`: pure IEEE 1364-2001 Verilog from `VERILOG_MIRROR_GENERATED/`.<br>`sv`: SystemVerilog from `RTL/` & `MACROS/`.<br>`both`: exports both `.sv` and `.v` side-by-side. |
-| `-o`, `--output-dir <DIR>` | `exports/<target>_<flow>_<format>/` | Custom output directory path. |
-| `--config <YAML>` | `scripts/export_config.yaml` | YAML file mapping external submodules (e.g. `FABulousProject/`) into clean export subdirectories. |
-| `--no-clean` | `False` | Keep existing files in the output directory instead of wiping first. |
-
-#### Optional Bundling Flags
-| Flag | Default | Description |
-| :--- | :---: | :--- |
-| `--include-tb` | `False` | Auto-detects and bundles matching testbenches, test filelists, and `.mem` vectors into `TEST/`. |
-| `--include-hal` | `False` | Auto-detects and bundles matching C HAL headers/sources into `HAL/`. |
-| `--include-lib` | `False` | Bundles `RTL/AXI_LIB/` into the package and appends required register-slice modules to `<target>_global.f`. |
-| `--include-macros` | `False` | Bundles the entire `MACROS/` directory into the exported package. |
-
----
-
-### 2. `export_all.sh` — Full Pipeline & Multi-Tier Export Wrapper
-
-Runs `generate_unified_switches.py`, `generate_verilog_mirror.sh`, and exports all 6 standard packages (`efpga_subsystem_simulation_v`, `act_bank_container_asic_sv`, `psum_requant_container_asic_sv`, `efpga_subsystem_asic_sv`, `efpga_subsystem_unified_sv`, `efpga_subsystem_unified_v`).
-
-```bash
-./scripts/export_all.sh --help
-./scripts/export_all.sh           # Full run with Yosys SAT equivalence proofs
-./scripts/export_all.sh -e none   # Fast run without SAT proofs
-```
-
----
-
-### 3. `generate_unified_switches.py` — Multi-Target Compiler-Directive Generator
-
-Automatically diffs module/package definitions across `FILE_LISTS/soc.f`, `FILE_LISTS/vivado/soc_vivado.f`, and `FILE_LISTS/asic/*.f`, transpiles `.sv` variants to Verilog-2001 via `sv2v`, wraps them in `` `ifdef `` switches in `UNIFIED_GENERATED/`, and generates `FILE_LISTS/unified/*_unified.f`.
-
-```bash
-python3 scripts/generate_unified_switches.py --help
-python3 scripts/generate_unified_switches.py
-```
-
-#### Supported Compiler Directives in Unified Packages
-* *(Default — no defines)*: Behavioral Simulation
-* `+define+TARGET_VIVADO`: Xilinx Vivado Emulation
-* `+define+TARGET_ASIC`: IHP 130nm CMOS5L ASIC (`sg13cmos5l_lgcp_1`, `RM_IHPSG13_1P_*` SRAMs, `eFPGA_top` blackbox)
-* `+define+TARGET_ASIC_CONTAINERS`: Tier-2 Hierarchical ASIC (blackboxes `act_bank_container` & `psum_requant_container`)
-
----
-
-### 4. `generate_blackbox_stub.py` — Hard Macro Blackbox Stub Generator
-
-Parses a structural/RTL Verilog or SystemVerilog module header and generates a synthesis/lint-ready `(* blackbox *)` Verilog stub with all parameters, ports, and deterministic output tie-offs.
-
-```bash
-python3 scripts/generate_blackbox_stub.py --help
-
-# Default: updates MACROS/FABulous/eFPGA_top.v from FABulousProject/CrocoScale_Fabric/Fabric/eFPGA_top.v
-python3 scripts/generate_blackbox_stub.py
-
-# Custom module:
-python3 scripts/generate_blackbox_stub.py -i <src.v> -o <dst_blackbox.v>
-```
-
----
-
-### 5. `generate_verilog_mirror.sh` — Verilog-2001 Mirror & Formal LEC Runner
-
-Transpiles SystemVerilog sources (`RTL/`, `MACROS/`, `VIVADO/`, `SOFT_LOGIC/`, `TEST/`) into `VERILOG_MIRROR_GENERATED/`, synthesizes the VHDL NEORV32 CPU wrapper via Yosys GHDL, and runs formal SAT equivalence checking.
+Transpiles SystemVerilog sources (`RTL/`, `MACROS/`, `VIVADO/`, `SOFT_LOGIC/`, `TEST/`) into `VERILOG_MIRROR_GENERATED/` (excluding hardened physical macro views under `MACROS/*/views/`), symlinks `OWAS_Fabric`, and runs formal SAT equivalence checking plus post-generation Icarus Verilog lint checks across Simulation, ASIC, Macro, Soft-Logic, and Testbench filelists.
 
 ```bash
 ./scripts/generate_verilog_mirror.sh --help
@@ -120,9 +36,9 @@ Transpiles SystemVerilog sources (`RTL/`, `MACROS/`, `VIVADO/`, `SOFT_LOGIC/`, `
 
 ---
 
-### 6. `generate_bitstream.py` — Soft-Logic Bitstream Compiler
+### 2. `generate_bitstream.py` — Soft-Logic Bitstream Compiler
 
-Maps, packs, routes, and generates bitstreams (`SOFT_LOGIC/build/<design>/<design>.bin` and `.hex`) for soft-logic controllers targeting the CrocoScale FABulous eFPGA fabric. Never downloads external tools unless `--install-tools` is explicitly passed.
+Maps, packs, routes, and generates bitstreams (`SOFT_LOGIC/build/<design>/<design>.bin` and `.hex`) for soft-logic controllers targeting the 9x16 `OWAS_Fabric` eFPGA fabric. Never downloads external tools unless `--install-tools` is explicitly passed.
 
 ```bash
 python3 scripts/generate_bitstream.py --help
@@ -132,7 +48,7 @@ python3 scripts/generate_bitstream.py
 
 ---
 
-### 7. `run_fabric_sim.py` — Full-Fabric Bitstream Simulation Runner
+### 3. `run_fabric_sim.py` — Full-Fabric Bitstream Simulation Runner
 
 Compiles and runs a system testbench (`FILE_LISTS/tb/<tb>_fabric.f`) on the real `eFPGA_top` fabric in Vivado `xsim`, preloading `SOFT_LOGIC/build/flex/flex.hex` via `efpga_manager`.
 
@@ -143,18 +59,40 @@ python3 scripts/run_fabric_sim.py --tb tb_npu_flex_crossbar_stress
 
 ---
 
-### 8. `flatten_filelists.py` — Recursive Filelist Flattener
+### 4. `generate_blackbox_stub.py` — Hard Macro Blackbox Stub Generator
+
+Parses a structural/RTL Verilog or SystemVerilog module header and generates a synthesis/lint-ready `(* blackbox *)` Verilog stub with all parameters, ports, and deterministic output tie-offs.
+
+```bash
+python3 scripts/generate_blackbox_stub.py --help
+
+# Default: updates MACROS/FABulous/eFPGA.v from OWAS_Fabric/Fabric/eFPGA.v
+python3 scripts/generate_blackbox_stub.py
+
+# Custom module:
+python3 scripts/generate_blackbox_stub.py -i <src.v> -o <dst_blackbox.v>
+```
+
+---
+
+### 5. `vivado_reimport_sources.tcl` & `disable_drc.tcl` — Vivado Project Setup & DRC Hook
+
+Reimports `FILE_LISTS/vivado/efpga_subsystem_vivado.f` and `FILE_LISTS/libs/axi_lib.f` into Vivado `sources_1`, adds simulation testbenches to `sim_1`, configures Out-Of-Context (OOC) synthesis on the 11 active fabric tiles, and attaches `disable_drc.tcl` to prevent placer combinatorial loop stack overflows.
+
+---
+
+### 6. `flatten_filelists.py` — Recursive Filelist Flattener
 
 Resolves nested `-f` / `-c` directives into a single deduplicated flat filelist.
 
 ```bash
 python3 scripts/flatten_filelists.py --help
-python3 scripts/flatten_filelists.py -f FILE_LISTS/efpga_subsystem.f -o gemini_workspace/efpga_flat.f
+python3 scripts/flatten_filelists.py -f FILE_LISTS/efpga_subsystem.f -o FILE_LISTS/efpga_subsystem_global.f
 ```
 
 ---
 
-### 9. `rebase_filelist.py` — Filelist Path Prefix Rebaser
+### 7. `rebase_filelist.py` — Filelist Path Prefix Rebaser
 
 Rebases path prefixes inside a `.f` filelist without touching the underlying hardware files.
 
@@ -165,7 +103,7 @@ python3 scripts/rebase_filelist.py <filelist.f> <rebase_prefix> [output_file.f]
 
 ---
 
-### 10. `clean_filelists_crlf.py` — Filelist Line-Ending Sanitizer
+### 8. `clean_filelists_crlf.py` — Filelist Line-Ending Sanitizer
 
 Converts Windows CRLF (`\r\n`) to Unix LF (`\n`) across `.f` and `.flist` files.
 

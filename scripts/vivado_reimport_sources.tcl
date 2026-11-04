@@ -1,5 +1,5 @@
 # ==============================================================================
-# CrocoScale SoC -- Vivado Clean In-Place Source Reimport & OOC Setup Script
+# OWAS eFPGA Subsystem -- Vivado Clean In-Place Source Reimport & OOC Setup
 # ==============================================================================
 # Usage in Vivado Tcl Console:
 #   source <path_to_repo>/scripts/vivado_reimport_sources.tcl
@@ -8,14 +8,14 @@
 set script_dir [file dirname [file normalize [info script]]]
 set repo_root  [file dirname $script_dir]
 
-puts "=================================================================="
-puts ">>> Starting CrocoScale SoC Clean Source Reimport & OOC Setup <<<"
-puts "=================================================================="
+puts "======================================================================"
+puts ">>> Starting OWAS eFPGA Subsystem Clean Source Reimport & OOC Setup <<<"
+puts "======================================================================"
 
 # ------------------------------------------------------------------------------
-# 1. Clean existing simulation sources from sim_1 (Preserves files on disk!)
+# Clean existing simulation sources from sim_1 (Preserves files on disk!)
 # ------------------------------------------------------------------------------
-puts "==> Step 1: Clearing current simulation sources from sim_1..."
+puts "==> Clearing current simulation sources from sim_1..."
 set old_sim_files [get_files -quiet -of_objects [get_filesets sim_1]]
 if {[llength $old_sim_files] > 0} {
     remove_files -fileset sim_1 $old_sim_files
@@ -23,9 +23,9 @@ if {[llength $old_sim_files] > 0} {
 }
 
 # ------------------------------------------------------------------------------
-# 2. Clean existing design sources from sources_1 (Preserves files on disk!)
+# Clean existing design sources from sources_1 (Preserves files on disk!)
 # ------------------------------------------------------------------------------
-puts "==> Step 2: Clearing current design sources from sources_1..."
+puts "==> Clearing current design sources from sources_1..."
 set old_src_files [get_files -quiet -of_objects [get_filesets sources_1]]
 if {[llength $old_src_files] > 0} {
     remove_files $old_src_files
@@ -33,10 +33,10 @@ if {[llength $old_src_files] > 0} {
 }
 
 # ------------------------------------------------------------------------------
-# 3. Add Verilog & SystemVerilog sources from FILE_LISTS/vivado/soc_vivado.f
-#    (Recursively resolves nested -f filelists directly in Tcl; zero ifdefs!)
+# Add Verilog & SystemVerilog sources from FILE_LISTS/vivado/efpga_subsystem_vivado.f
+# and FILE_LISTS/libs/axi_lib.f (Recursively resolves nested -f filelists in Tcl)
 # ------------------------------------------------------------------------------
-puts "==> Step 3: Adding curated Vivado Verilog/SystemVerilog sources in-place..."
+puts "==> Adding curated Vivado Verilog/SystemVerilog sources in-place..."
 
 proc resolve_filelist {flist_path repo_root visited_var} {
     upvar 1 $visited_var visited
@@ -86,45 +86,20 @@ proc resolve_filelist {flist_path repo_root visited_var} {
 }
 
 set visited_flists [list]
-set v_files [resolve_filelist "$repo_root/FILE_LISTS/vivado/soc_vivado.f" $repo_root visited_flists]
+set v_files [concat \
+    [resolve_filelist "$repo_root/FILE_LISTS/libs/axi_lib.f" $repo_root visited_flists] \
+    [resolve_filelist "$repo_root/FILE_LISTS/vivado/efpga_subsystem_vivado.f" $repo_root visited_flists] \
+]
 
 if {[llength $v_files] > 0} {
     add_files -norecurse $v_files
-    puts "    Added [llength $v_files] curated Verilog/SystemVerilog files from FILE_LISTS/vivado/soc_vivado.f."
+    puts "    Added [llength $v_files] curated Verilog/SystemVerilog files from FILE_LISTS/vivado/efpga_subsystem_vivado.f + axi_lib.f."
 }
 
 # ------------------------------------------------------------------------------
-# 4. Add NEORV32 CPU complex VHDL sources and set library to 'neorv32'
+# Add Simulation Sources (Soft-Logic Controllers, Boundary Harness & TBs) to sim_1
 # ------------------------------------------------------------------------------
-puts "==> Step 4: Adding NEORV32 VHDL sources..."
-set vhdl_core [glob -nocomplain "$repo_root/RTL/CPU/core/*.vhd"]
-set vhdl_boot [list \
-    [file normalize "$repo_root/RTL/CPU/bootloader/neorv32_bootrom_image.vhd"] \
-]
-set vhdl_neorv32 [concat $vhdl_core $vhdl_boot]
-
-if {[llength $vhdl_neorv32] > 0} {
-    add_files -norecurse $vhdl_neorv32
-    set_property library neorv32 [get_files $vhdl_neorv32]
-    puts "    Added [llength $vhdl_neorv32] NEORV32 VHDL files with library 'neorv32'."
-}
-
-# Add NEORV32 AXI wrapper and XBUS-to-AXI4 bridge
-# Both must reside in the default work library (xil_defaultlib) so 'entity work.xbus2axi4_bridge' resolves
-set vhdl_bridge  [file normalize "$repo_root/RTL/CPU/system_integration/xbus2axi4_bridge.vhd"]
-set vhdl_wrapper [file normalize "$repo_root/RTL/Integration/neorv32_axi_wrapper.vhd"]
-set vhdl_integ   [list $vhdl_bridge $vhdl_wrapper]
-
-if {[llength $vhdl_integ] > 0} {
-    add_files -norecurse $vhdl_integ
-    set_property library xil_defaultlib [get_files $vhdl_integ]
-    puts "    Added NEORV32 AXI wrapper and xbus2axi4_bridge in library 'xil_defaultlib'."
-}
-
-# ------------------------------------------------------------------------------
-# 5. Add Simulation Sources (Soft-Logic Controllers, Boundary Harness & TBs) to sim_1
-# ------------------------------------------------------------------------------
-puts "==> Step 5: Adding Soft-Logic controllers, boundary harness, and testbenches to sim_1..."
+puts "==> Adding Soft-Logic controllers, boundary harness, and testbenches to sim_1..."
 set sim_only_files [concat \
     [glob -nocomplain "$repo_root/SOFT_LOGIC/minimal/*.sv"] \
     [glob -nocomplain "$repo_root/SOFT_LOGIC/flex/*.sv"] \
@@ -150,10 +125,10 @@ foreach sf $sim_only_files {
 set_property include_dirs [list [file normalize "$repo_root/TEST/SoftLogic/common"]] [get_filesets sim_1]
 puts "    Added Soft-Logic controllers, boundary harness, and all testbenches to sim_1."
 
-# Exclude full FABulous fabric top from simulation so sim_1 resolves eFPGA_top to eFPGA_top_flex_harness.sv
+# Exclude full FABulous fabric top from default harness simulation so sim_1 resolves eFPGA_top to eFPGA_top_flex_harness.sv
 set fab_synth_only [list \
-    [file normalize "$repo_root/FABulousProject/CrocoScale_Fabric/Fabric/eFPGA_top.v"] \
-    [file normalize "$repo_root/FABulousProject/CrocoScale_Fabric/Fabric/eFPGA.v"] \
+    [file normalize "$repo_root/OWAS_Fabric/Fabric/eFPGA_top.v"] \
+    [file normalize "$repo_root/OWAS_Fabric/Fabric/eFPGA.v"] \
 ]
 foreach ff $fab_synth_only {
     set fobj [get_files -quiet -of_objects [get_filesets sources_1] $ff]
@@ -164,47 +139,18 @@ foreach ff $fab_synth_only {
 puts "    Marked real eFPGA_top.v and eFPGA.v as USED_IN_SIMULATION = 0 (synthesis/implementation only)."
 
 # ------------------------------------------------------------------------------
-# 6. Configure VCU118 Target Constraints in constrs_1
+# Configure Top Module (Zero compiler defines required; 100% filelist-driven)
 # ------------------------------------------------------------------------------
-puts "==> Step 6: Switching active constraints in constrs_1 to vcu118.xdc..."
-set proj_dir [get_property DIRECTORY [current_project]]
-
-set old_nexys_xdc [get_files -quiet -of_objects [get_filesets constrs_1] *nexys_video.xdc]
-if {[llength $old_nexys_xdc] > 0} {
-    set_property IS_ENABLED false $old_nexys_xdc
-    puts "    Disabled legacy nexys_video.xdc in constrs_1."
-}
-
-set vcu118_xdc [file normalize "$proj_dir/CrocoScale_SoC.srcs/constrs_1/imports/new/vcu118.xdc"]
-if {![file exists $vcu118_xdc]} {
-    set vcu118_xdc [file normalize "$repo_root/VIVADO/vcu118.xdc"]
-}
-
-if {[file exists $vcu118_xdc]} {
-    set cur_vcu_xdc [get_files -quiet -of_objects [get_filesets constrs_1] *vcu118.xdc]
-    if {[llength $cur_vcu_xdc] == 0} {
-        add_files -fileset constrs_1 -norecurse $vcu118_xdc
-        set cur_vcu_xdc [get_files -quiet -of_objects [get_filesets constrs_1] *vcu118.xdc]
-    }
-    set_property IS_ENABLED true $cur_vcu_xdc
-    puts "    Enabled active VCU118 constraints: $vcu118_xdc"
-} else {
-    puts "    WARNING: vcu118.xdc not found at $vcu118_xdc!"
-}
-
-# ------------------------------------------------------------------------------
-# 7. Configure Top Module (Zero compiler defines required; 100% filelist-driven)
-# ------------------------------------------------------------------------------
-puts "==> Step 7: Configuring top module (100% filelist-driven architecture)..."
+puts "==> Configuring top module (100% filelist-driven architecture)..."
 set_property verilog_define {} [get_filesets sources_1]
 set_property verilog_define {} [get_filesets sim_1]
-set_property top crocoscale_soc_vcu118 [get_filesets sources_1]
+set_property top efpga_subsystem_top [get_filesets sources_1]
 update_compile_order -fileset sources_1
 
 # ------------------------------------------------------------------------------
-# 8. Configure Dynamic Simulation MEM_DIR & High-Speed xsim Defaults
+# Configure Dynamic Simulation MEM_DIR & High-Speed xsim Defaults
 # ------------------------------------------------------------------------------
-puts "==> Step 8: Configuring portable simulation MEM_DIR plusarg and xsim performance flags..."
+puts "==> Configuring portable simulation MEM_DIR plusarg and xsim performance flags..."
 set golden_dir [file normalize "$repo_root/TEST/GoldenReference"]
 set_property -dict [list \
     xsim.elaborate.debug_level {off} \
@@ -213,9 +159,10 @@ set_property -dict [list \
 ] [get_filesets sim_1]
 
 # ------------------------------------------------------------------------------
-# 9. Attach DRC Crash Prevention Hook (disable_drc.tcl) & Clear Stale Checkpoints
+# Attach DRC Crash Prevention Hook (disable_drc.tcl) & Clear Stale Checkpoints
 # ------------------------------------------------------------------------------
-puts "==> Step 9: Attaching DRC loop & stack overflow crash prevention hook..."
+puts "==> Attaching DRC loop & stack overflow crash prevention hook..."
+set proj_dir [get_property DIRECTORY [current_project]]
 set drc_hook [file normalize "$proj_dir/disable_drc.tcl"]
 if {![file exists $drc_hook]} {
     set drc_hook [file normalize "$repo_root/scripts/disable_drc.tcl"]
@@ -246,15 +193,11 @@ puts "    Cleared stale incremental checkpoints and reset synthesis/implementati
 catch { set_property IS_ENABLED false [get_report_configs -quiet -of_objects [get_runs impl_1] impl_1_opt_report_drc_0] }
 
 # ------------------------------------------------------------------------------
-# 10. Configure Out-Of-Context (OOC) for CPU Complex and Active FABulous Tiles
+# Configure Out-Of-Context (OOC) for Active FABulous Tiles
 # ------------------------------------------------------------------------------
-puts "==> Step 10: Configuring Out-Of-Context (OOC) modules to prevent loop overload..."
+puts "==> Configuring Out-Of-Context (OOC) modules to prevent loop overload..."
 
-# Active modules requiring OOC isolation:
-# - CPU Complex: neorv32_axi_wrapper
-# - 11 Active Fabric Tiles (Note: LUT4AB was replaced by FLUT51PSDM):
 set ooc_modules [list \
-    neorv32_axi_wrapper \
     FLUT51PSDM \
     AXIL_S_IO_W \
     AXI_M_IO_W \
@@ -263,9 +206,11 @@ set ooc_modules [list \
     NPU_ACCUM_S \
     NPU_CTRL_CFG \
     NPU_SLICE \
-    N_term_RAM_IO \
+    N_term_IO_W \
+    N_term_NPU_SLICE \
     SOC_DEBUG_IO \
-    S_term_RAM_IO \
+    S_term_IO_W \
+    S_term_NPU_SLICE \
 ]
 
 foreach mod $ooc_modules {
@@ -280,20 +225,9 @@ foreach mod $ooc_modules {
     }
 }
 
-# Ensure xbus2axi4_bridge is present inside the neorv32_axi_wrapper OOC blockset
-if {[get_filesets -quiet neorv32_axi_wrapper] ne ""} {
-    set cur_block_files [get_files -quiet -of_objects [get_filesets neorv32_axi_wrapper]]
-    if {[lsearch -exact $cur_block_files $vhdl_bridge] == -1} {
-        add_files -fileset neorv32_axi_wrapper -norecurse $vhdl_bridge
-        set_property library xil_defaultlib [get_files -of_objects [get_filesets neorv32_axi_wrapper] $vhdl_bridge]
-        puts "    \[OK\] Added xbus2axi4_bridge to OOC blockset 'neorv32_axi_wrapper'."
-    }
-}
-
 update_compile_order -fileset sources_1
 update_compile_order -fileset sim_1
 
-puts "=================================================================="
-puts ">>> Setup Complete! Curated sources linked with OOC & DRC hooks. <<<"
-puts "=================================================================="
-
+puts "======================================================================"
+puts ">>> Setup Complete! Curated sources linked with OOC & DRC hooks.   <<<"
+puts "======================================================================"

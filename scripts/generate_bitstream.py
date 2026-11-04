@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 scripts/generate_bitstream.py
-CrocoScale SoC — Soft-Logic Bitstream Compiler
+OWAS eFPGA Subsystem — Soft-Logic Bitstream Compiler
 
 Maps, packs, routes, and generates bitstreams (.bin & .hex) for NPU soft-logic
-controllers targeting the CrocoScale FABulous eFPGA fabric (9x16 architecture).
+controllers targeting the OWAS FABulous eFPGA fabric (9x16 architecture).
 
 Safety & Tool Isolation Guarantee:
   - By default, this script NEVER downloads or compiles external tools. If a
@@ -27,7 +27,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
-FAB_PROJ_ROOT = REPO_ROOT / "FABulousProject" / "CrocoScale_Fabric"
+FAB_PROJ_ROOT = REPO_ROOT / "OWAS_Fabric"
 TOOLS_DIR = REPO_ROOT / "tools"
 BUILD_ROOT = REPO_ROOT / "SOFT_LOGIC" / "build"
 
@@ -404,7 +404,7 @@ Examples:
 """
     parser = argparse.ArgumentParser(
         prog="python3 scripts/generate_bitstream.py",
-        description="CrocoScale SoC — Soft-Logic Bitstream Compiler (FAB-mapper + nextpnr + bit_gen).",
+        description="OWAS eFPGA Subsystem — Soft-Logic Bitstream Compiler (FAB-mapper + nextpnr + bit_gen).",
         epilog=epilog_text,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )

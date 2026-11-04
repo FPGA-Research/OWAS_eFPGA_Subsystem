@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 scripts/run_fabric_sim.py
-CrocoScale SoC — Full-Fabric Bitstream Simulation Runner (Vivado xsim)
+OWAS eFPGA Subsystem — Full-Fabric Bitstream Simulation Runner (Vivado xsim)
 
 Compiles and runs a system testbench (FILE_LISTS/tb/<tb>_fabric.f) on the real
 FABulous eFPGA_top fabric in Vivado xsim, preloading a generated bitstream (.hex
@@ -102,7 +102,7 @@ Examples:
 """
     parser = argparse.ArgumentParser(
         prog="python3 scripts/run_fabric_sim.py",
-        description="CrocoScale SoC — Full-Fabric Bitstream Simulation Runner (Vivado xsim).",
+        description="OWAS eFPGA Subsystem — Full-Fabric Bitstream Simulation Runner (Vivado xsim).",
         epilog=epilog_text,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -173,13 +173,14 @@ Examples:
     if v_files:
         v_flist = sim_dir / "v_files.f"
         v_flist.write_text("\n".join(v_files) + "\n", encoding="utf-8", newline="\n")
-        subprocess.run(xvlog_cmd + ["--nolog", "-f", "v_files.f"], cwd=sim_dir, check=True)
+        subprocess.run(xvlog_cmd + ["--nolog", "-f", "v_files.f"], cwd=sim_dir, stdin=subprocess.DEVNULL, check=True)
     if sv_files:
         sv_flist = sim_dir / "sv_files.f"
         sv_flist.write_text("\n".join(sv_files) + "\n", encoding="utf-8", newline="\n")
         subprocess.run(
             xvlog_cmd + ["--nolog", "-sv", "-i", inc_dir, "-f", "sv_files.f"],
             cwd=sim_dir,
+            stdin=subprocess.DEVNULL,
             check=True,
         )
 
@@ -193,6 +194,7 @@ Examples:
     subprocess.run(
         xelab_cmd + ["-f", "xelab.opt"],
         cwd=sim_dir,
+        stdin=subprocess.DEVNULL,
         check=True,
     )
 
@@ -206,6 +208,7 @@ Examples:
     subprocess.run(
         xsim_cmd + ["-f", "xsim.opt"],
         cwd=sim_dir,
+        stdin=subprocess.DEVNULL,
         check=True,
     )
 
@@ -219,4 +222,3 @@ Examples:
 
 if __name__ == "__main__":
     main()
-

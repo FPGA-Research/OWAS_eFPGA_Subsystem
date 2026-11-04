@@ -82,7 +82,7 @@ def generate_flat_filelist(input_flist: Path, output_flist: Path, repo_root: Pat
 
     output_flist.parent.mkdir(parents=True, exist_ok=True)
     with open(output_flist, "w", encoding="utf-8", newline="\n") as f:
-        f.write(f"# Auto-generated flat file list\n")
+        f.write("# Auto-generated flat file list\n")
         f.write(f"# Source: {os.path.relpath(input_flist, repo_root).replace(chr(92), '/')}\n")
         f.write(f"# Total files: {len(files)}\n\n")
         for file_path in files:
@@ -98,12 +98,11 @@ Examples:
   python3 scripts/flatten_filelists.py
 
   # Flatten a specific filelist using -f or positional argument:
-  python3 scripts/flatten_filelists.py -f FILE_LISTS/soc.f -o gemini_workspace/soc_flat.f
-  python3 scripts/flatten_filelists.py FILE_LISTS/asic/efpga_subsystem_asic.f -o gemini_workspace/asic_flat.f
+  python3 scripts/flatten_filelists.py -f FILE_LISTS/asic/efpga_subsystem_asic.f -o FILE_LISTS/asic_flat.f
 """
     parser = argparse.ArgumentParser(
         prog="python3 scripts/flatten_filelists.py",
-        description="CrocoScale SoC — Recursive Filelist Flattener.\n"
+        description="OWAS eFPGA Subsystem — Recursive Filelist Flattener.\n"
                     "Resolves nested -f / -c includes into a single deduplicated flat filelist.",
         epilog=epilog_text,
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -159,4 +158,3 @@ Examples:
 
 if __name__ == "__main__":
     main()
-

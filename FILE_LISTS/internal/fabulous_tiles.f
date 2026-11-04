@@ -119,9 +119,13 @@ OWAS_Fabric/Tile/NPU_CTRL_CFG/NPU_CTRL_CFG_ConfigMem.v
 OWAS_Fabric/Tile/NPU_CTRL_CFG/NPU_CTRL_CFG_switch_matrix.v
 OWAS_Fabric/Tile/NPU_SLICE/NPU_SLICE_ConfigMem.v
 OWAS_Fabric/Tile/NPU_SLICE/NPU_SLICE_switch_matrix.v
+OWAS_Fabric/Tile/N_term_IO_W/N_term_IO_W_switch_matrix.v
+OWAS_Fabric/Tile/N_term_NPU_SLICE/N_term_NPU_SLICE_switch_matrix.v
 OWAS_Fabric/Tile/N_term_RAM_IO/N_term_RAM_IO_switch_matrix.v
 OWAS_Fabric/Tile/SOC_DEBUG_IO/SOC_DEBUG_IO_ConfigMem.v
 OWAS_Fabric/Tile/SOC_DEBUG_IO/SOC_DEBUG_IO_switch_matrix.v
+OWAS_Fabric/Tile/S_term_IO_W/S_term_IO_W_switch_matrix.v
+OWAS_Fabric/Tile/S_term_NPU_SLICE/S_term_NPU_SLICE_switch_matrix.v
 OWAS_Fabric/Tile/S_term_RAM_IO/S_term_RAM_IO_switch_matrix.v
 
 # --- Super-tile Tops ---
@@ -133,7 +137,11 @@ OWAS_Fabric/Tile/NPU_ACCUM_N/NPU_ACCUM_N.v
 OWAS_Fabric/Tile/NPU_ACCUM_S/NPU_ACCUM_S.v
 OWAS_Fabric/Tile/NPU_CTRL_CFG/NPU_CTRL_CFG.v
 OWAS_Fabric/Tile/NPU_SLICE/NPU_SLICE.v
+OWAS_Fabric/Tile/N_term_IO_W/N_term_IO_W.v
+OWAS_Fabric/Tile/N_term_NPU_SLICE/N_term_NPU_SLICE.v
 OWAS_Fabric/Tile/N_term_RAM_IO/N_term_RAM_IO.v
 OWAS_Fabric/Tile/SOC_DEBUG_IO/SOC_DEBUG_IO.v
+OWAS_Fabric/Tile/S_term_IO_W/S_term_IO_W.v
+OWAS_Fabric/Tile/S_term_NPU_SLICE/S_term_NPU_SLICE.v
 OWAS_Fabric/Tile/S_term_RAM_IO/S_term_RAM_IO.v
 
