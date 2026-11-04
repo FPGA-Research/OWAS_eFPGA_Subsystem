@@ -1,0 +1,186 @@
+meta:
+  version: 3
+  flow: Classic
+  substituting_steps:
+    OpenROAD.IRDropReport: null
+    OpenROAD.CTS: null
+    OpenROAD.Resizer*: null
+    OpenROAD.Repair*: null
+    OpenROAD.STA*: null 
+    Magic.DRC: null
+    KLayout.DRC: null
+    Netgen.LVS: null
+    Checker.*: null
+
+DESIGN_NAME: efpga_subsystem_top
+
+VERILOG_FILES:
+  - dir::../src/eFPGA_Subsystem/eFPGA_Subsystem_TOP/efpga_subsystem_top.sv
+  - dir::../src/target_config_pkg.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/axi_decoupler.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/axi_watchdog_master_monitor.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/axi_watchdog_slave_monitor.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/axil_decoupler.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/axil_watchdog_master_monitor.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/axil_watchdog_slave_monitor.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/bridge_fabric_master_to_soc.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/bridge_soc_to_fabric_slave.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/efpga_connector.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/efpga_manager.sv
+  - dir::../src/eFPGA_Subsystem/AXI_Connector/pmp_math.sv
+  - dir::../src/AXI_LIB/axi_register.v
+  - dir::../src/AXI_LIB/axi_register_rd.v
+  - dir::../src/AXI_LIB/axi_register_wr.v
+  - dir::../src/AXI_LIB/axil_register.v
+  - dir::../src/AXI_LIB/axil_register_rd.v
+  - dir::../src/AXI_LIB/axil_register_wr.v
+  - dir::../src/eFPGA_Subsystem/NPU_complex/NPU_complex_TOP/npu_wrapper.sv
+  - dir::../src/eFPGA_Subsystem/NPU_complex/act_buffer/act_buffer_TOP/act_buffer_top.sv
+  - dir::../src/eFPGA_Subsystem/NPU_complex/compute_core/compute_core_TOP/compute_core_top.sv
+  - dir::../src/eFPGA_Subsystem/NPU_complex/compute_core/crossbar/npu_crossbar.sv
+  - dir::../src/eFPGA_Subsystem/NPU_complex/compute_core/quant_config/quant_shift_chain.sv
+  - dir::../src/eFPGA_Subsystem/NPU_complex/shared/clock_gate/cg_cell.v
+  - dir::../src/eFPGA_Subsystem/NPU_complex/compute_core/systolic_array/pe.sv
+  - dir::../src/eFPGA_Subsystem/NPU_complex/compute_core/systolic_array/systolic_array.sv
+  - dir::../src/eFPGA_Subsystem/NPU_complex/psum_requant/psum_requant_TOP/psum_requant_top.sv
+  - dir::../ip/Fabric/OWAS_fabric/Fabric/ConfigFSM.v
+  - dir::../ip/Fabric/OWAS_fabric/Fabric/Frame_Data_Reg.v
+  - dir::../ip/Fabric/OWAS_fabric/Fabric/Frame_Select.v
+  - dir::../ip/Fabric/OWAS_fabric/Fabric/bitbang.v
+  - dir::../ip/Fabric/OWAS_fabric/Fabric/config_UART.v
+  - dir::../ip/Fabric/OWAS_fabric/Fabric/eFPGA_Config.v
+  - dir::../ip/Fabric/OWAS_fabric/Fabric/eFPGA_top.v
+  - dir::../ip/Fabric/OWAS_fabric/Fabric/models_pack.v
+
+
+USE_SLANG: true
+VERILOG_DEFINES: [LIBRELANE_HARD_MACROS, IHP_SG13CMOS5L]
+ERROR_ON_SYNTH_CHECKS: false
+RUN_MAGIC_DRC: False
+RUN_KLAYOUT_DRC: False
+CLOCK_PORT: clk_i
+CLOCK_NET: clk_i
+CLOCK_PERIOD: 10.0
+
+FP_SIZING: absolute
+# Shift the macro layout right by 200 um and widen the die to preserve the PSUM column's right-edge position.
+DIE_AREA: [0, 0, 4000, 4250]
+PL_TARGET_DENSITY_PCT: 50
+FP_OBSTRUCTIONS:
+# - [3774.24, 15.12, 3794.24, 4784.88]
+#  - [300, 15.12, 2647.68, 100]
+# - [300, 4629.7, 2647.68, 4784.88]
+SLANG_ARGUMENTS: ['--keep-hierarchy']
+#SYNTH_HIERARCHY. _MODE: keep
+GPL_CELL_PADDING: 4
+DPL_CELL_PADDING: 2
+
+VDD_NETS: [VDD]
+GND_NETS: [VSS]
+PDN_MULTILAYER: true
+PDN_CFG: dir::pdn_cfg.tcl
+IO_PIN_ORDER_CFG: dir::pin_order.cfg
+PL_TIME_DRIVEN: False
+GRT_ALLOW_CONGESTION: True
+DRT_OPT_ITERS: 5
+ERROR_ON_DISCONNECTED_PINS: False
+GRT_OVERFLOW_ITERS: 1
+DRT_ANTENNA_REPAIR_ITERS: 0
+GRT_ANTENNA_REPAIR_ITERS: 0
+
+PDN_MACRO_CONNECTIONS:
+  - "npu_inst\\.act_buffer_stage\\.gen_containers.*\\.container_inst.* VDD VSS VDD VSS"
+  - "npu_inst\\.psum_requant_stage\\.gen_containers.*\\.container_inst.* VDD VSS VDD VSS"
+
+MACROS:
+  eFPGA:
+    gds:
+      - dir::../ip/Fabric/OWAS_fabric/Fabric/macro/final_views/gds/eFPGA.gds
+    lef:
+      - dir::../ip/Fabric/OWAS_fabric/Fabric/macro/final_views/lef/eFPGA.lef
+    nl:
+      - dir::../ip/Fabric/OWAS_fabric/Fabric/macro/final_views/nl/eFPGA.nl.v
+    instances:
+      "fabric_inst.eFPGA_inst":
+        location: [200, 200]
+        orientation: N
+
+  act_bank_container:
+    gds:
+      - dir::../ip/act_sram/final/gds/act_bank_container.gds
+    lef:
+      - dir::../ip/act_sram/final/lef/act_bank_container.lef
+    nl:
+      - dir::../ip/act_sram/final/nl/act_bank_container.nl.v
+    lib:
+      "*_typ_1p20V_25C":
+        - dir::../ip/act_sram/final/lib/nom_typ_1p20V_25C/act_bank_container__nom_typ_1p20V_25C.lib
+      "nom_fast_1p32V_m40C":
+        - dir::../ip/act_sram/final/lib/nom_fast_1p32V_m40C/act_bank_container__nom_fast_1p32V_m40C.lib
+      "nom_slow_1p08V_125C":
+        - dir::../ip/act_sram/final/lib/nom_slow_1p08V_125C/act_bank_container__nom_slow_1p08V_125C.lib
+    instances:
+      "npu_inst.act_buffer_stage.gen_containers[0].container_inst":
+        location: [2922.56, 318.98]
+        orientation: R270
+      "npu_inst.act_buffer_stage.gen_containers[1].container_inst":
+        location: [2922.56, 779.3]
+        orientation: R270
+      "npu_inst.act_buffer_stage.gen_containers[2].container_inst":
+        location: [2922.56, 1239.62]
+        orientation: R270
+      "npu_inst.act_buffer_stage.gen_containers[3].container_inst":
+        location: [2922.56, 1699.94]
+        orientation: R270
+      "npu_inst.act_buffer_stage.gen_containers[4].container_inst":
+        location: [2922.56, 2160.26]
+        orientation: R270
+      "npu_inst.act_buffer_stage.gen_containers[5].container_inst":
+        location: [2922.56, 2620.58]
+        orientation: R270
+      "npu_inst.act_buffer_stage.gen_containers[6].container_inst":
+        location: [2922.56, 3080.9]
+        orientation: R270
+      "npu_inst.act_buffer_stage.gen_containers[7].container_inst":
+        location: [2922.56, 3541.22]
+        orientation: R270
+
+  psum_requant_container:
+    gds:
+      - dir::../ip/psum_sram/final/gds/psum_requant_container.gds
+    lef:
+      - dir::../ip/psum_sram/final/lef/psum_requant_container.lef
+    nl:
+      - dir::../ip/psum_sram/final/nl/psum_requant_container.nl.v
+    lib:
+      "*_typ_1p20V_25C":
+        - dir::../ip/psum_sram/final/lib/nom_typ_1p20V_25C/psum_requant_container__nom_typ_1p20V_25C.lib
+      "nom_fast_1p32V_m40C":
+        - dir::../ip/psum_sram/final/lib/nom_fast_1p32V_m40C/psum_requant_container__nom_fast_1p32V_m40C.lib
+      "nom_slow_1p08V_125C":
+        - dir::../ip/psum_sram/final/lib/nom_slow_1p08V_125C/psum_requant_container__nom_slow_1p08V_125C.lib
+    instances:
+      "npu_inst.psum_requant_stage.gen_containers[0].container_inst":
+        location: [3534.24, 100]
+        orientation: R0
+      "npu_inst.psum_requant_stage.gen_containers[1].container_inst":
+        location: [3534.24, 580]
+        orientation: R0
+      "npu_inst.psum_requant_stage.gen_containers[2].container_inst":
+        location: [3534.24, 1060]
+        orientation: R0
+      "npu_inst.psum_requant_stage.gen_containers[3].container_inst":
+        location: [3534.24, 1540]
+        orientation: R0
+      "npu_inst.psum_requant_stage.gen_containers[4].container_inst":
+        location: [3534.24, 2020]
+        orientation: R0
+      "npu_inst.psum_requant_stage.gen_containers[5].container_inst":
+        location: [3534.24, 2500]
+        orientation: R0
+      "npu_inst.psum_requant_stage.gen_containers[6].container_inst":
+        location: [3534.24, 2980]
+        orientation: R0
+      "npu_inst.psum_requant_stage.gen_containers[7].container_inst":
+        location: [3534.24, 3460]
+        orientation: R0

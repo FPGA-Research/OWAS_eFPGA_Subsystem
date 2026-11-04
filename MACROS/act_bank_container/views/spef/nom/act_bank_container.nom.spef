@@ -1,0 +1,4805 @@
+*SPEF "ieee 1481-1999"
+*DESIGN "act_bank_container"
+*DATE "16:14:58 Tuesday October 20, 2026"
+*VENDOR "The OpenROAD Project"
+*PROGRAM "OpenROAD"
+*VERSION "dcf36133a369abc8f3c5e5738cd4d82e4903c0e0"
+*DESIGN_FLOW "NAME_SCOPE LOCAL" "PIN_CAP NONE"
+*DIVIDER /
+*DELIMITER :
+*BUS_DELIMITER []
+*T_UNIT 1 NS
+*C_UNIT 1 PF
+*R_UNIT 1 OHM
+*L_UNIT 1 HENRY
+
+*NAME_MAP
+*3 act_addr[0]
+*4 act_addr[1]
+*5 act_addr[2]
+*6 act_addr[3]
+*7 act_addr[4]
+*8 act_addr[5]
+*9 act_addr[6]
+*10 act_addr[7]
+*11 act_addr[8]
+*12 act_rdata_east[0]
+*13 act_rdata_east[1]
+*14 act_rdata_east[2]
+*15 act_rdata_east[3]
+*16 act_rdata_east[4]
+*17 act_rdata_east[5]
+*18 act_rdata_east[6]
+*19 act_rdata_east[7]
+*20 act_rdata_west[0]
+*21 act_rdata_west[1]
+*22 act_rdata_west[2]
+*23 act_rdata_west[3]
+*24 act_rdata_west[4]
+*25 act_rdata_west[5]
+*26 act_rdata_west[6]
+*27 act_rdata_west[7]
+*28 act_wdata[0]
+*29 act_wdata[1]
+*30 act_wdata[2]
+*31 act_wdata[3]
+*32 act_wdata[4]
+*33 act_wdata[5]
+*34 act_wdata[6]
+*35 act_wdata[7]
+*36 act_we
+*37 clk_i
+*38 clk_o
+*39 out_act_east[0]
+*40 out_act_east[1]
+*41 out_act_east[2]
+*42 out_act_east[3]
+*43 out_act_east[4]
+*44 out_act_east[5]
+*45 out_act_east[6]
+*46 out_act_east[7]
+*47 out_act_west[0]
+*48 out_act_west[1]
+*49 out_act_west[2]
+*50 out_act_west[3]
+*51 out_act_west[4]
+*52 out_act_west[5]
+*53 out_act_west[6]
+*54 out_act_west[7]
+*55 weight_in_east[0]
+*56 weight_in_east[1]
+*57 weight_in_east[2]
+*58 weight_in_east[3]
+*59 weight_in_east[4]
+*60 weight_in_east[5]
+*61 weight_in_east[6]
+*62 weight_in_east[7]
+*63 weight_in_west[0]
+*64 weight_in_west[1]
+*65 weight_in_west[2]
+*66 weight_in_west[3]
+*67 weight_in_west[4]
+*68 weight_in_west[5]
+*69 weight_in_west[6]
+*70 weight_in_west[7]
+*71 weight_shift_en_east
+*72 weight_shift_en_west
+*73 xbar_sel_east[0]
+*74 xbar_sel_east[1]
+*75 xbar_sel_east[2]
+*76 xbar_sel_east[3]
+*77 xbar_sel_west[0]
+*78 xbar_sel_west[1]
+*79 xbar_sel_west[2]
+*80 xbar_sel_west[3]
+*81 act_sram_inst\.A_REN
+*82 net
+*83 net1
+*84 net10
+*85 net11
+*86 net12
+*87 net13
+*88 net14
+*89 net15
+*90 net16
+*91 net17
+*92 net18
+*93 net19
+*94 net2
+*95 net20
+*96 net21
+*97 net22
+*98 net23
+*99 net24
+*100 net25
+*101 net26
+*102 net27
+*103 net28
+*104 net29
+*105 net3
+*106 net30
+*107 net31
+*108 net32
+*109 net33
+*110 net34
+*111 net35
+*112 net36
+*113 net37
+*114 net38
+*115 net39
+*116 net4
+*117 net40
+*118 net41
+*119 net42
+*120 net43
+*121 net44
+*122 net45
+*123 net46
+*124 net47
+*125 net48
+*126 net49
+*127 net5
+*128 net50
+*129 net51
+*130 net52
+*131 net53
+*132 net54
+*133 net55
+*134 net56
+*135 net57
+*136 net58
+*137 net59
+*138 net6
+*139 net60
+*140 net61
+*141 net62
+*142 net63
+*143 net64
+*144 net65
+*145 net66
+*146 net67
+*147 net68
+*148 net69
+*149 net7
+*150 net70
+*151 net71
+*152 net72
+*153 net73
+*154 net74
+*155 net75
+*156 net76
+*157 net77
+*158 net78
+*159 net79
+*160 net8
+*161 net80
+*162 net81
+*163 net82
+*164 net83
+*165 net84
+*166 net85
+*167 net86
+*168 net87
+*169 net88
+*170 net89
+*171 net9
+*172 net90
+*173 net91
+*174 net92
+*175 net93
+*176 net94
+*177 net95
+*178 ANTENNA_1
+*179 ANTENNA_2
+*180 FILLER_0_0
+*181 FILLER_0_105
+*182 FILLER_0_112
+*183 FILLER_0_119
+*184 FILLER_0_126
+*185 FILLER_0_133
+*186 FILLER_0_14
+*187 FILLER_0_140
+*188 FILLER_0_147
+*189 FILLER_0_154
+*190 FILLER_0_161
+*191 FILLER_0_168
+*192 FILLER_0_175
+*193 FILLER_0_182
+*194 FILLER_0_189
+*195 FILLER_0_196
+*196 FILLER_0_203
+*197 FILLER_0_21
+*198 FILLER_0_210
+*199 FILLER_0_216
+*200 FILLER_0_222
+*201 FILLER_0_227
+*202 FILLER_0_232
+*203 FILLER_0_237
+*204 FILLER_0_243
+*205 FILLER_0_248
+*206 FILLER_0_253
+*207 FILLER_0_258
+*208 FILLER_0_264
+*209 FILLER_0_269
+*210 FILLER_0_274
+*211 FILLER_0_279
+*212 FILLER_0_28
+*213 FILLER_0_285
+*214 FILLER_0_290
+*215 FILLER_0_295
+*216 FILLER_0_300
+*217 FILLER_0_306
+*218 FILLER_0_311
+*219 FILLER_0_316
+*220 FILLER_0_321
+*221 FILLER_0_327
+*222 FILLER_0_332
+*223 FILLER_0_337
+*224 FILLER_0_342
+*225 FILLER_0_348
+*226 FILLER_0_35
+*227 FILLER_0_353
+*228 FILLER_0_358
+*229 FILLER_0_363
+*230 FILLER_0_369
+*231 FILLER_0_374
+*232 FILLER_0_379
+*233 FILLER_0_384
+*234 FILLER_0_390
+*235 FILLER_0_397
+*236 FILLER_0_401
+*237 FILLER_0_408
+*238 FILLER_0_415
+*239 FILLER_0_42
+*240 FILLER_0_422
+*241 FILLER_0_429
+*242 FILLER_0_436
+*243 FILLER_0_443
+*244 FILLER_0_450
+*245 FILLER_0_457
+*246 FILLER_0_464
+*247 FILLER_0_471
+*248 FILLER_0_478
+*249 FILLER_0_485
+*250 FILLER_0_49
+*251 FILLER_0_492
+*252 FILLER_0_499
+*253 FILLER_0_506
+*254 FILLER_0_513
+*255 FILLER_0_520
+*256 FILLER_0_522
+*257 FILLER_0_56
+*258 FILLER_0_63
+*259 FILLER_0_7
+*260 FILLER_0_70
+*261 FILLER_0_77
+*262 FILLER_0_84
+*263 FILLER_0_91
+*264 FILLER_0_98
+*265 FILLER_10_0
+*266 FILLER_10_14
+*267 FILLER_10_516
+*268 FILLER_10_7
+*269 FILLER_11_0
+*270 FILLER_11_14
+*271 FILLER_11_516
+*272 FILLER_11_7
+*273 FILLER_12_0
+*274 FILLER_12_14
+*275 FILLER_12_520
+*276 FILLER_12_522
+*277 FILLER_12_7
+*278 FILLER_13_0
+*279 FILLER_13_14
+*280 FILLER_13_516
+*281 FILLER_13_7
+*282 FILLER_14_0
+*283 FILLER_14_14
+*284 FILLER_14_516
+*285 FILLER_14_7
+*286 FILLER_15_0
+*287 FILLER_15_14
+*288 FILLER_15_516
+*289 FILLER_15_7
+*290 FILLER_16_0
+*291 FILLER_16_14
+*292 FILLER_16_520
+*293 FILLER_16_522
+*294 FILLER_16_7
+*295 FILLER_17_0
+*296 FILLER_17_516
+*297 FILLER_17_7
+*298 FILLER_18_0
+*299 FILLER_18_14
+*300 FILLER_18_516
+*301 FILLER_18_7
+*302 FILLER_19_0
+*303 FILLER_19_516
+*304 FILLER_19_7
+*305 FILLER_1_0
+*306 FILLER_1_104
+*307 FILLER_1_111
+*308 FILLER_1_118
+*309 FILLER_1_125
+*310 FILLER_1_132
+*311 FILLER_1_137
+*312 FILLER_1_14
+*313 FILLER_1_144
+*314 FILLER_1_171
+*315 FILLER_1_178
+*316 FILLER_1_185
+*317 FILLER_1_192
+*318 FILLER_1_199
+*319 FILLER_1_206
+*320 FILLER_1_21
+*321 FILLER_1_213
+*322 FILLER_1_220
+*323 FILLER_1_227
+*324 FILLER_1_234
+*325 FILLER_1_241
+*326 FILLER_1_248
+*327 FILLER_1_256
+*328 FILLER_1_263
+*329 FILLER_1_265
+*330 FILLER_1_274
+*331 FILLER_1_28
+*332 FILLER_1_281
+*333 FILLER_1_288
+*334 FILLER_1_295
+*335 FILLER_1_302
+*336 FILLER_1_309
+*337 FILLER_1_316
+*338 FILLER_1_323
+*339 FILLER_1_330
+*340 FILLER_1_336
+*341 FILLER_1_340
+*342 FILLER_1_345
+*343 FILLER_1_347
+*344 FILLER_1_35
+*345 FILLER_1_352
+*346 FILLER_1_363
+*347 FILLER_1_370
+*348 FILLER_1_377
+*349 FILLER_1_384
+*350 FILLER_1_392
+*351 FILLER_1_402
+*352 FILLER_1_409
+*353 FILLER_1_416
+*354 FILLER_1_42
+*355 FILLER_1_423
+*356 FILLER_1_430
+*357 FILLER_1_437
+*358 FILLER_1_444
+*359 FILLER_1_451
+*360 FILLER_1_458
+*361 FILLER_1_465
+*362 FILLER_1_472
+*363 FILLER_1_479
+*364 FILLER_1_486
+*365 FILLER_1_49
+*366 FILLER_1_493
+*367 FILLER_1_500
+*368 FILLER_1_507
+*369 FILLER_1_514
+*370 FILLER_1_521
+*371 FILLER_1_56
+*372 FILLER_1_61
+*373 FILLER_1_68
+*374 FILLER_1_7
+*375 FILLER_1_75
+*376 FILLER_1_82
+*377 FILLER_1_86
+*378 FILLER_1_92
+*379 FILLER_1_99
+*380 FILLER_20_0
+*381 FILLER_20_14
+*382 FILLER_20_516
+*383 FILLER_20_7
+*384 FILLER_21_0
+*385 FILLER_21_14
+*386 FILLER_21_516
+*387 FILLER_21_7
+*388 FILLER_22_0
+*389 FILLER_22_14
+*390 FILLER_22_516
+*391 FILLER_22_7
+*392 FILLER_23_0
+*393 FILLER_23_14
+*394 FILLER_23_516
+*395 FILLER_23_7
+*396 FILLER_24_0
+*397 FILLER_24_14
+*398 FILLER_24_516
+*399 FILLER_24_7
+*400 FILLER_25_0
+*401 FILLER_25_14
+*402 FILLER_25_516
+*403 FILLER_25_7
+*404 FILLER_26_0
+*405 FILLER_26_14
+*406 FILLER_26_516
+*407 FILLER_26_7
+*408 FILLER_27_0
+*409 FILLER_27_520
+*410 FILLER_27_522
+*411 FILLER_27_7
+*412 FILLER_28_0
+*413 FILLER_28_520
+*414 FILLER_28_522
+*415 FILLER_28_7
+*416 FILLER_29_0
+*417 FILLER_29_520
+*418 FILLER_29_522
+*419 FILLER_2_0
+*420 FILLER_2_104
+*421 FILLER_2_111
+*422 FILLER_2_118
+*423 FILLER_2_125
+*424 FILLER_2_14
+*425 FILLER_2_140
+*426 FILLER_2_151
+*427 FILLER_2_158
+*428 FILLER_2_165
+*429 FILLER_2_172
+*430 FILLER_2_176
+*431 FILLER_2_186
+*432 FILLER_2_193
+*433 FILLER_2_198
+*434 FILLER_2_205
+*435 FILLER_2_21
+*436 FILLER_2_212
+*437 FILLER_2_219
+*438 FILLER_2_226
+*439 FILLER_2_228
+*440 FILLER_2_241
+*441 FILLER_2_28
+*442 FILLER_2_286
+*443 FILLER_2_293
+*444 FILLER_2_300
+*445 FILLER_2_305
+*446 FILLER_2_312
+*447 FILLER_2_319
+*448 FILLER_2_326
+*449 FILLER_2_333
+*450 FILLER_2_340
+*451 FILLER_2_345
+*452 FILLER_2_35
+*453 FILLER_2_360
+*454 FILLER_2_367
+*455 FILLER_2_374
+*456 FILLER_2_381
+*457 FILLER_2_385
+*458 FILLER_2_391
+*459 FILLER_2_398
+*460 FILLER_2_407
+*461 FILLER_2_414
+*462 FILLER_2_421
+*463 FILLER_2_428
+*464 FILLER_2_432
+*465 FILLER_2_438
+*466 FILLER_2_445
+*467 FILLER_2_454
+*468 FILLER_2_46
+*469 FILLER_2_461
+*470 FILLER_2_468
+*471 FILLER_2_475
+*472 FILLER_2_479
+*473 FILLER_2_485
+*474 FILLER_2_492
+*475 FILLER_2_499
+*476 FILLER_2_506
+*477 FILLER_2_513
+*478 FILLER_2_520
+*479 FILLER_2_522
+*480 FILLER_2_57
+*481 FILLER_2_64
+*482 FILLER_2_7
+*483 FILLER_2_71
+*484 FILLER_2_78
+*485 FILLER_2_93
+*486 FILLER_30_0
+*487 FILLER_30_520
+*488 FILLER_30_522
+*489 FILLER_31_0
+*490 FILLER_31_520
+*491 FILLER_31_522
+*492 FILLER_32_0
+*493 FILLER_32_520
+*494 FILLER_32_522
+*495 FILLER_33_0
+*496 FILLER_33_520
+*497 FILLER_33_522
+*498 FILLER_3_0
+*499 FILLER_3_14
+*500 FILLER_3_516
+*501 FILLER_3_7
+*502 FILLER_4_0
+*503 FILLER_4_14
+*504 FILLER_4_520
+*505 FILLER_4_522
+*506 FILLER_4_7
+*507 FILLER_5_0
+*508 FILLER_5_520
+*509 FILLER_5_522
+*510 FILLER_5_7
+*511 FILLER_6_0
+*512 FILLER_6_14
+*513 FILLER_6_520
+*514 FILLER_6_522
+*515 FILLER_6_7
+*516 FILLER_7_0
+*517 FILLER_7_14
+*518 FILLER_7_516
+*519 FILLER_7_7
+*520 FILLER_8_0
+*521 FILLER_8_14
+*522 FILLER_8_516
+*523 FILLER_8_7
+*524 FILLER_9_0
+*525 FILLER_9_14
+*526 FILLER_9_520
+*527 FILLER_9_522
+*528 FILLER_9_7
+*529 _040_
+*530 _081_
+*531 _082_
+*532 _083_
+*533 _084_
+*534 _085_
+*535 _086_
+*536 _087_
+*537 _088_
+*538 _089_
+*539 _090_
+*540 _091_
+*541 _092_
+*542 _093_
+*543 _094_
+*544 _095_
+*545 _096_
+*546 _097_
+*547 _098_
+*548 _099_
+*549 _100_
+*550 _101_
+*551 _102_
+*552 _103_
+*553 _104_
+*554 _105_
+*555 _106_
+*556 _107_
+*557 _108_
+*558 _109_
+*559 _110_
+*560 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8
+*561 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_57
+*562 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_58
+*563 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_59
+*564 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_60
+*565 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_61
+*566 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_62
+*567 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_63
+*568 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_64
+*569 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_65
+*570 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_66
+*571 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_67
+*572 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_68
+*573 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_69
+*574 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_70
+*575 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_71
+*576 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_72
+*577 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_73
+*578 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_74
+*579 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_75
+*580 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_76
+*581 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_77
+*582 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_78
+*583 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_79
+*584 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_80
+*585 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_81
+*586 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_82
+*587 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_83
+*588 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_84
+*589 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_85
+*590 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_86
+*591 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_87
+*592 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_88
+*593 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_89
+*594 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_90
+*595 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_91
+*596 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_92
+*597 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_93
+*598 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_94
+*599 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_95
+*600 act_sram_inst\.gen_ihp_512x8\.u_sram_512x8_96
+*601 input1
+*602 input10
+*603 input11
+*604 input12
+*605 input13
+*606 input14
+*607 input15
+*608 input16
+*609 input17
+*610 input18
+*611 input2
+*612 input3
+*613 input4
+*614 input5
+*615 input6
+*616 input7
+*617 input8
+*618 input9
+*619 output19
+*620 output20
+*621 output21
+*622 output22
+*623 output23
+*624 output24
+*625 output25
+*626 output26
+*627 output27
+*628 output28
+*629 output29
+*630 output30
+*631 output31
+*632 output32
+*633 output33
+*634 output34
+*635 output35
+*636 output36
+*637 output37
+*638 output38
+*639 output39
+*640 output40
+*641 output41
+*642 output42
+*643 output43
+*644 output44
+*645 output45
+*646 output46
+*647 output47
+*648 output48
+*649 output49
+*650 output50
+*651 output51
+*652 output52
+*653 output53
+*654 output54
+*655 output55
+*656 output56
+
+*PORTS
+act_addr[0] I
+act_addr[1] I
+act_addr[2] I
+act_addr[3] I
+act_addr[4] I
+act_addr[5] I
+act_addr[6] I
+act_addr[7] I
+act_addr[8] I
+act_rdata_east[0] O
+act_rdata_east[1] O
+act_rdata_east[2] O
+act_rdata_east[3] O
+act_rdata_east[4] O
+act_rdata_east[5] O
+act_rdata_east[6] O
+act_rdata_east[7] O
+act_rdata_west[0] O
+act_rdata_west[1] O
+act_rdata_west[2] O
+act_rdata_west[3] O
+act_rdata_west[4] O
+act_rdata_west[5] O
+act_rdata_west[6] O
+act_rdata_west[7] O
+act_wdata[0] I
+act_wdata[1] I
+act_wdata[2] I
+act_wdata[3] I
+act_wdata[4] I
+act_wdata[5] I
+act_wdata[6] I
+act_wdata[7] I
+act_we I
+clk_i I
+clk_o O
+out_act_east[0] I
+out_act_east[1] I
+out_act_east[2] I
+out_act_east[3] I
+out_act_east[4] I
+out_act_east[5] I
+out_act_east[6] I
+out_act_east[7] I
+out_act_west[0] O
+out_act_west[1] O
+out_act_west[2] O
+out_act_west[3] O
+out_act_west[4] O
+out_act_west[5] O
+out_act_west[6] O
+out_act_west[7] O
+weight_in_east[0] O
+weight_in_east[1] O
+weight_in_east[2] O
+weight_in_east[3] O
+weight_in_east[4] O
+weight_in_east[5] O
+weight_in_east[6] O
+weight_in_east[7] O
+weight_in_west[0] I
+weight_in_west[1] I
+weight_in_west[2] I
+weight_in_west[3] I
+weight_in_west[4] I
+weight_in_west[5] I
+weight_in_west[6] I
+weight_in_west[7] I
+weight_shift_en_east O
+weight_shift_en_west I
+xbar_sel_east[0] O
+xbar_sel_east[1] O
+xbar_sel_east[2] O
+xbar_sel_east[3] O
+xbar_sel_west[0] I
+xbar_sel_west[1] I
+xbar_sel_west[2] I
+xbar_sel_west[3] I
+
+*D_NET *3 0.0011033
+*CONN
+*P act_addr[0] I
+*I *601:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_addr[0] 0.000551648
+2 *601:A 0.000551648
+3 *601:A out_act_west[7] 0
+4 *601:A *611:A 0
+5 *601:A *643:A 0
+6 *601:A *78:13 0
+*RES
+1 act_addr[0] *601:A 45.3972 
+*END
+
+*D_NET *4 0.00103952
+*CONN
+*P act_addr[1] I
+*I *611:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_addr[1] 0.000519758
+2 *611:A 0.000519758
+3 *611:A *612:A 0
+4 *601:A *611:A 0
+*RES
+1 act_addr[1] *611:A 45.15 
+*END
+
+*D_NET *5 0.00106866
+*CONN
+*P act_addr[2] I
+*I *612:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_addr[2] 0.00053433
+2 *612:A 0.00053433
+3 *612:A *613:A 0
+4 *611:A *612:A 0
+*RES
+1 act_addr[2] *612:A 45.2736 
+*END
+
+*D_NET *6 0.00106866
+*CONN
+*P act_addr[3] I
+*I *613:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_addr[3] 0.00053433
+2 *613:A 0.00053433
+3 *613:A *614:A 0
+4 *612:A *613:A 0
+*RES
+1 act_addr[3] *613:A 45.2736 
+*END
+
+*D_NET *7 0.00110041
+*CONN
+*P act_addr[4] I
+*I *614:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_addr[4] 0.000550206
+2 *614:A 0.000550206
+3 *614:A *615:A 0
+4 *614:A *78:13 0
+5 *613:A *614:A 0
+*RES
+1 act_addr[4] *614:A 45.3972 
+*END
+
+*D_NET *8 0.00103952
+*CONN
+*P act_addr[5] I
+*I *615:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_addr[5] 0.000519758
+2 *615:A 0.000519758
+3 *615:A *616:A 0
+4 *614:A *615:A 0
+*RES
+1 act_addr[5] *615:A 45.15 
+*END
+
+*D_NET *9 0.00131271
+*CONN
+*P act_addr[6] I
+*I *616:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_addr[6] 0.00051962
+2 *616:A 0.00051962
+3 *616:A *558:A 0.000273474
+4 *616:A *617:A 0
+5 *615:A *616:A 0
+*RES
+1 act_addr[6] *616:A 45.2736 
+*END
+
+*D_NET *10 0.00111534
+*CONN
+*P act_addr[7] I
+*I *617:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_addr[7] 0.000550153
+2 *617:A 0.000550153
+3 *617:A *558:A 0
+4 *617:A *618:A 0
+5 *617:A *160:18 1.50391e-05
+6 *616:A *617:A 0
+*RES
+1 act_addr[7] *617:A 45.2736 
+*END
+
+*D_NET *11 0.00113841
+*CONN
+*P act_addr[8] I
+*I *618:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_addr[8] 0.000561482
+2 *618:A 0.000561482
+3 *618:A *602:A 0
+4 *618:A *78:13 0
+5 *618:A *83:16 0
+6 *618:A *160:18 1.54449e-05
+7 *617:A *618:A 0
+*RES
+1 act_addr[8] *618:A 45.3972 
+*END
+
+*D_NET *12 0.0053532
+*CONN
+*P act_rdata_east[0] O
+*I *619:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_east[0] 7.8158e-05
+2 *619:X 0.000236458
+3 *12:12 0.00144905
+4 *12:8 0.00160735
+5 act_rdata_east[0] act_rdata_east[1] 0
+6 *12:8 *13:8 0
+7 *12:8 *15:10 0.00023782
+8 *12:8 *121:10 0
+9 *12:12 *60:10 0.00124294
+10 *12:12 *62:8 0
+11 *12:12 *122:8 0.000501424
+12 *12:12 *126:10 0
+*RES
+1 *619:X *12:8 42.575 
+2 *12:8 *12:12 35.3882 
+3 *12:12 act_rdata_east[0] 20.6695 
+*END
+
+*D_NET *13 0.00696215
+*CONN
+*P act_rdata_east[1] O
+*I *620:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_east[1] 0.000497039
+2 *620:X 0.000128901
+3 *13:12 0.00220677
+4 *13:8 0.00183863
+5 act_rdata_east[1] *58:26 0
+6 act_rdata_east[1] *62:18 0
+7 *13:12 *56:14 0.00148707
+8 *13:12 *58:20 0
+9 *13:12 *101:35 0.000803743
+10 act_rdata_east[0] act_rdata_east[1] 0
+11 *12:8 *13:8 0
+*RES
+1 *620:X *13:8 41.339 
+2 *13:8 *13:12 36.9744 
+3 *13:12 act_rdata_east[1] 25.3972 
+*END
+
+*D_NET *14 0.0097135
+*CONN
+*P act_rdata_east[2] O
+*I *621:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_east[2] 0.000397603
+2 *621:X 9.03213e-05
+3 *14:16 0.000884667
+4 *14:12 0.00142325
+5 *14:8 0.0010265
+6 act_rdata_east[2] *61:16 0
+7 act_rdata_east[2] *62:18 0
+8 *14:8 *99:31 0
+9 *14:8 *134:8 0.000288927
+10 *14:12 *646:A 0
+11 *14:12 *15:20 0.000855492
+12 *14:12 *15:26 0.000436895
+13 *14:12 *17:18 0.000531077
+14 *14:12 *38:24 0
+15 *14:12 *65:31 0
+16 *14:16 *17:24 0
+17 *14:16 *18:16 0.00188983
+18 *14:16 *57:16 0.00188893
+*RES
+1 *621:X *14:8 41.339 
+2 *14:8 *14:12 30.7017 
+3 *14:12 *14:16 30.2382 
+4 *14:16 act_rdata_east[2] 43.7595 
+*END
+
+*D_NET *15 0.0116968
+*CONN
+*P act_rdata_east[3] O
+*I *622:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_east[3] 0.000108106
+2 *622:X 0.000382445
+3 *15:32 0.00303671
+4 *15:26 0.00315821
+5 *15:20 0.000920789
+6 *15:10 0.00107363
+7 act_rdata_east[3] *62:18 0
+8 *15:10 *63:27 0
+9 *15:10 *69:27 0
+10 *15:10 *121:10 0
+11 *15:20 *96:15 0
+12 *15:20 *129:14 0.00105014
+13 *15:26 *17:18 0.000436594
+14 *12:8 *15:10 0.00023782
+15 *14:12 *15:20 0.000855492
+16 *14:12 *15:26 0.000436895
+*RES
+1 *622:X *15:10 43.8831 
+2 *15:10 *15:20 48.3739 
+3 *15:20 *15:26 42.9149 
+4 *15:26 *15:32 38.2413 
+5 *15:32 act_rdata_east[3] 20.9167 
+*END
+
+*D_NET *16 0.0100754
+*CONN
+*P act_rdata_east[4] O
+*I *623:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_east[4] 0.000398881
+2 *623:X 0.00125474
+3 *16:24 0.00125846
+4 *16:20 0.00211432
+5 act_rdata_east[4] *62:18 0
+6 *16:20 *650:A 0
+7 *16:20 *19:10 4.76053e-05
+8 *16:20 *58:14 0
+9 *16:20 *60:10 0
+10 *16:20 *61:8 0.000558117
+11 *16:20 *62:8 0.000131511
+12 *16:20 *124:22 0
+13 *16:20 *126:10 0
+14 *16:24 *17:24 0
+15 *16:24 *18:16 0.00295631
+16 *16:24 *59:28 0.0013555
+*RES
+1 *623:X *16:20 31.5237 
+2 *16:20 *16:24 33.699 
+3 *16:24 act_rdata_east[4] 44.1921 
+*END
+
+*D_NET *17 0.0109112
+*CONN
+*P act_rdata_east[5] O
+*I *624:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_east[5] 0.000108106
+2 *624:X 0.000155274
+3 *17:24 0.002607
+4 *17:18 0.00329325
+5 *17:8 0.000949638
+6 act_rdata_east[5] *62:18 0
+7 *17:8 *19:10 0.000183813
+8 *17:8 *99:31 0
+9 *17:8 *123:10 0.000181192
+10 *17:8 *124:22 0
+11 *17:18 *646:A 0.000518783
+12 *17:18 *38:24 0
+13 *17:24 *18:16 0
+14 *17:24 *59:28 0.00194647
+15 *14:12 *17:18 0.000531077
+16 *14:16 *17:24 0
+17 *15:26 *17:18 0.000436594
+18 *16:24 *17:24 0
+*RES
+1 *624:X *17:8 42.0806 
+2 *17:8 *17:18 48.343 
+3 *17:18 *17:24 43.8342 
+4 *17:24 act_rdata_east[5] 20.9167 
+*END
+
+*D_NET *18 0.010852
+*CONN
+*P act_rdata_east[6] O
+*I *625:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_east[6] 0.000108106
+2 *625:X 0.000664132
+3 *18:16 0.00188734
+4 *18:10 0.00244336
+5 act_rdata_east[6] *62:18 0
+6 *18:10 *648:A 0.000207853
+7 *18:10 *38:24 0
+8 *18:10 *57:8 0.000695065
+9 *18:10 *58:14 0
+10 *18:10 *61:8 0
+11 *18:16 *19:30 0
+12 *18:16 *59:28 0
+13 *14:16 *18:16 0.00188983
+14 *16:24 *18:16 0.00295631
+15 *17:24 *18:16 0
+*RES
+1 *625:X *18:10 46.9422 
+2 *18:10 *18:16 45.6573 
+3 *18:16 act_rdata_east[6] 20.9167 
+*END
+
+*D_NET *19 0.0140512
+*CONN
+*P act_rdata_east[7] O
+*I *626:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_east[7] 0.000108106
+2 *626:X 0.000160721
+3 *19:30 0.00144809
+4 *19:24 0.00176824
+5 *19:16 0.00147598
+6 *19:10 0.00120844
+7 act_rdata_east[7] *62:18 0
+8 *19:10 *56:8 0.000131027
+9 *19:16 *55:14 0
+10 *19:16 *58:20 0.000635347
+11 *19:16 *59:16 0.000147142
+12 *19:24 *55:26 0.00162204
+13 *19:24 *58:26 0
+14 *19:24 *61:16 0.00124963
+15 *19:30 *55:32 0.00386501
+16 *16:20 *19:10 4.76053e-05
+17 *17:8 *19:10 0.000183813
+18 *18:16 *19:30 0
+*RES
+1 *626:X *19:10 42.1527 
+2 *19:10 *19:16 49.1876 
+3 *19:16 *19:24 48.3636 
+4 *19:24 *19:30 40.0953 
+5 *19:30 act_rdata_east[7] 20.9167 
+*END
+
+*D_NET *20 0.00143172
+*CONN
+*P act_rdata_west[0] O
+*I *627:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_west[0] 0.000598081
+2 *627:X 0.000598081
+3 act_rdata_west[0] act_rdata_west[1] 0
+4 act_rdata_west[0] *627:A 0
+5 act_rdata_west[0] *78:13 0.000235556
+*RES
+1 *627:X act_rdata_west[0] 46.5405 
+*END
+
+*D_NET *21 0.0010304
+*CONN
+*P act_rdata_west[1] O
+*I *628:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_west[1] 0.000515199
+2 *628:X 0.000515199
+3 act_rdata_west[1] act_rdata_west[2] 0
+4 act_rdata_west[1] *627:A 0
+5 act_rdata_west[1] *78:13 0
+6 act_rdata_west[0] act_rdata_west[1] 0
+*RES
+1 *628:X act_rdata_west[1] 44.9955 
+*END
+
+*D_NET *22 0.00104228
+*CONN
+*P act_rdata_west[2] O
+*I *629:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_west[2] 0.000521138
+2 *629:X 0.000521138
+3 act_rdata_west[2] act_rdata_west[3] 0
+4 act_rdata_west[2] *78:13 0
+5 act_rdata_west[1] act_rdata_west[2] 0
+*RES
+1 *629:X act_rdata_west[2] 45.1191 
+*END
+
+*D_NET *23 0.00104228
+*CONN
+*P act_rdata_west[3] O
+*I *630:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_west[3] 0.000521138
+2 *630:X 0.000521138
+3 act_rdata_west[3] act_rdata_west[4] 0
+4 act_rdata_west[3] *78:13 0
+5 act_rdata_west[2] act_rdata_west[3] 0
+*RES
+1 *630:X act_rdata_west[3] 45.1191 
+*END
+
+*D_NET *24 0.00107227
+*CONN
+*P act_rdata_west[4] O
+*I *631:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_west[4] 0.000536137
+2 *631:X 0.000536137
+3 act_rdata_west[4] act_rdata_west[5] 0
+4 act_rdata_west[4] *78:13 0
+5 act_rdata_west[3] act_rdata_west[4] 0
+*RES
+1 *631:X act_rdata_west[4] 45.2427 
+*END
+
+*D_NET *25 0.00101425
+*CONN
+*P act_rdata_west[5] O
+*I *632:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_west[5] 0.000507126
+2 *632:X 0.000507126
+3 act_rdata_west[5] act_rdata_west[6] 0
+4 act_rdata_west[5] *78:13 0
+5 act_rdata_west[4] act_rdata_west[5] 0
+*RES
+1 *632:X act_rdata_west[5] 44.9955 
+*END
+
+*D_NET *26 0.00104228
+*CONN
+*P act_rdata_west[6] O
+*I *633:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_west[6] 0.000521138
+2 *633:X 0.000521138
+3 act_rdata_west[6] act_rdata_west[7] 0
+4 act_rdata_west[6] *78:13 0
+5 act_rdata_west[5] act_rdata_west[6] 0
+*RES
+1 *633:X act_rdata_west[6] 45.1191 
+*END
+
+*D_NET *27 0.00104228
+*CONN
+*P act_rdata_west[7] O
+*I *634:X O *D sg13cmos5l_buf_1
+*CAP
+1 act_rdata_west[7] 0.000521138
+2 *634:X 0.000521138
+3 act_rdata_west[7] out_act_west[0] 0
+4 act_rdata_west[7] *78:13 0
+5 act_rdata_west[6] act_rdata_west[7] 0
+*RES
+1 *634:X act_rdata_west[7] 45.1191 
+*END
+
+*D_NET *28 0.00115168
+*CONN
+*P act_wdata[0] I
+*I *602:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_wdata[0] 0.000519558
+2 *602:A 0.000519558
+3 *602:A *603:A 0
+4 *602:A *83:16 0.000112563
+5 *618:A *602:A 0
+*RES
+1 act_wdata[0] *602:A 45.15 
+*END
+
+*D_NET *29 0.00108101
+*CONN
+*P act_wdata[1] I
+*I *603:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_wdata[1] 0.000540507
+2 *603:A 0.000540507
+3 *603:A *604:A 0
+4 *602:A *603:A 0
+*RES
+1 act_wdata[1] *603:A 45.2736 
+*END
+
+*D_NET *30 0.00108101
+*CONN
+*P act_wdata[2] I
+*I *604:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_wdata[2] 0.000540507
+2 *604:A 0.000540507
+3 *604:A *605:A 0
+4 *603:A *604:A 0
+*RES
+1 act_wdata[2] *604:A 45.2736 
+*END
+
+*D_NET *31 0.00110958
+*CONN
+*P act_wdata[3] I
+*I *605:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_wdata[3] 0.000554791
+2 *605:A 0.000554791
+3 *605:A *606:A 0
+4 *605:A *78:13 0
+5 *605:A *88:8 0
+6 *604:A *605:A 0
+*RES
+1 act_wdata[3] *605:A 44.9396 
+*END
+
+*D_NET *32 0.00104943
+*CONN
+*P act_wdata[4] I
+*I *606:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_wdata[4] 0.000524715
+2 *606:A 0.000524715
+3 *606:A *607:A 0
+4 *606:A *88:8 0
+5 *605:A *606:A 0
+*RES
+1 act_wdata[4] *606:A 45.15 
+*END
+
+*D_NET *33 0.00105645
+*CONN
+*P act_wdata[5] I
+*I *607:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_wdata[5] 0.000528225
+2 *607:A 0.000528225
+3 *607:A *608:A 0
+4 *606:A *607:A 0
+*RES
+1 act_wdata[5] *607:A 45.2736 
+*END
+
+*D_NET *34 0.00105645
+*CONN
+*P act_wdata[6] I
+*I *608:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_wdata[6] 0.000528225
+2 *608:A 0.000528225
+3 *608:A *609:A 0
+4 *607:A *608:A 0
+*RES
+1 act_wdata[6] *608:A 45.2736 
+*END
+
+*D_NET *35 0.00108713
+*CONN
+*P act_wdata[7] I
+*I *609:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_wdata[7] 0.000543565
+2 *609:A 0.000543565
+3 *609:A *610:A 0
+4 *609:A *78:13 0
+5 *608:A *609:A 0
+*RES
+1 act_wdata[7] *609:A 45.3972 
+*END
+
+*D_NET *36 0.00104567
+*CONN
+*P act_we I
+*I *610:A I *D sg13cmos5l_buf_1
+*CAP
+1 act_we 0.000522836
+2 *610:A 0.000522836
+3 *610:A *63:9 0
+4 *609:A *610:A 0
+*RES
+1 act_we *610:A 45.15 
+*END
+
+*D_NET *37 0.0279333
+*CONN
+*P clk_i I
+*I *560:A_CLK I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *538:A I *D sg13cmos5l_buf_1
+*CAP
+1 clk_i 0.000701583
+2 *560:A_CLK 0.000827557
+3 *538:A 0
+4 *37:36 0.00375379
+5 *37:27 0.00363172
+6 *37:15 0.00650888
+7 *37:11 0.00650498
+8 *560:A_CLK *560:A_MEN 0.000200341
+9 *560:A_CLK *560:A_BIST_MEN 0.00030652
+10 *560:A_CLK *83:16 0
+11 *560:A_CLK *85:12 0
+12 *560:A_CLK *153:10 0.000563079
+13 *37:11 *80:11 0
+14 *37:15 *101:33 0
+15 *37:15 *102:10 0
+16 *37:15 *104:10 0
+17 *37:27 *548:A 0.00154456
+18 *37:27 *65:19 0
+19 *37:27 *95:24 0
+20 *37:27 *144:10 0.000617475
+21 *37:36 *560:A_DIN[3] 0.00277283
+22 *37:36 *88:16 0
+23 *37:36 *102:10 0
+24 *37:36 *104:10 0
+*RES
+1 clk_i *37:11 46.6641 
+2 *37:11 *37:15 49.5198 
+3 *37:15 *37:27 37.9761 
+4 *37:27 *538:A 20 
+5 *37:11 *37:36 49.5198 
+6 *37:36 *560:A_CLK 7.8795 
+*END
+
+*D_NET *38 0.00472127
+*CONN
+*P clk_o O
+*I *635:X O *D sg13cmos5l_buf_1
+*CAP
+1 clk_o 3.70838e-05
+2 *635:X 0.00169564
+3 *38:24 0.00173273
+4 *38:24 *559:A 0
+5 *38:24 *644:A 0.000112769
+6 *38:24 *646:A 0.00012977
+7 *38:24 *57:8 0.000760071
+8 *38:24 *61:8 0
+9 *38:24 *65:31 0.00017299
+10 *38:24 *96:15 0
+11 *38:24 *123:10 8.0216e-05
+12 *38:24 *125:56 0
+13 *14:12 *38:24 0
+14 *17:18 *38:24 0
+15 *18:10 *38:24 0
+*RES
+1 *635:X *38:24 37.1083 
+2 *38:24 clk_o 20.4223 
+*END
+
+*D_NET *39 0.0458136
+*CONN
+*P out_act_east[0] I
+*I *539:A I *D sg13cmos5l_buf_1
+*CAP
+1 out_act_east[0] 0.000261057
+2 *539:A 0
+3 *39:31 0.00229087
+4 *39:29 0.00229087
+5 *39:27 0.00671408
+6 *39:25 0.00713149
+7 *39:19 0.0011817
+8 *39:13 0.00102535
+9 *39:13 xbar_sel_east[2] 0
+10 *39:19 xbar_sel_east[0] 0.00322174
+11 *39:19 *43:15 0
+12 *39:19 *71:16 0
+13 *39:19 *74:16 0.000113313
+14 *39:19 *74:20 0.00322186
+15 *39:25 *41:19 0
+16 *39:25 *43:19 0.0018946
+17 *39:25 *71:16 0.00151899
+18 *39:27 *43:21 0.00940077
+19 *39:27 *45:25 0
+20 *39:27 *76:12 0
+21 *39:27 *115:8 0
+22 *39:27 *133:16 0
+23 *39:31 *91:10 0.00520034
+24 *39:31 *117:12 0.000346568
+25 *39:31 *118:16 0
+*RES
+1 out_act_east[0] *39:13 42.8737 
+2 *39:13 *39:19 36.9847 
+3 *39:19 *39:25 48.755 
+4 *39:25 *39:27 67.2718 
+5 *39:27 *39:29 20 
+6 *39:29 *39:31 33.475 
+7 *39:31 *539:A 40 
+*END
+
+*D_NET *40 0.014614
+*CONN
+*P out_act_east[1] I
+*I *540:A I *D sg13cmos5l_buf_1
+*CAP
+1 out_act_east[1] 0.000249537
+2 *540:A 0
+3 *40:19 0.00207042
+4 *40:15 0.00282444
+5 *40:11 0.00100355
+6 *40:11 *71:22 0
+7 *40:15 *44:15 0
+8 *40:15 *74:20 0.00269011
+9 *40:15 *75:26 0.00130389
+10 *40:15 *76:16 0.0041335
+11 *40:19 *42:23 0
+12 *40:19 *42:25 0
+13 *40:19 *46:9 0
+14 *40:19 *78:25 0.000338545
+*RES
+1 out_act_east[1] *40:11 42.4617 
+2 *40:11 *40:15 39.1374 
+3 *40:15 *40:19 38.4885 
+4 *40:19 *540:A 40 
+*END
+
+*D_NET *41 0.0490296
+*CONN
+*P out_act_east[2] I
+*I *541:A I *D sg13cmos5l_buf_1
+*I *178:A I *D sg13cmos5l_antennanp
+*CAP
+1 out_act_east[2] 0.000289134
+2 *541:A 0
+3 *178:A 0.00021273
+4 *41:37 0.00224626
+5 *41:27 0.00255622
+6 *41:21 0.0054701
+7 *41:19 0.0064421
+8 *41:11 0.00178383
+9 *178:A *179:A 0
+10 *178:A *114:8 0
+11 *41:11 *71:22 0
+12 *41:19 *42:15 0
+13 *41:19 *42:23 0
+14 *41:19 *43:19 0
+15 *41:19 *71:16 0.00151821
+16 *41:19 *73:18 0
+17 *41:19 *74:16 0
+18 *41:19 *76:16 0.00178264
+19 *41:21 *43:21 0.00930331
+20 *41:21 *133:16 0.00771831
+21 *41:27 *101:11 0
+22 *41:27 *119:12 0.00124905
+23 *41:27 *134:28 0
+24 *41:27 *152:8 0.00126997
+25 *41:27 *175:12 0
+26 *41:37 *560:A_BM[5] 0
+27 *41:37 *560:A_BIST_BM[5] 0
+28 *41:37 *43:29 0
+29 *41:37 *100:9 0.00233851
+30 *41:37 *101:11 0.000822314
+31 *41:37 *101:13 0
+32 *41:37 *119:12 0
+33 *41:37 *134:16 0.00402688
+34 *41:37 *150:10 0
+35 *39:25 *41:19 0
+*RES
+1 out_act_east[2] *41:11 42.8943 
+2 *41:11 *41:19 38.7563 
+3 *41:19 *41:21 62.83 
+4 *41:21 *41:27 28.3327 
+5 *41:27 *41:37 48.8091 
+6 *41:37 *178:A 21.9673 
+7 *41:37 *541:A 20 
+*END
+
+*D_NET *42 0.0181266
+*CONN
+*P out_act_east[3] I
+*I *542:A I *D sg13cmos5l_buf_1
+*CAP
+1 out_act_east[3] 0.000699153
+2 *542:A 0
+3 *42:33 0.00048125
+4 *42:25 0.003786
+5 *42:23 0.00433681
+6 *42:15 0.00173122
+7 *42:15 *71:22 0
+8 *42:23 *43:19 0.00173178
+9 *42:25 *78:25 0.00390408
+10 *42:33 *546:A 0.000696889
+11 *42:33 *46:15 0
+12 *42:33 *113:12 0.000759401
+13 *40:19 *42:23 0
+14 *40:19 *42:25 0
+15 *41:19 *42:15 0
+16 *41:19 *42:23 0
+*RES
+1 out_act_east[3] *42:15 47.3336 
+2 *42:15 *42:23 32.8441 
+3 *42:23 *42:25 36.9152 
+4 *42:25 *42:33 45.6753 
+5 *42:33 *542:A 20 
+*END
+
+*D_NET *43 0.045282
+*CONN
+*P out_act_east[4] I
+*I *543:A I *D sg13cmos5l_buf_1
+*I *179:A I *D sg13cmos5l_antennanp
+*CAP
+1 out_act_east[4] 0.000322692
+2 *543:A 0
+3 *179:A 0.000210469
+4 *43:29 0.000700413
+5 *43:25 0.00398564
+6 *43:23 0.0034957
+7 *43:21 0.00491242
+8 *43:19 0.00550013
+9 *43:15 0.000910403
+10 *179:A *560:A_DIN[5] 0
+11 *179:A *112:8 0
+12 *179:A *114:8 0
+13 *43:15 *71:22 7.49317e-05
+14 *43:25 *99:17 0.00018128
+15 *43:25 *113:16 0
+16 *43:25 *115:12 0
+17 *43:25 *119:12 0
+18 *43:25 *133:12 0
+19 *43:25 *134:28 0.0024232
+20 *43:25 *150:10 0.000234224
+21 *43:29 *560:A_DIN[5] 0
+22 *43:29 *560:A_BM[5] 0
+23 *178:A *179:A 0
+24 *39:19 *43:15 0
+25 *39:25 *43:19 0.0018946
+26 *39:27 *43:21 0.00940077
+27 *41:19 *43:19 0
+28 *41:21 *43:21 0.00930331
+29 *41:37 *43:29 0
+30 *42:23 *43:19 0.00173178
+*RES
+1 out_act_east[4] *43:15 43.9037 
+2 *43:15 *43:19 31.227 
+3 *43:19 *43:21 62.83 
+4 *43:21 *43:23 20 
+5 *43:23 *43:25 31.7446 
+6 *43:25 *43:29 24.6453 
+7 *43:29 *179:A 21.9673 
+8 *43:29 *543:A 20 
+*END
+
+*D_NET *44 0.0133092
+*CONN
+*P out_act_east[5] I
+*I *544:A I *D sg13cmos5l_buf_1
+*CAP
+1 out_act_east[5] 0.000417375
+2 *544:A 0
+3 *44:21 0.0038181
+4 *44:15 0.00423547
+5 *44:15 *45:17 0.000529513
+6 *44:15 *75:26 0.00122432
+7 *44:21 *654:A 0
+8 *44:21 *45:25 0
+9 *44:21 *73:10 0
+10 *44:21 *74:8 0
+11 *44:21 *75:12 0.00182103
+12 *44:21 *76:12 0
+13 *44:21 *113:12 0.00126335
+14 *40:15 *44:15 0
+*RES
+1 out_act_east[5] *44:15 27.5293 
+2 *44:15 *44:21 40.5717 
+3 *44:21 *544:A 20 
+*END
+
+*D_NET *45 0.0186286
+*CONN
+*P out_act_east[6] I
+*I *545:A I *D sg13cmos5l_buf_1
+*CAP
+1 out_act_east[6] 0.00141906
+2 *545:A 0
+3 *45:31 0.000123807
+4 *45:25 0.00520501
+5 *45:23 0.0051028
+6 *45:17 0.00144065
+7 *45:17 *46:7 0
+8 *45:17 *46:9 0.0020083
+9 *45:17 *76:16 0
+10 *45:17 *130:18 0.000900364
+11 *45:23 *133:22 7.68089e-05
+12 *45:25 *654:A 0
+13 *45:25 *76:12 0.000204029
+14 *45:25 *113:12 0
+15 *45:25 *115:8 0.00161825
+16 *39:27 *45:25 0
+17 *44:15 *45:17 0.000529513
+18 *44:21 *45:25 0
+*RES
+1 out_act_east[6] *45:17 38.8799 
+2 *45:17 *45:23 40.3502 
+3 *45:23 *45:25 46.6075 
+4 *45:25 *45:31 41.339 
+5 *45:31 *545:A 20 
+*END
+
+*D_NET *46 0.0154777
+*CONN
+*P out_act_east[7] I
+*I *546:A I *D sg13cmos5l_buf_1
+*CAP
+1 out_act_east[7] 4.2636e-05
+2 *546:A 0.000999316
+3 *46:15 0.00118158
+4 *46:9 0.005139
+5 *46:7 0.00499938
+6 *546:A *113:12 0
+7 *46:9 *118:12 0.000410578
+8 *46:9 *130:18 0
+9 *40:19 *46:9 0
+10 *42:33 *546:A 0.000696889
+11 *42:33 *46:15 0
+12 *45:17 *46:7 0
+13 *45:17 *46:9 0.0020083
+*RES
+1 out_act_east[7] *46:7 20.4223 
+2 *46:7 *46:9 44.3724 
+3 *46:9 *46:15 41.5862 
+4 *46:15 *546:A 31.0519 
+*END
+
+*D_NET *47 0.00107227
+*CONN
+*P out_act_west[0] O
+*I *636:X O *D sg13cmos5l_buf_1
+*CAP
+1 out_act_west[0] 0.000536137
+2 *636:X 0.000536137
+3 out_act_west[0] out_act_west[1] 0
+4 out_act_west[0] *78:13 0
+5 act_rdata_west[7] out_act_west[0] 0
+*RES
+1 *636:X out_act_west[0] 45.2427 
+*END
+
+*D_NET *48 0.00101425
+*CONN
+*P out_act_west[1] O
+*I *637:X O *D sg13cmos5l_buf_1
+*CAP
+1 out_act_west[1] 0.000507126
+2 *637:X 0.000507126
+3 out_act_west[1] out_act_west[2] 0
+4 out_act_west[1] *78:13 0
+5 out_act_west[0] out_act_west[1] 0
+*RES
+1 *637:X out_act_west[1] 44.9955 
+*END
+
+*D_NET *49 0.00104228
+*CONN
+*P out_act_west[2] O
+*I *638:X O *D sg13cmos5l_buf_1
+*CAP
+1 out_act_west[2] 0.000521138
+2 *638:X 0.000521138
+3 out_act_west[2] out_act_west[3] 0
+4 out_act_west[2] *78:13 0
+5 out_act_west[1] out_act_west[2] 0
+*RES
+1 *638:X out_act_west[2] 45.1191 
+*END
+
+*D_NET *50 0.00104326
+*CONN
+*P out_act_west[3] O
+*I *639:X O *D sg13cmos5l_buf_1
+*CAP
+1 out_act_west[3] 0.000521632
+2 *639:X 0.000521632
+3 out_act_west[3] out_act_west[4] 0
+4 out_act_west[3] *78:13 0
+5 out_act_west[2] out_act_west[3] 0
+*RES
+1 *639:X out_act_west[3] 45.1191 
+*END
+
+*D_NET *51 0.00108515
+*CONN
+*P out_act_west[4] O
+*I *640:X O *D sg13cmos5l_buf_1
+*CAP
+1 out_act_west[4] 0.000542577
+2 *640:X 0.000542577
+3 out_act_west[4] out_act_west[5] 0
+4 out_act_west[4] *78:13 0
+5 out_act_west[3] out_act_west[4] 0
+*RES
+1 *640:X out_act_west[4] 45.3457 
+*END
+
+*D_NET *52 0.00102786
+*CONN
+*P out_act_west[5] O
+*I *641:X O *D sg13cmos5l_buf_1
+*CAP
+1 out_act_west[5] 0.000513929
+2 *641:X 0.000513929
+3 out_act_west[5] out_act_west[6] 0
+4 out_act_west[5] *78:13 0
+5 out_act_west[4] out_act_west[5] 0
+*RES
+1 *641:X out_act_west[5] 44.9955 
+*END
+
+*D_NET *53 0.00104228
+*CONN
+*P out_act_west[6] O
+*I *642:X O *D sg13cmos5l_buf_1
+*CAP
+1 out_act_west[6] 0.000521138
+2 *642:X 0.000521138
+3 out_act_west[6] out_act_west[7] 0
+4 out_act_west[6] *78:13 0
+5 out_act_west[5] out_act_west[6] 0
+*RES
+1 *642:X out_act_west[6] 45.1191 
+*END
+
+*D_NET *54 0.00104833
+*CONN
+*P out_act_west[7] O
+*I *643:X O *D sg13cmos5l_buf_1
+*CAP
+1 out_act_west[7] 0.000524167
+2 *643:X 0.000524167
+3 out_act_west[7] *78:13 0
+4 out_act_west[6] out_act_west[7] 0
+5 *601:A out_act_west[7] 0
+*RES
+1 *643:X out_act_west[7] 45.1191 
+*END
+
+*D_NET *55 0.0182365
+*CONN
+*P weight_in_east[0] O
+*I *644:X O *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_east[0] 8.11071e-05
+2 *644:X 0.000129615
+3 *55:32 0.00117801
+4 *55:26 0.00152979
+5 *55:14 0.00106264
+6 *55:8 0.000759374
+7 weight_in_east[0] weight_in_east[5] 0
+8 *55:8 *124:22 0
+9 *55:14 *58:20 0.000602504
+10 *55:14 *59:16 0.000146947
+11 *55:14 *59:22 0.000504541
+12 *55:26 *57:16 0.00173003
+13 *55:26 *59:28 8.41571e-05
+14 *55:32 weight_in_east[6] 0.000129137
+15 *55:32 *56:20 0.00466684
+16 *55:32 *57:16 0
+17 *55:32 *59:38 0.000144768
+18 *19:16 *55:14 0
+19 *19:24 *55:26 0.00162204
+20 *19:30 *55:32 0.00386501
+*RES
+1 *644:X *55:8 41.339 
+2 *55:8 *55:14 47.2409 
+3 *55:14 *55:26 49.2906 
+4 *55:26 *55:32 43.587 
+5 *55:32 weight_in_east[0] 20.9167 
+*END
+
+*D_NET *56 0.0199993
+*CONN
+*P weight_in_east[1] O
+*I *645:X O *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_east[1] 0.000251339
+2 *645:X 0.000144263
+3 *56:20 0.0016907
+4 *56:14 0.00241413
+5 *56:8 0.00111903
+6 weight_in_east[1] weight_in_east[5] 0
+7 *56:8 *122:14 0
+8 *56:14 *58:20 0
+9 *56:20 weight_in_east[6] 0.000663791
+10 *56:20 *57:16 0
+11 *56:20 *57:22 0.0046685
+12 *56:20 *58:26 0.00151379
+13 *56:20 *61:16 0.00124885
+14 *13:12 *56:14 0.00148707
+15 *19:10 *56:8 0.000131027
+16 *55:32 *56:20 0.00466684
+*RES
+1 *645:X *56:8 41.5862 
+2 *56:8 *56:14 49.8365 
+3 *56:14 *56:20 32.1669 
+4 *56:20 weight_in_east[1] 42.8943 
+*END
+
+*D_NET *57 0.0196501
+*CONN
+*P weight_in_east[2] O
+*I *646:X O *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_east[2] 8.38878e-05
+2 *646:X 0.000413978
+3 *57:22 0.00173498
+4 *57:16 0.00214865
+5 *57:8 0.000911534
+6 weight_in_east[2] weight_in_east[5] 0
+7 *57:22 weight_in_east[5] 0
+8 *57:22 weight_in_east[6] 0
+9 *57:22 *58:26 0.00461444
+10 *14:16 *57:16 0.00188893
+11 *18:10 *57:8 0.000695065
+12 *38:24 *57:8 0.000760071
+13 *55:26 *57:16 0.00173003
+14 *55:32 *57:16 0
+15 *56:20 *57:16 0
+16 *56:20 *57:22 0.0046685
+*RES
+1 *646:X *57:8 45.0779 
+2 *57:8 *57:16 49.9395 
+3 *57:16 *57:22 49.5816 
+4 *57:22 weight_in_east[2] 20.9167 
+*END
+
+*D_NET *58 0.023896
+*CONN
+*P weight_in_east[3] O
+*I *647:X O *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_east[3] 8.38878e-05
+2 *647:X 0.000574916
+3 *58:38 0.000686215
+4 *58:32 0.00074954
+5 *58:26 0.00146811
+6 *58:20 0.00170184
+7 *58:14 0.000955853
+8 weight_in_east[3] weight_in_east[5] 0
+9 *58:14 *650:A 0
+10 *58:14 *61:8 0.000112656
+11 *58:26 weight_in_east[5] 0.00110438
+12 *58:26 *59:32 0.00466564
+13 *58:38 weight_in_east[7] 0.00221374
+14 *58:38 *59:44 0.00221309
+15 act_rdata_east[1] *58:26 0
+16 *13:12 *58:20 0
+17 *16:20 *58:14 0
+18 *18:10 *58:14 0
+19 *19:16 *58:20 0.000635347
+20 *19:24 *58:26 0
+21 *55:14 *58:20 0.000602504
+22 *56:14 *58:20 0
+23 *56:20 *58:26 0.00151379
+24 *57:22 *58:26 0.00461444
+*RES
+1 *647:X *58:14 45.6341 
+2 *58:14 *58:20 44.8616 
+3 *58:20 *58:26 30.4365 
+4 *58:26 *58:32 41.4008 
+5 *58:32 *58:38 32.8647 
+6 *58:38 weight_in_east[3] 20.9167 
+*END
+
+*D_NET *59 0.0229582
+*CONN
+*P weight_in_east[4] O
+*I *648:X O *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_east[4] 8.38878e-05
+2 *648:X 0.000110282
+3 *59:44 0.00129248
+4 *59:38 0.00139076
+5 *59:32 0.00100944
+6 *59:28 0.00155512
+7 *59:22 0.00100596
+8 *59:16 0.000402847
+9 *59:8 0.000235019
+10 weight_in_east[4] weight_in_east[5] 0
+11 *59:16 *129:20 0
+12 *59:28 *61:16 0
+13 *59:32 weight_in_east[5] 0.0046642
+14 *59:44 weight_in_east[7] 0
+15 *16:24 *59:28 0.0013555
+16 *17:24 *59:28 0.00194647
+17 *18:16 *59:28 0
+18 *19:16 *59:16 0.000147142
+19 *55:14 *59:16 0.000146947
+20 *55:14 *59:22 0.000504541
+21 *55:26 *59:28 8.41571e-05
+22 *55:32 *59:38 0.000144768
+23 *58:26 *59:32 0.00466564
+24 *58:38 *59:44 0.00221309
+*RES
+1 *648:X *59:8 41.0918 
+2 *59:8 *59:16 41.5656 
+3 *59:16 *59:22 43.3475 
+4 *59:22 *59:28 31.4845 
+5 *59:28 *59:32 41.6094 
+6 *59:32 *59:38 41.8334 
+7 *59:38 *59:44 36.5418 
+8 *59:44 weight_in_east[4] 20.9167 
+*END
+
+*D_NET *60 0.0197493
+*CONN
+*P weight_in_east[5] O
+*I *649:X O *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_east[5] 0.00289421
+2 *649:X 0.000718988
+3 *60:10 0.00361319
+4 weight_in_east[5] weight_in_east[6] 0
+5 weight_in_east[5] *61:22 0.00455722
+6 weight_in_east[5] *62:18 0
+7 *60:10 *62:8 0.000954165
+8 weight_in_east[0] weight_in_east[5] 0
+9 weight_in_east[1] weight_in_east[5] 0
+10 weight_in_east[2] weight_in_east[5] 0
+11 weight_in_east[3] weight_in_east[5] 0
+12 weight_in_east[4] weight_in_east[5] 0
+13 *12:12 *60:10 0.00124294
+14 *16:20 *60:10 0
+15 *57:22 weight_in_east[5] 0
+16 *58:26 weight_in_east[5] 0.00110438
+17 *59:32 weight_in_east[5] 0.0046642
+*RES
+1 *649:X *60:10 48.6726 
+2 *60:10 weight_in_east[5] 46.3088 
+*END
+
+*D_NET *61 0.0246928
+*CONN
+*P weight_in_east[6] O
+*I *650:X O *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_east[6] 0.00145592
+2 *650:X 0.000536917
+3 *61:22 0.00248799
+4 *61:16 0.001387
+5 *61:8 0.000891849
+6 weight_in_east[6] weight_in_east[7] 0.00475037
+7 *61:22 *62:18 0.00466333
+8 act_rdata_east[2] *61:16 0
+9 weight_in_east[5] weight_in_east[6] 0
+10 weight_in_east[5] *61:22 0.00455722
+11 *16:20 *61:8 0.000558117
+12 *18:10 *61:8 0
+13 *19:24 *61:16 0.00124963
+14 *38:24 *61:8 0
+15 *55:32 weight_in_east[6] 0.000129137
+16 *56:20 weight_in_east[6] 0.000663791
+17 *56:20 *61:16 0.00124885
+18 *57:22 weight_in_east[6] 0
+19 *58:14 *61:8 0.000112656
+20 *59:28 *61:16 0
+*RES
+1 *650:X *61:8 45.7268 
+2 *61:8 *61:16 47.1894 
+3 *61:16 *61:22 43.2265 
+4 *61:22 weight_in_east[6] 44.926 
+*END
+
+*D_NET *62 0.0217814
+*CONN
+*P weight_in_east[7] O
+*I *651:X O *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_east[7] 0.0016428
+2 *651:X 0.00063182
+3 *62:18 0.00390232
+4 *62:8 0.00289134
+5 act_rdata_east[1] *62:18 0
+6 act_rdata_east[2] *62:18 0
+7 act_rdata_east[3] *62:18 0
+8 act_rdata_east[4] *62:18 0
+9 act_rdata_east[5] *62:18 0
+10 act_rdata_east[6] *62:18 0
+11 act_rdata_east[7] *62:18 0
+12 weight_in_east[5] *62:18 0
+13 weight_in_east[6] weight_in_east[7] 0.00475037
+14 *12:12 *62:8 0
+15 *16:20 *62:8 0.000131511
+16 *58:38 weight_in_east[7] 0.00221374
+17 *59:44 weight_in_east[7] 0
+18 *60:10 *62:8 0.000954165
+19 *61:22 *62:18 0.00466333
+*RES
+1 *651:X *62:8 46.8083 
+2 *62:8 *62:18 49.2417 
+3 *62:18 weight_in_east[7] 48.5619 
+*END
+
+*D_NET *63 0.038817
+*CONN
+*P weight_in_west[0] I
+*I *547:A I *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_west[0] 0.00108909
+2 *547:A 0
+3 *63:27 0.000445615
+4 *63:21 0.00451935
+5 *63:19 0.00407373
+6 *63:17 0.00363877
+7 *63:15 0.00453985
+8 *63:9 0.00199017
+9 *63:9 *560:A_BIST_DIN[3] 0
+10 *63:9 *78:13 0
+11 *63:15 *130:12 0
+12 *63:15 *131:10 0.00218144
+13 *63:17 *68:21 0.0086536
+14 *63:17 *99:19 0
+15 *63:17 *129:10 0
+16 *63:21 *129:14 0.00768544
+17 *610:A *63:9 0
+18 *15:10 *63:27 0
+*RES
+1 weight_in_west[0] *63:9 30.3103 
+2 *63:9 *63:15 30.5266 
+3 *63:15 *63:17 41.3854 
+4 *63:17 *63:19 20 
+5 *63:19 *63:21 51.3661 
+6 *63:21 *63:27 44.5526 
+7 *63:27 *547:A 20 
+*END
+
+*D_NET *64 0.0322543
+*CONN
+*P weight_in_west[1] I
+*I *548:A I *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_west[1] 0.000294805
+2 *548:A 0.000891817
+3 *64:23 0.00118159
+4 *64:17 0.00251956
+5 *64:13 0.0111001
+6 *64:11 0.00916516
+7 *548:A *95:24 0
+8 *64:11 *65:11 0
+9 *64:11 *78:13 0
+10 *64:17 *68:25 0.00269836
+11 *64:17 *80:21 0.00285825
+12 *64:17 *95:24 0
+13 *64:17 *98:38 0
+14 *64:17 *129:14 0
+15 *37:27 *548:A 0.00154456
+*RES
+1 weight_in_west[1] *64:11 42.5544 
+2 *64:11 *64:13 47.8126 
+3 *64:13 *64:17 46.7079 
+4 *64:17 *64:23 43.0694 
+5 *64:23 *548:A 30.4339 
+*END
+
+*D_NET *65 0.0294235
+*CONN
+*P weight_in_west[2] I
+*I *549:A I *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_west[2] 0.000382349
+2 *549:A 0
+3 *65:31 0.000103391
+4 *65:25 0.00469658
+5 *65:23 0.00495643
+6 *65:19 0.00127256
+7 *65:13 0.00699201
+8 *65:11 0.00646504
+9 *65:11 *66:11 0
+10 *65:11 *78:13 0
+11 *65:13 *69:17 0.00221226
+12 *65:13 *70:13 0.000608571
+13 *65:13 *79:15 0
+14 *65:19 *125:20 0.000660559
+15 *65:19 *144:10 7.9586e-05
+16 *65:23 *99:19 0.000821134
+17 *65:23 *134:16 0
+18 *65:25 *124:14 0
+19 *14:12 *65:31 0
+20 *37:27 *65:19 0
+21 *38:24 *65:31 0.00017299
+22 *64:11 *65:11 0
+*RES
+1 weight_in_west[2] *65:11 43.5123 
+2 *65:11 *65:13 43.363 
+3 *65:13 *65:19 48.9713 
+4 *65:19 *65:23 23.811 
+5 *65:23 *65:25 52.6639 
+6 *65:25 *65:31 41.1562 
+7 *65:31 *549:A 20 
+*END
+
+*D_NET *66 0.00516671
+*CONN
+*P weight_in_west[3] I
+*I *550:A I *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_west[3] 0.000432336
+2 *550:A 0
+3 *66:17 0.000769359
+4 *66:11 0.00120169
+5 *66:11 *67:13 0
+6 *66:11 *78:13 0
+7 *66:17 *554:A 0
+8 *66:17 *556:A 0
+9 *66:17 *67:13 0.00103532
+10 *66:17 *79:15 0.001728
+11 *66:17 *102:10 0
+12 *65:11 *66:11 0
+*RES
+1 weight_in_west[3] *66:11 44.3775 
+2 *66:11 *66:17 31.3609 
+3 *66:17 *550:A 20 
+*END
+
+*D_NET *67 0.0033885
+*CONN
+*P weight_in_west[4] I
+*I *551:A I *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_west[4] 0.000812663
+2 *551:A 0.00036393
+3 *67:13 0.00117659
+4 *551:A *554:A 0
+5 *551:A *555:A 0
+6 *67:13 *78:13 0
+7 *67:13 *102:10 0
+8 *66:11 *67:13 0
+9 *66:17 *67:13 0.00103532
+*RES
+1 weight_in_west[4] *67:13 49.0228 
+2 *67:13 *551:A 43.5277 
+*END
+
+*D_NET *68 0.0380051
+*CONN
+*P weight_in_west[5] I
+*I *552:A I *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_west[5] 0.00123371
+2 *552:A 0
+3 *68:31 0.000248268
+4 *68:25 0.00533612
+5 *68:23 0.00508785
+6 *68:21 0.00199867
+7 *68:19 0.00199867
+8 *68:17 0.00123371
+9 *68:17 *560:A_BIST_BM[3] 0.00030481
+10 *68:17 *78:13 0
+11 *68:17 *130:8 0
+12 *68:21 *84:22 0.00698003
+13 *68:21 *99:19 0
+14 *68:21 *130:12 0.000509206
+15 *68:25 *80:21 0
+16 *68:25 *96:15 0
+17 *68:25 *111:14 0.00172211
+18 *68:25 *129:14 0
+19 *63:17 *68:21 0.0086536
+20 *64:17 *68:25 0.00269836
+*RES
+1 weight_in_west[5] *68:17 32.1128 
+2 *68:17 *68:19 20 
+3 *68:19 *68:21 43.363 
+4 *68:21 *68:23 20 
+5 *68:23 *68:25 47.2564 
+6 *68:25 *68:31 42.8222 
+7 *68:31 *552:A 20 
+*END
+
+*D_NET *69 0.0397726
+*CONN
+*P weight_in_west[6] I
+*I *553:A I *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_west[6] 0.000405464
+2 *553:A 0
+3 *69:27 0.000380901
+4 *69:21 0.00522083
+5 *69:19 0.00483993
+6 *69:17 0.0039382
+7 *69:11 0.00434367
+8 *69:11 *70:13 0
+9 *69:11 *78:13 0
+10 *69:17 *70:13 0.000608071
+11 *69:17 *79:15 0.00108816
+12 *69:17 *102:10 0
+13 *69:21 *99:23 0
+14 *69:21 *100:19 0.00764631
+15 *69:21 *124:14 0.00842271
+16 *69:27 *121:10 0
+17 *69:27 *134:8 0.000666099
+18 *15:10 *69:27 0
+19 *65:13 *69:17 0.00221226
+*RES
+1 weight_in_west[6] *69:11 43.6977 
+2 *69:11 *69:17 44.0325 
+3 *69:17 *69:19 20 
+4 *69:19 *69:21 60.667 
+5 *69:21 *69:27 44.5526 
+6 *69:27 *553:A 20 
+*END
+
+*D_NET *70 0.00292994
+*CONN
+*P weight_in_west[7] I
+*I *554:A I *D sg13cmos5l_buf_1
+*CAP
+1 weight_in_west[7] 0.000438424
+2 *554:A 0.000418227
+3 *70:13 0.000856651
+4 *554:A *555:A 0
+5 *554:A *556:A 0
+6 *551:A *554:A 0
+7 *65:13 *70:13 0.000608571
+8 *66:17 *554:A 0
+9 *69:11 *70:13 0
+10 *69:17 *70:13 0.000608071
+*RES
+1 weight_in_west[7] *70:13 45.8092 
+2 *70:13 *554:A 43.0724 
+*END
+
+*D_NET *71 0.0165193
+*CONN
+*P weight_shift_en_east O
+*I *652:X O *D sg13cmos5l_buf_1
+*CAP
+1 weight_shift_en_east 0.0019265
+2 *652:X 0.000512603
+3 *71:22 0.00296542
+4 *71:16 0.00154289
+5 *71:8 0.00101658
+6 weight_shift_en_east xbar_sel_east[0] 0
+7 weight_shift_en_east *74:20 0.000342166
+8 weight_shift_en_east *76:16 0.00119732
+9 *71:8 *73:10 0.000728124
+10 *71:8 *74:8 0
+11 *71:16 *74:16 0.000113616
+12 *71:22 *75:26 0.00306198
+13 *39:19 *71:16 0
+14 *39:25 *71:16 0.00151899
+15 *40:11 *71:22 0
+16 *41:11 *71:22 0
+17 *41:19 *71:16 0.00151821
+18 *42:15 *71:22 0
+19 *43:15 *71:22 7.49317e-05
+*RES
+1 *652:X *71:8 44.8616 
+2 *71:8 *71:16 49.5069 
+3 *71:16 *71:22 35.3779 
+4 *71:22 weight_shift_en_east 42.2995 
+*END
+
+*D_NET *72 0.001641
+*CONN
+*P weight_shift_en_west I
+*I *555:A I *D sg13cmos5l_buf_1
+*CAP
+1 weight_shift_en_west 0.000820498
+2 *555:A 0.000820498
+3 *555:A *78:13 0
+4 *551:A *555:A 0
+5 *554:A *555:A 0
+*RES
+1 weight_shift_en_west *555:A 47.4984 
+*END
+
+*D_NET *73 0.0182975
+*CONN
+*P xbar_sel_east[0] O
+*I *653:X O *D sg13cmos5l_buf_1
+*CAP
+1 xbar_sel_east[0] 0.00211694
+2 *653:X 0.000840214
+3 *73:18 0.00285729
+4 *73:10 0.00158057
+5 xbar_sel_east[0] xbar_sel_east[1] 0.00210462
+6 xbar_sel_east[0] *75:26 0.00332841
+7 *73:10 *74:8 0
+8 *73:18 *74:16 0.00151958
+9 weight_shift_en_east xbar_sel_east[0] 0
+10 *39:19 xbar_sel_east[0] 0.00322174
+11 *41:19 *73:18 0
+12 *44:21 *73:10 0
+13 *71:8 *73:10 0.000728124
+*RES
+1 *653:X *73:10 47.8074 
+2 *73:10 *73:18 48.4254 
+3 *73:18 xbar_sel_east[0] 32.6716 
+*END
+
+*D_NET *74 0.0195281
+*CONN
+*P xbar_sel_east[1] O
+*I *654:X O *D sg13cmos5l_buf_1
+*CAP
+1 xbar_sel_east[1] 0.000962124
+2 *654:X 0.00103686
+3 *74:30 0.00106524
+4 *74:20 0.000779858
+5 *74:16 0.00105777
+6 *74:8 0.00141789
+7 xbar_sel_east[1] xbar_sel_east[2] 0
+8 xbar_sel_east[1] *75:26 0
+9 *74:8 *76:12 0.00142485
+10 *74:16 *76:16 0.00167822
+11 *74:20 *76:16 0
+12 weight_shift_en_east *74:20 0.000342166
+13 xbar_sel_east[0] xbar_sel_east[1] 0.00210462
+14 *39:19 *74:16 0.000113313
+15 *39:19 *74:20 0.00322186
+16 *40:15 *74:20 0.00269011
+17 *41:19 *74:16 0
+18 *44:21 *74:8 0
+19 *71:8 *74:8 0
+20 *71:16 *74:16 0.000113616
+21 *73:10 *74:8 0
+22 *73:18 *74:16 0.00151958
+*RES
+1 *654:X *74:8 30.2176 
+2 *74:8 *74:16 48.5181 
+3 *74:16 *74:20 35.4294 
+4 *74:20 *74:30 41.236 
+5 *74:30 xbar_sel_east[1] 12.5042 
+*END
+
+*D_NET *75 0.0169279
+*CONN
+*P xbar_sel_east[2] O
+*I *655:X O *D sg13cmos5l_buf_1
+*CAP
+1 xbar_sel_east[2] 0.000839326
+2 *655:X 0.000112837
+3 *75:26 0.00194
+4 *75:12 0.00214198
+5 *75:8 0.00115415
+6 xbar_sel_east[2] xbar_sel_east[3] 0
+7 xbar_sel_east[0] *75:26 0.00332841
+8 xbar_sel_east[1] xbar_sel_east[2] 0
+9 xbar_sel_east[1] *75:26 0
+10 *39:13 xbar_sel_east[2] 0
+11 *40:15 *75:26 0.00130389
+12 *44:15 *75:26 0.00122432
+13 *44:21 *75:12 0.00182103
+14 *71:22 *75:26 0.00306198
+*RES
+1 *655:X *75:8 41.0918 
+2 *75:8 *75:12 32.2158 
+3 *75:12 *75:26 44.411 
+4 *75:26 xbar_sel_east[2] 8.3636 
+*END
+
+*D_NET *76 0.0167503
+*CONN
+*P xbar_sel_east[3] O
+*I *656:X O *D sg13cmos5l_buf_1
+*CAP
+1 xbar_sel_east[3] 0.000269335
+2 *656:X 0.00151306
+3 *76:16 0.00165183
+4 *76:12 0.00289556
+5 *76:12 *654:A 0
+6 weight_shift_en_east *76:16 0.00119732
+7 xbar_sel_east[2] xbar_sel_east[3] 0
+8 *39:27 *76:12 0
+9 *40:15 *76:16 0.0041335
+10 *41:19 *76:16 0.00178264
+11 *44:21 *76:12 0
+12 *45:17 *76:16 0
+13 *45:25 *76:12 0.000204029
+14 *74:8 *76:12 0.00142485
+15 *74:16 *76:16 0.00167822
+16 *74:20 *76:16 0
+*RES
+1 *656:X *76:12 34.5957 
+2 *76:12 *76:16 47.295 
+3 *76:16 xbar_sel_east[3] 42.678 
+*END
+
+*D_NET *77 0.00180824
+*CONN
+*P xbar_sel_west[0] I
+*I *556:A I *D sg13cmos5l_buf_1
+*CAP
+1 xbar_sel_west[0] 0.000904118
+2 *556:A 0.000904118
+3 *556:A *78:13 0
+4 *554:A *556:A 0
+5 *66:17 *556:A 0
+*RES
+1 xbar_sel_west[0] *556:A 48.8374 
+*END
+
+*D_NET *78 0.0378599
+*CONN
+*P xbar_sel_west[1] I
+*I *557:A I *D sg13cmos5l_buf_1
+*CAP
+1 xbar_sel_west[1] 5.8074e-05
+2 *557:A 0
+3 *78:31 3.0901e-05
+4 *78:25 0.00428065
+5 *78:23 0.00443275
+6 *78:17 0.00136594
+7 *78:13 0.0111321
+8 *78:11 0.0100072
+9 *78:23 *152:8 0.00103634
+10 *78:23 *175:12 0.00103778
+11 act_rdata_west[0] *78:13 0.000235556
+12 act_rdata_west[1] *78:13 0
+13 act_rdata_west[2] *78:13 0
+14 act_rdata_west[3] *78:13 0
+15 act_rdata_west[4] *78:13 0
+16 act_rdata_west[5] *78:13 0
+17 act_rdata_west[6] *78:13 0
+18 act_rdata_west[7] *78:13 0
+19 out_act_west[0] *78:13 0
+20 out_act_west[1] *78:13 0
+21 out_act_west[2] *78:13 0
+22 out_act_west[3] *78:13 0
+23 out_act_west[4] *78:13 0
+24 out_act_west[5] *78:13 0
+25 out_act_west[6] *78:13 0
+26 out_act_west[7] *78:13 0
+27 *555:A *78:13 0
+28 *556:A *78:13 0
+29 *601:A *78:13 0
+30 *605:A *78:13 0
+31 *609:A *78:13 0
+32 *614:A *78:13 0
+33 *618:A *78:13 0
+34 *40:19 *78:25 0.000338545
+35 *42:25 *78:25 0.00390408
+36 *63:9 *78:13 0
+37 *64:11 *78:13 0
+38 *65:11 *78:13 0
+39 *66:11 *78:13 0
+40 *67:13 *78:13 0
+41 *68:17 *78:13 0
+42 *69:11 *78:13 0
+*RES
+1 xbar_sel_west[1] *78:11 0.9373 
+2 *78:11 *78:13 84.769 
+3 *78:13 *78:17 31.9995 
+4 *78:17 *78:23 44.7998 
+5 *78:23 *78:25 47.2564 
+6 *78:25 *78:31 40.3502 
+7 *78:31 *557:A 20 
+*END
+
+*D_NET *79 0.00941037
+*CONN
+*P xbar_sel_west[2] I
+*I *558:A I *D sg13cmos5l_buf_1
+*CAP
+1 xbar_sel_west[2] 0.000367608
+2 *558:A 0.000392342
+3 *79:15 0.00279276
+4 *79:11 0.00276802
+5 *558:A *560:A_ADDR[6] 0
+6 *558:A *171:12 0
+7 *79:15 *102:10 0
+8 *616:A *558:A 0.000273474
+9 *617:A *558:A 0
+10 *65:13 *79:15 0
+11 *66:17 *79:15 0.001728
+12 *69:17 *79:15 0.00108816
+*RES
+1 xbar_sel_west[2] *79:11 44.1612 
+2 *79:11 *79:15 49.0254 
+3 *79:15 *558:A 23.914 
+*END
+
+*D_NET *80 0.0309501
+*CONN
+*P xbar_sel_west[3] I
+*I *559:A I *D sg13cmos5l_buf_1
+*CAP
+1 xbar_sel_west[3] 0.00257193
+2 *559:A 0.000203909
+3 *80:21 0.00509611
+4 *80:19 0.0048922
+5 *80:17 0.00164494
+6 *80:11 0.00421687
+7 *559:A *644:A 4.78356e-05
+8 *559:A *96:15 0
+9 *559:A *125:56 0.000272911
+10 *80:17 *560:A_BIST_DIN[0] 0
+11 *80:17 *93:11 0
+12 *80:17 *97:28 0.00186105
+13 *80:17 *98:32 0
+14 *80:17 *124:10 0
+15 *80:17 *129:10 0
+16 *80:21 *93:26 0.00728413
+17 *80:21 *96:15 0
+18 *80:21 *98:38 0
+19 *80:21 *111:14 0
+20 *80:21 *125:56 0
+21 *37:11 *80:11 0
+22 *38:24 *559:A 0
+23 *64:17 *80:21 0.00285825
+24 *68:25 *80:21 0
+*RES
+1 xbar_sel_west[3] *80:11 44.8127 
+2 *80:11 *80:17 38.658 
+3 *80:17 *80:19 20 
+4 *80:19 *80:21 52.6639 
+5 *80:21 *559:A 22.1836 
+*END
+
+*D_NET *81 0.0028942
+*CONN
+*I *560:A_REN I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *529:Y O *D sg13cmos5l_inv_1
+*CAP
+1 *560:A_REN 0.00039652
+2 *529:Y 0.000470483
+3 *81:10 0.000867004
+4 *560:A_REN *560:A_WEN 0.000105102
+5 *560:A_REN *560:A_BIST_EN 0
+6 *560:A_REN *560:A_BIST_WEN 0
+7 *560:A_REN *160:18 0
+8 *81:10 *86:8 0
+9 *81:10 *92:29 0.00105509
+10 *81:10 *130:14 0
+*RES
+1 *529:Y *81:10 45.0573 
+2 *81:10 *560:A_REN 23.4144 
+*END
+
+*D_NET *82 0.00126658
+*CONN
+*I *560:A_BIST_ADDR[0] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *561:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_ADDR[0] 0.00051591
+2 *561:L_LO 0.00051591
+3 *560:A_BIST_ADDR[0] *560:A_BIST_ADDR[1] 0.000154678
+4 *560:A_BIST_ADDR[0] *560:A_ADDR[4] 0
+5 *560:A_BIST_ADDR[0] *133:10 0
+6 *560:A_BIST_ADDR[0] *165:14 8.00842e-05
+*RES
+1 *561:L_LO *560:A_BIST_ADDR[0] 24.774 
+*END
+
+*D_NET *83 0.00962793
+*CONN
+*I *560:A_ADDR[0] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *601:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_ADDR[0] 0.000113737
+2 *601:X 0
+3 *83:16 0.00142825
+4 *83:6 0.00131451
+5 *560:A_ADDR[0] *560:A_ADDR[1] 5.35428e-05
+6 *560:A_ADDR[0] *560:A_BIST_EN 0.000105102
+7 *560:A_ADDR[0] *100:13 0.000153987
+8 *560:A_ADDR[0] *134:16 0.000154273
+9 *83:16 *560:A_MEN 0.000402185
+10 *83:16 *560:A_BIST_EN 0
+11 *83:16 *84:14 0.000304786
+12 *83:16 *85:12 0
+13 *83:16 *89:14 0.00263062
+14 *83:16 *102:10 0.00264574
+15 *83:16 *153:10 0.000208637
+16 *83:16 *160:18 0
+17 *560:A_CLK *83:16 0
+18 *602:A *83:16 0.000112563
+19 *618:A *83:16 0
+*RES
+1 *601:X *83:6 40 
+2 *83:6 *83:16 40.5588 
+3 *83:16 *560:A_ADDR[0] 41.5965 
+*END
+
+*D_NET *84 0.0242819
+*CONN
+*I *560:A_DIN[0] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *602:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_DIN[0] 0.000251219
+2 *602:X 0.000457354
+3 *84:22 0.00302288
+4 *84:20 0.00300743
+5 *84:14 0.000693119
+6 *560:A_DIN[0] *560:A_BIST_DIN[0] 0
+7 *560:A_DIN[0] *560:A_BM[0] 0
+8 *84:14 *560:A_BIST_EN 0
+9 *84:14 *103:10 0.000928895
+10 *84:14 *160:18 0
+11 *84:14 *171:12 0.000932647
+12 *84:22 *85:14 0.00770354
+13 *84:22 *99:19 0
+14 *84:22 *130:12 0
+15 *84:22 *130:14 0
+16 *68:21 *84:22 0.00698003
+17 *83:16 *84:14 0.000304786
+*RES
+1 *602:X *84:14 47.2409 
+2 *84:14 *84:20 42.6986 
+3 *84:20 *84:22 47.3182 
+4 *84:22 *560:A_DIN[0] 22.611 
+*END
+
+*D_NET *85 0.0193537
+*CONN
+*I *560:A_DIN[1] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *603:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_DIN[1] 0.000268101
+2 *603:X 0.000658084
+3 *85:14 0.00215289
+4 *85:12 0.00254288
+5 *560:A_DIN[1] *532:A 0
+6 *560:A_DIN[1] *560:A_BIST_DIN[1] 0
+7 *560:A_DIN[1] *560:A_BM[1] 0
+8 *85:12 *560:A_BIST_MEN 0
+9 *85:12 *86:8 0.00048899
+10 *85:14 *560:A_DIN[2] 0.00551716
+11 *85:14 *560:A_ADDR[2] 2.20966e-05
+12 *85:14 *99:19 0
+13 *85:14 *130:14 0
+14 *560:A_CLK *85:12 0
+15 *83:16 *85:12 0
+16 *84:22 *85:14 0.00770354
+*RES
+1 *603:X *85:12 46.489 
+2 *85:12 *85:14 37.4302 
+3 *85:14 *560:A_DIN[1] 22.6625 
+*END
+
+*D_NET *86 0.0124925
+*CONN
+*I *560:A_DIN[2] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *604:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_DIN[2] 0.00217007
+2 *604:X 0.000582673
+3 *86:8 0.00275274
+4 *560:A_DIN[2] *560:A_BIST_DIN[2] 0
+5 *560:A_DIN[2] *560:A_BM[2] 0
+6 *560:A_DIN[2] *560:A_ADDR[2] 0.000980909
+7 *560:A_DIN[2] *99:19 0
+8 *81:10 *86:8 0
+9 *85:12 *86:8 0.00048899
+10 *85:14 *560:A_DIN[2] 0.00551716
+*RES
+1 *604:X *86:8 45.5105 
+2 *86:8 *560:A_DIN[2] 48.0521 
+*END
+
+*D_NET *87 0.00605607
+*CONN
+*I *560:A_DIN[3] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *605:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_DIN[3] 0.00164162
+2 *605:X 0
+3 *87:6 0.00164162
+4 *560:A_DIN[3] *560:A_BIST_DIN[3] 0
+5 *560:A_DIN[3] *560:A_BM[3] 0
+6 *560:A_DIN[3] *88:16 0
+7 *560:A_DIN[3] *89:14 0
+8 *560:A_DIN[3] *97:13 0
+9 *560:A_DIN[3] *102:10 0
+10 *37:36 *560:A_DIN[3] 0.00277283
+*RES
+1 *605:X *87:6 40 
+2 *87:6 *560:A_DIN[3] 40.6258 
+*END
+
+*D_NET *88 0.0117007
+*CONN
+*I *560:A_DIN[4] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *606:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_DIN[4] 0.00077783
+2 *606:X 5.90871e-05
+3 *88:16 0.00262784
+4 *88:8 0.0019091
+5 *560:A_DIN[4] *534:A 0
+6 *560:A_DIN[4] *536:A 0
+7 *560:A_DIN[4] *560:A_BIST_DIN[4] 0
+8 *560:A_DIN[4] *560:A_BM[4] 0
+9 *560:A_DIN[4] *633:A 0
+10 *560:A_DIN[4] *637:A 0
+11 *560:A_DIN[4] *98:17 0
+12 *88:16 *637:A 0
+13 *88:16 *89:14 0.00577636
+14 *88:16 *104:10 0
+15 *88:16 *110:10 0.00050279
+16 *88:16 *112:16 4.77425e-05
+17 *88:16 *118:16 0
+18 *560:A_DIN[3] *88:16 0
+19 *605:A *88:8 0
+20 *606:A *88:8 0
+21 *37:36 *88:16 0
+*RES
+1 *606:X *88:8 40.5356 
+2 *88:8 *88:16 48.3353 
+3 *88:16 *560:A_DIN[4] 4.41815 
+*END
+
+*D_NET *89 0.0169375
+*CONN
+*I *560:A_DIN[5] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *607:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_DIN[5] 0.00089886
+2 *607:X 2.41961e-05
+3 *89:14 0.00415384
+4 *89:8 0.00327918
+5 *560:A_DIN[5] *560:A_BIST_DIN[5] 0
+6 *560:A_DIN[5] *560:A_BM[5] 0
+7 *560:A_DIN[5] *628:A 0
+8 *560:A_DIN[5] *112:8 0.00017446
+9 *89:14 *102:10 0
+10 *89:14 *110:10 0
+11 *89:14 *112:16 0
+12 *179:A *560:A_DIN[5] 0
+13 *560:A_DIN[3] *89:14 0
+14 *43:29 *560:A_DIN[5] 0
+15 *83:16 *89:14 0.00263062
+16 *88:16 *89:14 0.00577636
+*RES
+1 *607:X *89:8 40.3193 
+2 *89:8 *89:14 39.8301 
+3 *89:14 *560:A_DIN[5] 28.9764 
+*END
+
+*D_NET *90 0.0243736
+*CONN
+*I *560:A_DIN[6] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *608:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_DIN[6] 0.000328408
+2 *608:X 0.000384378
+3 *90:18 0.00187126
+4 *90:16 0.00154285
+5 *90:14 0.00197705
+6 *90:8 0.00236143
+7 *560:A_DIN[6] *560:A_BIST_DIN[6] 0
+8 *560:A_DIN[6] *560:A_BM[6] 0
+9 *90:8 *91:8 0
+10 *90:14 *98:32 0
+11 *90:14 *131:10 0
+12 *90:14 *137:14 0
+13 *90:14 *165:14 0.000131404
+14 *90:14 *166:10 0.000239336
+15 *90:14 *177:8 0.000185831
+16 *90:18 *116:10 0.000183588
+17 *90:18 *120:16 0.00698966
+18 *90:18 *133:12 0.00817842
+*RES
+1 *608:X *90:8 43.5638 
+2 *90:8 *90:14 36.3358 
+3 *90:14 *90:16 20 
+4 *90:16 *90:18 37.4302 
+5 *90:18 *560:A_DIN[6] 23.1569 
+*END
+
+*D_NET *91 0.0226073
+*CONN
+*I *560:A_DIN[7] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *609:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_DIN[7] 0.000641374
+2 *609:X 0.00018228
+3 *91:10 0.00575428
+4 *91:8 0.00529519
+5 *560:A_DIN[7] *560:A_BIST_DIN[7] 0
+6 *560:A_DIN[7] *560:A_BM[7] 0
+7 *91:8 *92:8 0
+8 *91:10 *103:10 0
+9 *91:10 *106:10 0
+10 *91:10 *106:16 0.00553383
+11 *91:10 *109:8 0
+12 *91:10 *117:12 0
+13 *91:10 *131:10 0
+14 *39:31 *91:10 0.00520034
+15 *90:8 *91:8 0
+*RES
+1 *609:X *91:8 41.6171 
+2 *91:8 *91:10 65.3638 
+3 *91:10 *560:A_DIN[7] 26.4426 
+*END
+
+*D_NET *92 0.00677135
+*CONN
+*I *560:A_WEN I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *529:A I *D sg13cmos5l_inv_1
+*I *610:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_WEN 9.41932e-05
+2 *529:A 0
+3 *610:X 0.000301767
+4 *92:29 0.000811129
+5 *92:14 0.00122727
+6 *92:8 0.000812098
+7 *560:A_WEN *560:A_BIST_EN 0.000105102
+8 *560:A_WEN *100:13 4.40522e-05
+9 *560:A_WEN *134:16 4.30839e-05
+10 *92:14 *98:32 0.0015662
+11 *92:14 *103:10 0
+12 *92:14 *171:12 0.0003946
+13 *92:29 *560:A_ADDR[2] 0
+14 *92:29 *560:A_BIST_ADDR[8] 0
+15 *92:29 *94:14 0.000211669
+16 *560:A_REN *560:A_WEN 0.000105102
+17 *81:10 *92:29 0.00105509
+18 *91:8 *92:8 0
+*RES
+1 *610:X *92:8 42.9149 
+2 *92:8 *92:14 27.8074 
+3 *92:14 *529:A 20 
+4 *92:14 *92:29 48.2194 
+5 *92:29 *560:A_WEN 41.0815 
+*END
+
+*D_NET *93 0.0227317
+*CONN
+*I *619:A I *D sg13cmos5l_buf_1
+*I *530:A I *D sg13cmos5l_buf_1
+*I *560:A_DOUT[0] O *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*CAP
+1 *619:A 0
+2 *530:A 0
+3 *560:A_DOUT[0] 5.59042e-05
+4 *93:26 0.00439649
+5 *93:24 0.00484639
+6 *93:11 0.00101943
+7 *93:5 0.00152524
+8 *93:5 *560:A_BM[0] 0
+9 *93:5 *560:A_BIST_BM[0] 0
+10 *93:11 *560:A_BM[0] 0
+11 *93:11 *560:A_BIST_BM[0] 0.000241924
+12 *93:11 *124:10 0.000995389
+13 *93:24 *96:13 0.00178309
+14 *93:24 *125:20 0.00050351
+15 *93:26 *623:A 0
+16 *93:26 *98:38 0
+17 *93:26 *125:28 0
+18 *93:26 *125:56 8.02595e-05
+19 *80:17 *93:11 0
+20 *80:21 *93:26 0.00728413
+*RES
+1 *560:A_DOUT[0] *93:5 0.44805 
+2 *93:5 *93:11 30.4957 
+3 *93:11 *530:A 40 
+4 *93:5 *93:24 48.2606 
+5 *93:24 *93:26 48.7705 
+6 *93:26 *619:A 20 
+*END
+
+*D_NET *94 0.00547434
+*CONN
+*I *560:A_ADDR[1] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *611:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_ADDR[1] 9.57106e-05
+2 *611:X 0.000598448
+3 *94:14 0.00103382
+4 *94:8 0.00153656
+5 *560:A_ADDR[1] *560:A_MEN 0
+6 *560:A_ADDR[1] *100:13 0.000160858
+7 *94:8 *560:A_DLY 0
+8 *94:8 *643:A 0
+9 *94:8 *105:8 0
+10 *94:14 *560:A_ADDR[2] 0.00178373
+11 *94:14 *99:19 0
+12 *94:14 *116:10 0
+13 *94:14 *130:14 0
+14 *560:A_ADDR[0] *560:A_ADDR[1] 5.35428e-05
+15 *92:29 *94:14 0.000211669
+*RES
+1 *611:X *94:8 45.5105 
+2 *94:8 *94:14 31.33 
+3 *94:14 *560:A_ADDR[1] 41.1897 
+*END
+
+*D_NET *95 0.0251026
+*CONN
+*I *620:A I *D sg13cmos5l_buf_1
+*I *531:A I *D sg13cmos5l_buf_1
+*I *560:A_DOUT[1] O *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*CAP
+1 *620:A 5.18414e-05
+2 *531:A 8.24849e-05
+3 *560:A_DOUT[1] 0.000677254
+4 *95:24 0.0046491
+5 *95:22 0.00459726
+6 *95:20 0.00126592
+7 *95:9 0.00202566
+8 *95:9 *532:A 0
+9 *95:9 *560:A_BM[1] 2.19663e-05
+10 *95:9 *560:A_BIST_BM[1] 0.000466841
+11 *95:9 *103:8 0
+12 *95:20 *98:32 0
+13 *95:20 *124:10 0
+14 *95:20 *125:12 0.003757
+15 *95:24 *97:32 0.00750727
+16 *95:24 *98:38 0
+17 *95:24 *111:10 0
+18 *95:24 *122:8 0
+19 *95:24 *126:10 0
+20 *548:A *95:24 0
+21 *37:27 *95:24 0
+22 *64:17 *95:24 0
+*RES
+1 *560:A_DOUT[1] *95:9 6.33965 
+2 *95:9 *531:A 20.7519 
+3 *95:9 *95:20 38.8902 
+4 *95:20 *95:22 20 
+5 *95:22 *95:24 52.2313 
+6 *95:24 *620:A 20.5974 
+*END
+
+*D_NET *96 0.0268475
+*CONN
+*I *532:A I *D sg13cmos5l_buf_1
+*I *621:A I *D sg13cmos5l_buf_1
+*I *560:A_DOUT[2] O *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*CAP
+1 *532:A 0.000622199
+2 *621:A 3.02124e-05
+3 *560:A_DOUT[2] 0.000596786
+4 *96:15 0.0050526
+5 *96:13 0.00629083
+6 *96:9 0.00248742
+7 *532:A *560:A_BIST_DIN[1] 0.000628273
+8 *532:A *560:A_BM[1] 0
+9 *96:9 *560:A_BM[2] 0
+10 *96:9 *560:A_BIST_BM[2] 0
+11 *96:9 *100:15 0.00185334
+12 *96:13 *100:15 0.00519715
+13 *96:15 *111:14 0.00230555
+14 *96:15 *129:14 0
+15 *559:A *96:15 0
+16 *560:A_DIN[1] *532:A 0
+17 *15:20 *96:15 0
+18 *38:24 *96:15 0
+19 *68:25 *96:15 0
+20 *80:21 *96:15 0
+21 *93:24 *96:13 0.00178309
+22 *95:9 *532:A 0
+*RES
+1 *560:A_DOUT[2] *96:9 29.3447 
+2 *96:9 *96:13 44.0814 
+3 *96:13 *96:15 51.1498 
+4 *96:15 *621:A 20.3502 
+5 *96:9 *532:A 46.3242 
+*END
+
+*D_NET *97 0.0418931
+*CONN
+*I *622:A I *D sg13cmos5l_buf_1
+*I *533:A I *D sg13cmos5l_buf_1
+*I *560:A_DOUT[3] O *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*CAP
+1 *622:A 3.06411e-05
+2 *533:A 0.000213264
+3 *560:A_DOUT[3] 0.00132691
+4 *97:32 0.0041875
+5 *97:30 0.00415686
+6 *97:28 0.00172606
+7 *97:26 0.00179517
+8 *97:15 0.000282373
+9 *97:13 0.00132691
+10 *533:A *560:A_BIST_BM[2] 8.00842e-05
+11 *97:13 *560:A_BM[3] 0
+12 *97:13 *560:A_BIST_BM[3] 0.000499124
+13 *97:13 *98:32 0.00252828
+14 *97:13 *129:10 0
+15 *97:26 *560:A_BIST_BM[2] 0.000111343
+16 *97:28 *98:32 0
+17 *97:28 *129:10 0.00660754
+18 *97:32 *623:A 0
+19 *97:32 *98:38 0.00667007
+20 *97:32 *125:38 0.000982618
+21 *97:32 *126:10 0
+22 *560:A_DIN[3] *97:13 0
+23 *80:17 *97:28 0.00186105
+24 *95:24 *97:32 0.00750727
+*RES
+1 *560:A_DOUT[3] *97:13 36.3847 
+2 *97:13 *97:15 20 
+3 *97:15 *533:A 22.0497 
+4 *97:15 *97:26 20.7519 
+5 *97:26 *97:28 30.2614 
+6 *97:28 *97:30 20 
+7 *97:30 *97:32 52.015 
+8 *97:32 *622:A 20.3502 
+*END
+
+*D_NET *98 0.0453672
+*CONN
+*I *623:A I *D sg13cmos5l_buf_1
+*I *534:A I *D sg13cmos5l_buf_1
+*I *560:A_DOUT[4] O *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*CAP
+1 *623:A 0.00100951
+2 *534:A 0.000150331
+3 *560:A_DOUT[4] 0.000684601
+4 *98:38 0.00484436
+5 *98:34 0.00383485
+6 *98:32 0.0071633
+7 *98:30 0.00776888
+8 *98:17 0.00144052
+9 *623:A *125:28 4.63397e-05
+10 *623:A *125:38 0.000961039
+11 *623:A *125:56 0
+12 *623:A *126:10 0
+13 *98:17 *560:A_BM[4] 0
+14 *98:17 *560:A_BIST_BM[4] 1.0044e-05
+15 *98:17 *130:14 0.000293223
+16 *98:17 *133:12 0.00029391
+17 *98:30 *103:10 0
+18 *98:30 *131:10 0
+19 *98:32 *103:10 0
+20 *98:32 *124:10 0
+21 *98:32 *125:12 0
+22 *98:32 *131:10 0
+23 *98:32 *165:14 0.000128113
+24 *98:32 *171:12 0
+25 *98:38 *125:28 0.00597367
+26 *560:A_DIN[4] *534:A 0
+27 *560:A_DIN[4] *98:17 0
+28 *64:17 *98:38 0
+29 *80:17 *98:32 0
+30 *80:21 *98:38 0
+31 *90:14 *98:32 0
+32 *92:14 *98:32 0.0015662
+33 *93:26 *623:A 0
+34 *93:26 *98:38 0
+35 *95:20 *98:32 0
+36 *95:24 *98:38 0
+37 *97:13 *98:32 0.00252828
+38 *97:28 *98:32 0
+39 *97:32 *623:A 0
+40 *97:32 *98:38 0.00667007
+*RES
+1 *560:A_DOUT[4] *98:17 46.7079 
+2 *98:17 *534:A 21.4008 
+3 *98:17 *98:30 25.5826 
+4 *98:30 *98:32 78.7126 
+5 *98:32 *98:34 20 
+6 *98:34 *98:38 45.8762 
+7 *98:38 *623:A 29.9704 
+*END
+
+*D_NET *99 0.0539484
+*CONN
+*I *535:A I *D sg13cmos5l_buf_1
+*I *624:A I *D sg13cmos5l_buf_1
+*I *560:A_DOUT[5] O *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*CAP
+1 *535:A 0.000472552
+2 *624:A 0
+3 *560:A_DOUT[5] 0.00112288
+4 *99:31 0.000326103
+5 *99:23 0.00456722
+6 *99:21 0.00424112
+7 *99:19 0.00863911
+8 *99:17 0.0102345
+9 *535:A *560:A_BIST_BM[4] 0
+10 *99:17 *560:A_BM[5] 8.00842e-05
+11 *99:17 *560:A_BIST_BM[5] 0
+12 *99:17 *113:16 0
+13 *99:17 *119:12 0.00140886
+14 *99:19 *560:A_ADDR[2] 0.00308569
+15 *99:19 *560:A_ADDR[7] 0.00162503
+16 *99:19 *113:16 0
+17 *99:19 *115:12 0
+18 *99:19 *119:12 0
+19 *99:19 *120:16 0
+20 *99:19 *134:16 0
+21 *99:19 *141:10 0.00018156
+22 *99:19 *144:10 0.00119627
+23 *99:19 *153:10 0.000181192
+24 *99:23 *100:19 0.00787277
+25 *99:23 *134:12 0.00771107
+26 *99:31 *123:10 0
+27 *99:31 *124:22 0
+28 *99:31 *134:8 0
+29 *560:A_DIN[2] *99:19 0
+30 *14:8 *99:31 0
+31 *17:8 *99:31 0
+32 *43:25 *99:17 0.00018128
+33 *63:17 *99:19 0
+34 *65:23 *99:19 0.000821134
+35 *68:21 *99:19 0
+36 *69:21 *99:23 0
+37 *84:22 *99:19 0
+38 *85:14 *99:19 0
+39 *94:14 *99:19 0
+*RES
+1 *560:A_DOUT[5] *99:17 32.2724 
+2 *99:17 *99:19 90.331 
+3 *99:19 *99:21 20 
+4 *99:21 *99:23 53.7454 
+5 *99:23 *99:31 43.3887 
+6 *99:31 *624:A 20 
+7 *99:17 *535:A 44.6453 
+*END
+
+*D_NET *100 0.0683746
+*CONN
+*I *536:A I *D sg13cmos5l_buf_1
+*I *625:A I *D sg13cmos5l_buf_1
+*I *560:A_DOUT[6] O *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*CAP
+1 *536:A 0.000624385
+2 *625:A 0
+3 *560:A_DOUT[6] 0.00184821
+4 *100:25 0.000189992
+5 *100:19 0.00461894
+6 *100:17 0.00442895
+7 *100:15 0.00178634
+8 *100:13 0.00622997
+9 *100:9 0.00691622
+10 *536:A *560:A_BIST_DIN[4] 0.000541795
+11 *536:A *637:A 0.00043393
+12 *536:A *101:17 0
+13 *100:9 *560:A_BM[6] 0
+14 *100:9 *560:A_BIST_BM[6] 0
+15 *100:9 *101:13 0.00580692
+16 *100:9 *134:16 0
+17 *100:13 *101:13 0.000341949
+18 *100:13 *134:16 0
+19 *100:13 *137:14 4.9291e-05
+20 *100:13 *140:14 0.000252957
+21 *100:13 *141:18 4.63837e-05
+22 *100:15 *134:16 0.00899144
+23 *100:19 *124:14 0
+24 *100:25 *124:22 0
+25 *560:A_DIN[4] *536:A 0
+26 *560:A_ADDR[0] *100:13 0.000153987
+27 *560:A_ADDR[1] *100:13 0.000160858
+28 *560:A_WEN *100:13 4.40522e-05
+29 *41:37 *100:9 0.00233851
+30 *69:21 *100:19 0.00764631
+31 *96:9 *100:15 0.00185334
+32 *96:13 *100:15 0.00519715
+33 *99:23 *100:19 0.00787277
+*RES
+1 *560:A_DOUT[6] *100:9 47.5602 
+2 *100:9 *100:13 43.6823 
+3 *100:13 *100:15 41.6326 
+4 *100:15 *100:17 20 
+5 *100:17 *100:19 55.2595 
+6 *100:19 *100:25 41.8334 
+7 *100:25 *625:A 20 
+8 *100:9 *536:A 46.8804 
+*END
+
+*D_NET *101 0.0596885
+*CONN
+*I *537:A I *D sg13cmos5l_buf_1
+*I *626:A I *D sg13cmos5l_buf_1
+*I *560:A_DOUT[7] O *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*CAP
+1 *537:A 0
+2 *626:A 0
+3 *560:A_DOUT[7] 0.000339428
+4 *101:39 0
+5 *101:35 0.00677
+6 *101:33 0.00966307
+7 *101:23 0.0058297
+8 *101:21 0.00299448
+9 *101:17 0.000669788
+10 *101:13 0.00307831
+11 *101:11 0.00280581
+12 *101:11 *560:A_BM[7] 0
+13 *101:11 *560:A_BIST_BM[7] 0
+14 *101:11 *175:12 0.000113954
+15 *101:17 *637:A 0
+16 *101:17 *639:A 0
+17 *101:23 *104:10 0.0119424
+18 *101:23 *106:10 0.00719948
+19 *101:23 *106:16 0
+20 *101:23 *117:12 0.000507188
+21 *101:23 *124:10 0
+22 *101:33 *124:10 0
+23 *536:A *101:17 0
+24 *13:12 *101:35 0.000803743
+25 *37:15 *101:33 0
+26 *41:27 *101:11 0
+27 *41:37 *101:11 0.000822314
+28 *41:37 *101:13 0
+29 *100:9 *101:13 0.00580692
+30 *100:13 *101:13 0.000341949
+*RES
+1 *560:A_DOUT[7] *101:11 24.8487 
+2 *101:11 *101:13 36.1942 
+3 *101:13 *101:17 24.5615 
+4 *101:17 *101:21 20.5356 
+5 *101:21 *101:23 54.7342 
+6 *101:23 *101:33 45.8118 
+7 *101:33 *101:35 58.9366 
+8 *101:35 *101:39 40 
+9 *101:39 *626:A 20 
+10 *101:17 *537:A 20 
+*END
+
+*D_NET *102 0.0184612
+*CONN
+*I *627:A I *D sg13cmos5l_buf_1
+*I *530:X O *D sg13cmos5l_buf_1
+*CAP
+1 *627:A 9.7624e-05
+2 *530:X 0.000217851
+3 *102:10 0.00768987
+4 *102:8 0.0078101
+5 act_rdata_west[0] *627:A 0
+6 act_rdata_west[1] *627:A 0
+7 *560:A_DIN[3] *102:10 0
+8 *37:15 *102:10 0
+9 *37:36 *102:10 0
+10 *66:17 *102:10 0
+11 *67:13 *102:10 0
+12 *69:17 *102:10 0
+13 *79:15 *102:10 0
+14 *83:16 *102:10 0.00264574
+15 *89:14 *102:10 0
+*RES
+1 *530:X *102:8 42.266 
+2 *102:8 *102:10 80.9374 
+3 *102:10 *627:A 40.9682 
+*END
+
+*D_NET *103 0.0166385
+*CONN
+*I *628:A I *D sg13cmos5l_buf_1
+*I *531:X O *D sg13cmos5l_buf_1
+*CAP
+1 *628:A 0.000286247
+2 *531:X 4.32687e-05
+3 *103:10 0.00744295
+4 *103:8 0.00719997
+5 *628:A *629:A 0
+6 *628:A *106:16 0
+7 *103:10 *106:10 0
+8 *103:10 *109:8 0.000608025
+9 *103:10 *125:10 0.000129163
+10 *103:10 *125:12 0
+11 *103:10 *131:10 0
+12 *103:10 *171:12 0
+13 *560:A_DIN[5] *628:A 0
+14 *84:14 *103:10 0.000928895
+15 *91:10 *103:10 0
+16 *92:14 *103:10 0
+17 *95:9 *103:8 0
+18 *98:30 *103:10 0
+19 *98:32 *103:10 0
+*RES
+1 *531:X *103:8 40.3193 
+2 *103:8 *103:10 71.791 
+3 *103:10 *628:A 42.6986 
+*END
+
+*D_NET *104 0.0248698
+*CONN
+*I *629:A I *D sg13cmos5l_buf_1
+*I *532:X O *D sg13cmos5l_buf_1
+*CAP
+1 *629:A 0.000135358
+2 *532:X 2.7026e-05
+3 *104:10 0.00602013
+4 *104:8 0.0059118
+5 *629:A *106:16 0
+6 *104:10 *107:8 0.000833096
+7 *104:10 *118:16 0
+8 *628:A *629:A 0
+9 *37:15 *104:10 0
+10 *37:36 *104:10 0
+11 *88:16 *104:10 0
+12 *101:23 *104:10 0.0119424
+*RES
+1 *532:X *104:8 40.3193 
+2 *104:8 *104:10 67.5886 
+3 *104:10 *629:A 41.1845 
+*END
+
+*D_NET *105 0.00935637
+*CONN
+*I *560:A_ADDR[2] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *612:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_ADDR[2] 0.00104737
+2 *612:X 0.000603964
+3 *105:8 0.00165133
+4 *560:A_ADDR[2] *560:A_BIST_ADDR[2] 0
+5 *560:A_ADDR[2] *153:10 0.000181279
+6 *105:8 *116:10 0
+7 *560:A_DIN[2] *560:A_ADDR[2] 0.000980909
+8 *85:14 *560:A_ADDR[2] 2.20966e-05
+9 *92:29 *560:A_ADDR[2] 0
+10 *94:8 *105:8 0
+11 *94:14 *560:A_ADDR[2] 0.00178373
+12 *99:19 *560:A_ADDR[2] 0.00308569
+*RES
+1 *612:X *105:8 45.7268 
+2 *105:8 *560:A_ADDR[2] 39.2662 
+*END
+
+*D_NET *106 0.0238562
+*CONN
+*I *630:A I *D sg13cmos5l_buf_1
+*I *533:X O *D sg13cmos5l_buf_1
+*CAP
+1 *630:A 0
+2 *533:X 0
+3 *106:16 0.00178349
+4 *106:10 0.00428077
+5 *106:6 0.00249728
+6 *106:10 *124:10 0
+7 *106:16 *631:A 0
+8 *106:16 *117:12 0.00256136
+9 *628:A *106:16 0
+10 *629:A *106:16 0
+11 *91:10 *106:10 0
+12 *91:10 *106:16 0.00553383
+13 *101:23 *106:10 0.00719948
+14 *101:23 *106:16 0
+15 *103:10 *106:10 0
+*RES
+1 *533:X *106:6 40 
+2 *106:6 *106:10 33.2999 
+3 *106:10 *106:16 47.1508 
+4 *106:16 *630:A 20 
+*END
+
+*D_NET *107 0.00227992
+*CONN
+*I *631:A I *D sg13cmos5l_buf_1
+*I *534:X O *D sg13cmos5l_buf_1
+*CAP
+1 *631:A 0.000162711
+2 *534:X 0.000143726
+3 *107:8 0.000306437
+4 *631:A *632:A 0
+5 *107:8 *117:12 0.00083395
+6 *104:10 *107:8 0.000833096
+7 *106:16 *631:A 0
+*RES
+1 *534:X *107:8 43.811 
+2 *107:8 *631:A 41.4008 
+*END
+
+*D_NET *108 0.000424848
+*CONN
+*I *632:A I *D sg13cmos5l_buf_1
+*I *535:X O *D sg13cmos5l_buf_1
+*CAP
+1 *632:A 0.000212424
+2 *535:X 0.000212424
+3 *632:A *633:A 0
+4 *631:A *632:A 0
+*RES
+1 *535:X *632:A 41.9982 
+*END
+
+*D_NET *109 0.00164238
+*CONN
+*I *633:A I *D sg13cmos5l_buf_1
+*I *536:X O *D sg13cmos5l_buf_1
+*CAP
+1 *633:A 0.000276336
+2 *536:X 0.00024084
+3 *109:8 0.000517175
+4 *560:A_DIN[4] *633:A 0
+5 *632:A *633:A 0
+6 *91:10 *109:8 0
+7 *103:10 *109:8 0.000608025
+*RES
+1 *536:X *109:8 42.8222 
+2 *109:8 *633:A 42.4823 
+*END
+
+*D_NET *110 0.00183211
+*CONN
+*I *634:A I *D sg13cmos5l_buf_1
+*I *537:X O *D sg13cmos5l_buf_1
+*CAP
+1 *634:A 0
+2 *537:X 0.000490481
+3 *110:10 0.000490481
+4 *110:10 *637:A 0
+5 *110:10 *639:A 0
+6 *110:10 *112:16 0.000235971
+7 *110:10 *114:14 0.000112383
+8 *110:10 *118:16 0
+9 *88:16 *110:10 0.00050279
+10 *89:14 *110:10 0
+*RES
+1 *537:X *110:10 45.2118 
+2 *110:10 *634:A 40 
+*END
+
+*D_NET *111 0.0083821
+*CONN
+*I *635:A I *D sg13cmos5l_buf_1
+*I *538:X O *D sg13cmos5l_buf_1
+*CAP
+1 *635:A 0
+2 *538:X 0.000640613
+3 *111:14 0.00126961
+4 *111:10 0.00191023
+5 *111:10 *122:8 0.00053399
+6 *68:25 *111:14 0.00172211
+7 *80:21 *111:14 0
+8 *95:24 *111:10 0
+9 *96:15 *111:14 0.00230555
+*RES
+1 *538:X *111:10 47.1276 
+2 *111:10 *111:14 35.4603 
+3 *111:14 *635:A 20 
+*END
+
+*D_NET *112 0.00486092
+*CONN
+*I *636:A I *D sg13cmos5l_buf_1
+*I *539:X O *D sg13cmos5l_buf_1
+*CAP
+1 *636:A 0
+2 *539:X 0.00011723
+3 *112:16 0.000858414
+4 *112:8 0.000975644
+5 *112:16 *118:16 0.00245146
+6 *179:A *112:8 0
+7 *560:A_DIN[5] *112:8 0.00017446
+8 *88:16 *112:16 4.77425e-05
+9 *89:14 *112:16 0
+10 *110:10 *112:16 0.000235971
+*RES
+1 *539:X *112:8 41.1845 
+2 *112:8 *112:16 31.8965 
+3 *112:16 *636:A 20 
+*END
+
+*D_NET *113 0.0318241
+*CONN
+*I *637:A I *D sg13cmos5l_buf_1
+*I *540:X O *D sg13cmos5l_buf_1
+*CAP
+1 *637:A 0.000606033
+2 *540:X 3.04185e-05
+3 *113:16 0.00418847
+4 *113:14 0.00358244
+5 *113:12 0.00469886
+6 *113:6 0.00472928
+7 *113:12 *115:8 0
+8 *113:12 *119:10 0.000664071
+9 *113:12 *120:12 0.00117256
+10 *113:16 *115:12 0.0094606
+11 *113:16 *150:10 0.000234726
+12 *536:A *637:A 0.00043393
+13 *546:A *113:12 0
+14 *560:A_DIN[4] *637:A 0
+15 *42:33 *113:12 0.000759401
+16 *43:25 *113:16 0
+17 *44:21 *113:12 0.00126335
+18 *45:25 *113:12 0
+19 *88:16 *637:A 0
+20 *99:17 *113:16 0
+21 *99:19 *113:16 0
+22 *101:17 *637:A 0
+23 *110:10 *637:A 0
+*RES
+1 *540:X *113:6 20.3502 
+2 *113:6 *113:12 46.8753 
+3 *113:12 *113:14 20 
+4 *113:14 *113:16 43.8574 
+5 *113:16 *637:A 45.5735 
+*END
+
+*D_NET *114 0.00654358
+*CONN
+*I *638:A I *D sg13cmos5l_buf_1
+*I *541:X O *D sg13cmos5l_buf_1
+*CAP
+1 *638:A 0
+2 *541:X 9.6909e-05
+3 *114:14 0.00135165
+4 *114:8 0.00144856
+5 *114:14 *639:A 0
+6 *114:14 *117:12 0
+7 *114:14 *118:16 0.00353407
+8 *178:A *114:8 0
+9 *179:A *114:8 0
+10 *110:10 *114:14 0.000112383
+*RES
+1 *541:X *114:8 40.7519 
+2 *114:8 *114:14 36.9229 
+3 *114:14 *638:A 20 
+*END
+
+*D_NET *115 0.0301385
+*CONN
+*I *639:A I *D sg13cmos5l_buf_1
+*I *542:X O *D sg13cmos5l_buf_1
+*CAP
+1 *639:A 0.000677822
+2 *542:X 0.00186261
+3 *115:12 0.0026972
+4 *115:10 0.00201938
+5 *115:8 0.00186261
+6 *639:A *117:12 0
+7 *115:8 *119:10 0
+8 *115:8 *175:12 0
+9 *115:12 *120:16 0.00994001
+10 *115:12 *133:12 0
+11 *39:27 *115:8 0
+12 *43:25 *115:12 0
+13 *45:25 *115:8 0.00161825
+14 *99:19 *115:12 0
+15 *101:17 *639:A 0
+16 *110:10 *639:A 0
+17 *113:12 *115:8 0
+18 *113:16 *115:12 0.0094606
+19 *114:14 *639:A 0
+*RES
+1 *542:X *115:8 37.7881 
+2 *115:8 *115:10 20 
+3 *115:10 *115:12 47.5654 
+4 *115:12 *639:A 46.5302 
+*END
+
+*D_NET *116 0.00320861
+*CONN
+*I *560:A_ADDR[3] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *613:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_ADDR[3] 0.000279335
+2 *613:X 0.000841973
+3 *116:10 0.00112131
+4 *560:A_ADDR[3] *560:A_BIST_ADDR[3] 0.000131855
+5 *560:A_ADDR[3] *560:A_BIST_ADDR[4] 0.000196539
+6 *560:A_ADDR[3] *560:A_ADDR[6] 0
+7 *116:10 *127:10 0.00045401
+8 *116:10 *133:12 0
+9 *116:10 *140:14 0
+10 *90:18 *116:10 0.000183588
+11 *94:14 *116:10 0
+12 *105:8 *116:10 0
+*RES
+1 *613:X *116:10 46.4585 
+2 *116:10 *560:A_ADDR[3] 22.9407 
+*END
+
+*D_NET *117 0.00727548
+*CONN
+*I *640:A I *D sg13cmos5l_buf_1
+*I *543:X O *D sg13cmos5l_buf_1
+*CAP
+1 *640:A 0
+2 *543:X 0
+3 *117:12 0.00151321
+4 *117:6 0.00151321
+5 *117:12 *641:A 0
+6 *639:A *117:12 0
+7 *39:31 *117:12 0.000346568
+8 *91:10 *117:12 0
+9 *101:23 *117:12 0.000507188
+10 *106:16 *117:12 0.00256136
+11 *107:8 *117:12 0.00083395
+12 *114:14 *117:12 0
+*RES
+1 *543:X *117:6 40 
+2 *117:6 *117:12 39.2713 
+3 *117:12 *640:A 20 
+*END
+
+*D_NET *118 0.0236524
+*CONN
+*I *641:A I *D sg13cmos5l_buf_1
+*I *544:X O *D sg13cmos5l_buf_1
+*CAP
+1 *641:A 4.84865e-05
+2 *544:X 0.000108375
+3 *118:16 0.00392261
+4 *118:14 0.00387412
+5 *118:12 0.00262748
+6 *118:10 0.00262748
+7 *118:8 0.000108375
+8 *641:A *642:A 0
+9 *118:12 *130:18 0.00393936
+10 *39:31 *118:16 0
+11 *46:9 *118:12 0.000410578
+12 *88:16 *118:16 0
+13 *104:10 *118:16 0
+14 *110:10 *118:16 0
+15 *112:16 *118:16 0.00245146
+16 *114:14 *118:16 0.00353407
+17 *117:12 *641:A 0
+*RES
+1 *544:X *118:8 41.0918 
+2 *118:8 *118:10 20 
+3 *118:10 *118:12 30.1687 
+4 *118:12 *118:14 20 
+5 *118:14 *118:16 50.779 
+6 *118:16 *641:A 40.5356 
+*END
+
+*D_NET *119 0.0241577
+*CONN
+*I *642:A I *D sg13cmos5l_buf_1
+*I *545:X O *D sg13cmos5l_buf_1
+*CAP
+1 *642:A 0.000695803
+2 *545:X 0.000426374
+3 *119:12 0.00441873
+4 *119:10 0.0041493
+5 *642:A *643:A 0
+6 *119:10 *175:12 0.000274709
+7 *119:12 *134:16 0.0088755
+8 *119:12 *134:28 0.00199534
+9 *641:A *642:A 0
+10 *41:27 *119:12 0.00124905
+11 *41:37 *119:12 0
+12 *43:25 *119:12 0
+13 *99:17 *119:12 0.00140886
+14 *99:19 *119:12 0
+15 *113:12 *119:10 0.000664071
+16 *115:8 *119:10 0
+*RES
+1 *545:X *119:10 45.0264 
+2 *119:10 *119:12 50.5318 
+3 *119:12 *642:A 46.8083 
+*END
+
+*D_NET *120 0.0274589
+*CONN
+*I *643:A I *D sg13cmos5l_buf_1
+*I *546:X O *D sg13cmos5l_buf_1
+*CAP
+1 *643:A 0.000575612
+2 *546:X 0.000103559
+3 *120:16 0.00359157
+4 *120:14 0.00301596
+5 *120:12 0.000983197
+6 *120:8 0.00108676
+7 *643:A *560:A_DLY 0
+8 *120:16 *133:12 0
+9 *601:A *643:A 0
+10 *642:A *643:A 0
+11 *90:18 *120:16 0.00698966
+12 *94:8 *643:A 0
+13 *99:19 *120:16 0
+14 *113:12 *120:12 0.00117256
+15 *115:12 *120:16 0.00994001
+*RES
+1 *546:X *120:8 41.0918 
+2 *120:8 *120:12 31.5669 
+3 *120:12 *120:14 20 
+4 *120:14 *120:16 51.2734 
+5 *120:16 *643:A 45.5105 
+*END
+
+*D_NET *121 0.00275001
+*CONN
+*I *644:A I *D sg13cmos5l_buf_1
+*I *547:X O *D sg13cmos5l_buf_1
+*CAP
+1 *644:A 0.000611997
+2 *547:X 0.000442833
+3 *121:10 0.00105483
+4 *644:A *123:10 0.000112558
+5 *644:A *125:56 0.000144932
+6 *121:10 *122:8 0.00011159
+7 *121:10 *126:10 0.000110661
+8 *121:10 *128:8 0
+9 *559:A *644:A 4.78356e-05
+10 *12:8 *121:10 0
+11 *15:10 *121:10 0
+12 *38:24 *644:A 0.000112769
+13 *69:27 *121:10 0
+*RES
+1 *547:X *121:10 43.8213 
+2 *121:10 *644:A 45.665 
+*END
+
+*D_NET *122 0.00645375
+*CONN
+*I *645:A I *D sg13cmos5l_buf_1
+*I *548:X O *D sg13cmos5l_buf_1
+*CAP
+1 *645:A 0
+2 *548:X 0.00256981
+3 *122:14 8.35654e-05
+4 *122:8 0.00265337
+5 *122:8 *126:10 0
+6 *122:14 *128:8 0
+7 *12:12 *122:8 0.000501424
+8 *56:8 *122:14 0
+9 *95:24 *122:8 0
+10 *111:10 *122:8 0.00053399
+11 *121:10 *122:8 0.00011159
+*RES
+1 *548:X *122:8 47.0581 
+2 *122:8 *122:14 40.8446 
+3 *122:14 *645:A 20 
+*END
+
+*D_NET *123 0.00203979
+*CONN
+*I *646:A I *D sg13cmos5l_buf_1
+*I *549:X O *D sg13cmos5l_buf_1
+*CAP
+1 *646:A 0.000379389
+2 *549:X 0.000129244
+3 *123:10 0.000508634
+4 *644:A *123:10 0.000112558
+5 *14:12 *646:A 0
+6 *17:8 *123:10 0.000181192
+7 *17:18 *646:A 0.000518783
+8 *38:24 *646:A 0.00012977
+9 *38:24 *123:10 8.0216e-05
+10 *99:31 *123:10 0
+*RES
+1 *549:X *123:10 41.5965 
+2 *123:10 *646:A 43.914 
+*END
+
+*D_NET *124 0.0340272
+*CONN
+*I *647:A I *D sg13cmos5l_buf_1
+*I *550:X O *D sg13cmos5l_buf_1
+*CAP
+1 *647:A 0
+2 *550:X 6.42716e-05
+3 *124:22 0.000383671
+4 *124:14 0.00538847
+5 *124:12 0.0050048
+6 *124:10 0.00309126
+7 *124:8 0.00315553
+8 *124:10 *125:12 0.00744242
+9 *124:22 *650:A 7.86364e-05
+10 *16:20 *124:22 0
+11 *17:8 *124:22 0
+12 *55:8 *124:22 0
+13 *65:25 *124:14 0
+14 *69:21 *124:14 0.00842271
+15 *80:17 *124:10 0
+16 *93:11 *124:10 0.000995389
+17 *95:20 *124:10 0
+18 *98:32 *124:10 0
+19 *99:31 *124:22 0
+20 *100:19 *124:14 0
+21 *100:25 *124:22 0
+22 *101:23 *124:10 0
+23 *101:33 *124:10 0
+24 *106:10 *124:10 0
+*RES
+1 *550:X *124:8 40.5356 
+2 *124:8 *124:10 39.655 
+3 *124:10 *124:12 20 
+4 *124:12 *124:14 60.0181 
+5 *124:14 *124:22 43.8522 
+6 *124:22 *647:A 20 
+*END
+
+*D_NET *125 0.0385221
+*CONN
+*I *648:A I *D sg13cmos5l_buf_1
+*I *551:X O *D sg13cmos5l_buf_1
+*CAP
+1 *648:A 0.000131036
+2 *551:X 5.8366e-05
+3 *125:56 0.00112297
+4 *125:38 0.00162298
+5 *125:28 0.00453418
+6 *125:22 0.00390314
+7 *125:20 0.000719807
+8 *125:12 0.00296439
+9 *125:10 0.00230294
+10 *648:A *650:A 0
+11 *125:56 *650:A 0
+12 *559:A *125:56 0.000272911
+13 *623:A *125:28 4.63397e-05
+14 *623:A *125:38 0.000961039
+15 *623:A *125:56 0
+16 *644:A *125:56 0.000144932
+17 *18:10 *648:A 0.000207853
+18 *38:24 *125:56 0
+19 *65:19 *125:20 0.000660559
+20 *80:21 *125:56 0
+21 *93:24 *125:20 0.00050351
+22 *93:26 *125:28 0
+23 *93:26 *125:56 8.02595e-05
+24 *95:20 *125:12 0.003757
+25 *97:32 *125:38 0.000982618
+26 *98:32 *125:12 0
+27 *98:38 *125:28 0.00597367
+28 *103:10 *125:10 0.000129163
+29 *103:10 *125:12 0
+30 *124:10 *125:12 0.00744242
+*RES
+1 *551:X *125:10 40.9167 
+2 *125:10 *125:12 35.947 
+3 *125:12 *125:20 48.0546 
+4 *125:20 *125:22 20 
+5 *125:22 *125:28 41.8695 
+6 *125:28 *125:38 47.5087 
+7 *125:38 *125:56 49.1258 
+8 *125:56 *648:A 21.4008 
+*END
+
+*D_NET *126 0.00233838
+*CONN
+*I *649:A I *D sg13cmos5l_buf_1
+*I *552:X O *D sg13cmos5l_buf_1
+*CAP
+1 *649:A 0
+2 *552:X 0.00111386
+3 *126:10 0.00111386
+4 *623:A *126:10 0
+5 *12:12 *126:10 0
+6 *16:20 *126:10 0
+7 *95:24 *126:10 0
+8 *97:32 *126:10 0
+9 *121:10 *126:10 0.000110661
+10 *122:8 *126:10 0
+*RES
+1 *552:X *126:10 30.1043 
+2 *126:10 *649:A 20 
+*END
+
+*D_NET *127 0.00383591
+*CONN
+*I *560:A_ADDR[4] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *614:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_ADDR[4] 0.000304226
+2 *614:X 0.000629633
+3 *127:10 0.00093386
+4 *560:A_ADDR[4] *560:A_BIST_ADDR[4] 0.000278364
+5 *127:10 *560:A_ADDR[5] 0.000314032
+6 *127:10 *133:12 0.000616756
+7 *127:10 *140:14 0.000305028
+8 *560:A_BIST_ADDR[0] *560:A_ADDR[4] 0
+9 *116:10 *127:10 0.00045401
+*RES
+1 *614:X *127:10 47.6838 
+2 *127:10 *560:A_ADDR[4] 23.1054 
+*END
+
+*D_NET *128 0.00182643
+*CONN
+*I *650:A I *D sg13cmos5l_buf_1
+*I *553:X O *D sg13cmos5l_buf_1
+*CAP
+1 *650:A 0.000672821
+2 *553:X 0.000201077
+3 *128:8 0.000873898
+4 *648:A *650:A 0
+5 *16:20 *650:A 0
+6 *58:14 *650:A 0
+7 *121:10 *128:8 0
+8 *122:14 *128:8 0
+9 *124:22 *650:A 7.86364e-05
+10 *125:56 *650:A 0
+*RES
+1 *553:X *128:8 41.8334 
+2 *128:8 *650:A 45.6444 
+*END
+
+*D_NET *129 0.0344917
+*CONN
+*I *651:A I *D sg13cmos5l_buf_1
+*I *554:X O *D sg13cmos5l_buf_1
+*CAP
+1 *651:A 0
+2 *554:X 0.000241296
+3 *129:20 0.00038406
+4 *129:14 0.00530072
+5 *129:12 0.00491666
+6 *129:10 0.00380469
+7 *129:8 0.00404599
+8 *129:8 *130:8 0
+9 *129:8 *131:8 0
+10 *129:10 *131:10 0.000455207
+11 *15:20 *129:14 0.00105014
+12 *59:16 *129:20 0
+13 *63:17 *129:10 0
+14 *63:21 *129:14 0.00768544
+15 *64:17 *129:14 0
+16 *68:25 *129:14 0
+17 *80:17 *129:10 0
+18 *96:15 *129:14 0
+19 *97:13 *129:10 0
+20 *97:28 *129:10 0.00660754
+*RES
+1 *554:X *129:8 42.266 
+2 *129:8 *129:10 40.6438 
+3 *129:10 *129:12 20 
+4 *129:12 *129:14 59.5855 
+5 *129:14 *129:20 44.3054 
+6 *129:20 *651:A 20 
+*END
+
+*D_NET *130 0.0577932
+*CONN
+*I *652:A I *D sg13cmos5l_buf_1
+*I *555:X O *D sg13cmos5l_buf_1
+*CAP
+1 *652:A 0
+2 *555:X 0.000291773
+3 *130:24 0.000164955
+4 *130:18 0.00542857
+5 *130:16 0.00526362
+6 *130:14 0.00627138
+7 *130:12 0.0079375
+8 *130:8 0.00195789
+9 *130:14 *131:10 0.016215
+10 *130:14 *133:12 0
+11 *130:18 *131:14 0.0086203
+12 *45:17 *130:18 0.000900364
+13 *46:9 *130:18 0
+14 *63:15 *130:12 0
+15 *68:17 *130:8 0
+16 *68:21 *130:12 0.000509206
+17 *81:10 *130:14 0
+18 *84:22 *130:12 0
+19 *84:22 *130:14 0
+20 *85:14 *130:14 0
+21 *94:14 *130:14 0
+22 *98:17 *130:14 0.000293223
+23 *118:12 *130:18 0.00393936
+24 *129:8 *130:8 0
+*RES
+1 *555:X *130:8 42.6986 
+2 *130:8 *130:12 13.9874 
+3 *130:12 *130:14 74.263 
+4 *130:14 *130:16 20 
+5 *130:16 *130:18 59.5855 
+6 *130:18 *130:24 41.8334 
+7 *130:24 *652:A 20 
+*END
+
+*D_NET *131 0.0576031
+*CONN
+*I *653:A I *D sg13cmos5l_buf_1
+*I *556:X O *D sg13cmos5l_buf_1
+*CAP
+1 *653:A 0
+2 *556:X 0.000207465
+3 *131:20 0.000192587
+4 *131:14 0.00476951
+5 *131:12 0.00457692
+6 *131:10 0.00616542
+7 *131:8 0.00637288
+8 *131:8 *560:A_BIST_DIN[2] 0
+9 *131:10 *166:10 0.000239336
+10 *131:10 *177:8 0.000185831
+11 *131:14 *134:30 0.00742119
+12 *63:15 *131:10 0.00218144
+13 *90:14 *131:10 0
+14 *91:10 *131:10 0
+15 *98:30 *131:10 0
+16 *98:32 *131:10 0
+17 *103:10 *131:10 0
+18 *129:8 *131:8 0
+19 *129:10 *131:10 0.000455207
+20 *130:14 *131:10 0.016215
+21 *130:18 *131:14 0.0086203
+*RES
+1 *556:X *131:8 42.0497 
+2 *131:8 *131:10 91.8142 
+3 *131:10 *131:12 20 
+4 *131:12 *131:14 58.0714 
+5 *131:14 *131:20 42.0806 
+6 *131:20 *653:A 20 
+*END
+
+*D_NET *132 0.00137005
+*CONN
+*I *654:A I *D sg13cmos5l_buf_1
+*I *557:X O *D sg13cmos5l_buf_1
+*CAP
+1 *654:A 0.000685025
+2 *557:X 0.000685025
+3 *44:21 *654:A 0
+4 *45:25 *654:A 0
+5 *76:12 *654:A 0
+*RES
+1 *557:X *654:A 45.9946 
+*END
+
+*D_NET *133 0.0397239
+*CONN
+*I *655:A I *D sg13cmos5l_buf_1
+*I *558:X O *D sg13cmos5l_buf_1
+*CAP
+1 *655:A 0
+2 *558:X 0.00034297
+3 *133:22 0.000234798
+4 *133:16 0.00461169
+5 *133:14 0.00437689
+6 *133:12 0.00646519
+7 *133:10 0.00680816
+8 *133:10 *560:A_BIST_ADDR[4] 0
+9 *133:10 *560:A_ADDR[6] 0
+10 *133:10 *165:14 0
+11 *133:10 *171:12 0
+12 *133:12 *134:28 0
+13 *560:A_BIST_ADDR[0] *133:10 0
+14 *39:27 *133:16 0
+15 *41:21 *133:16 0.00771831
+16 *43:25 *133:12 0
+17 *45:23 *133:22 7.68089e-05
+18 *90:18 *133:12 0.00817842
+19 *98:17 *133:12 0.00029391
+20 *115:12 *133:12 0
+21 *116:10 *133:12 0
+22 *120:16 *133:12 0
+23 *127:10 *133:12 0.000616756
+24 *130:14 *133:12 0
+*RES
+1 *558:X *133:10 42.7672 
+2 *133:10 *133:12 63.139 
+3 *133:12 *133:14 20 
+4 *133:14 *133:16 53.5291 
+5 *133:16 *133:22 42.575 
+6 *133:22 *655:A 20 
+*END
+
+*D_NET *134 0.0815128
+*CONN
+*I *656:A I *D sg13cmos5l_buf_1
+*I *559:X O *D sg13cmos5l_buf_1
+*CAP
+1 *656:A 0
+2 *559:X 0.000251581
+3 *134:36 0.000208948
+4 *134:30 0.00426648
+5 *134:28 0.00464628
+6 *134:24 0.00067965
+7 *134:16 0.0101248
+8 *134:14 0.0100339
+9 *134:12 0.00419821
+10 *134:10 0.00419821
+11 *134:8 0.000251581
+12 *134:16 *560:A_ADDR[7] 0
+13 *134:16 *137:14 4.83976e-05
+14 *134:16 *141:10 0
+15 *134:24 *560:A_BIST_DIN[7] 7.812e-06
+16 *560:A_ADDR[0] *134:16 0.000154273
+17 *560:A_WEN *134:16 4.30839e-05
+18 *14:8 *134:8 0.000288927
+19 *41:27 *134:28 0
+20 *41:37 *134:16 0.00402688
+21 *43:25 *134:28 0.0024232
+22 *65:23 *134:16 0
+23 *69:27 *134:8 0.000666099
+24 *99:19 *134:16 0
+25 *99:23 *134:12 0.00771107
+26 *99:31 *134:8 0
+27 *100:9 *134:16 0
+28 *100:13 *134:16 0
+29 *100:15 *134:16 0.00899144
+30 *119:12 *134:16 0.0088755
+31 *119:12 *134:28 0.00199534
+32 *131:14 *134:30 0.00742119
+33 *133:12 *134:28 0
+*RES
+1 *559:X *134:8 43.811 
+2 *134:8 *134:10 20 
+3 *134:10 *134:12 51.7987 
+4 *134:12 *134:14 20 
+5 *134:14 *134:16 119.995 
+6 *134:16 *134:24 40.8858 
+7 *134:24 *134:28 31.4742 
+8 *134:28 *134:30 49.852 
+9 *134:30 *134:36 42.3278 
+10 *134:36 *656:A 20 
+*END
+
+*D_NET *135 0.00188141
+*CONN
+*I *560:A_BIST_ADDR[1] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *562:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_ADDR[1] 0.000576151
+2 *562:L_LO 0.000576151
+3 *560:A_BIST_ADDR[1] *560:A_BIST_REN 0.000494345
+4 *560:A_BIST_ADDR[1] *165:14 8.00842e-05
+5 *560:A_BIST_ADDR[0] *560:A_BIST_ADDR[1] 0.000154678
+*RES
+1 *562:L_LO *560:A_BIST_ADDR[1] 25.8195 
+*END
+
+*D_NET *136 0.00105053
+*CONN
+*I *560:A_BIST_ADDR[2] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *563:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_ADDR[2] 0.000525263
+2 *563:L_LO 0.000525263
+3 *560:A_BIST_ADDR[2] *560:A_ADDR[7] 0
+4 *560:A_BIST_ADDR[2] *560:A_BIST_ADDR[7] 0
+5 *560:A_ADDR[2] *560:A_BIST_ADDR[2] 0
+*RES
+1 *563:L_LO *560:A_BIST_ADDR[2] 24.774 
+*END
+
+*D_NET *137 0.00126341
+*CONN
+*I *560:A_BIST_ADDR[3] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *564:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_ADDR[3] 8.24961e-05
+2 *564:L_LO 0
+3 *137:14 0.000431384
+4 *137:6 0.000348888
+5 *560:A_BIST_ADDR[3] *560:A_BIST_ADDR[6] 5.74368e-05
+6 *137:14 *141:18 0.000113665
+7 *560:A_ADDR[3] *560:A_BIST_ADDR[3] 0.000131855
+8 *90:14 *137:14 0
+9 *100:13 *137:14 4.9291e-05
+10 *134:16 *137:14 4.83976e-05
+*RES
+1 *564:L_LO *137:6 40 
+2 *137:6 *137:14 44.223 
+3 *137:14 *560:A_BIST_ADDR[3] 20.8806 
+*END
+
+*D_NET *138 0.00281153
+*CONN
+*I *560:A_ADDR[5] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *615:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_ADDR[5] 0.0009663
+2 *615:X 0.0009663
+3 *560:A_ADDR[5] *560:A_BIST_ADDR[5] 5.35428e-05
+4 *560:A_ADDR[5] *560:A_ADDR[6] 1.2276e-05
+5 *560:A_ADDR[5] *140:14 0
+6 *560:A_ADDR[5] *141:10 0.000499078
+7 *127:10 *560:A_ADDR[5] 0.000314032
+*RES
+1 *615:X *560:A_ADDR[5] 29.8983 
+*END
+
+*D_NET *139 0.00164984
+*CONN
+*I *560:A_BIST_ADDR[4] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *565:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_ADDR[4] 0.000587469
+2 *565:L_LO 0.000587469
+3 *560:A_BIST_ADDR[4] *560:A_ADDR[6] 0
+4 *560:A_ADDR[3] *560:A_BIST_ADDR[4] 0.000196539
+5 *560:A_ADDR[4] *560:A_BIST_ADDR[4] 0.000278364
+6 *133:10 *560:A_BIST_ADDR[4] 0
+*RES
+1 *565:L_LO *560:A_BIST_ADDR[4] 25.4538 
+*END
+
+*D_NET *140 0.0018835
+*CONN
+*I *560:A_BIST_ADDR[5] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *566:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_ADDR[5] 4.29337e-05
+2 *566:L_LO 0.00056628
+3 *140:14 0.000609214
+4 *560:A_BIST_ADDR[5] *560:A_ADDR[6] 5.35428e-05
+5 *560:A_ADDR[5] *560:A_BIST_ADDR[5] 5.35428e-05
+6 *560:A_ADDR[5] *140:14 0
+7 *100:13 *140:14 0.000252957
+8 *116:10 *140:14 0
+9 *127:10 *140:14 0.000305028
+*RES
+1 *566:L_LO *140:14 46.0564 
+2 *140:14 *560:A_BIST_ADDR[5] 20.448 
+*END
+
+*D_NET *141 0.00247347
+*CONN
+*I *560:A_BIST_ADDR[6] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *567:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_ADDR[6] 4.17952e-05
+2 *567:L_LO 0.000352465
+3 *141:18 0.000158899
+4 *141:10 0.000469568
+5 *560:A_BIST_ADDR[6] *560:A_ADDR[6] 5.35428e-05
+6 *141:10 *560:A_ADDR[6] 0.000499078
+7 *560:A_BIST_ADDR[3] *560:A_BIST_ADDR[6] 5.74368e-05
+8 *560:A_ADDR[5] *141:10 0.000499078
+9 *99:19 *141:10 0.00018156
+10 *100:13 *141:18 4.63837e-05
+11 *134:16 *141:10 0
+12 *137:14 *141:18 0.000113665
+*RES
+1 *567:L_LO *141:10 44.1921 
+2 *141:10 *141:18 41.4008 
+3 *141:18 *560:A_BIST_ADDR[6] 20.448 
+*END
+
+*D_NET *142 0.0017991
+*CONN
+*I *560:A_BIST_ADDR[7] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *568:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_ADDR[7] 0.00048675
+2 *568:L_LO 0.00048675
+3 *560:A_BIST_ADDR[7] *560:A_ADDR[7] 0.0001404
+4 *560:A_BIST_ADDR[7] *560:A_ADDR[8] 0.0006852
+5 *560:A_BIST_ADDR[2] *560:A_BIST_ADDR[7] 0
+*RES
+1 *568:L_LO *560:A_BIST_ADDR[7] 25.2169 
+*END
+
+*D_NET *143 0.00132233
+*CONN
+*I *560:A_BIST_ADDR[8] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *569:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_ADDR[8] 0.000634394
+2 *569:L_LO 0.000634394
+3 *560:A_BIST_ADDR[8] *560:A_ADDR[8] 5.35428e-05
+4 *92:29 *560:A_BIST_ADDR[8] 0
+*RES
+1 *569:L_LO *560:A_BIST_ADDR[8] 25.7834 
+*END
+
+*D_NET *144 0.00406504
+*CONN
+*I *560:A_BIST_BM[0] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *570:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_BM[0] 0.000205614
+2 *570:L_LO 0.000759279
+3 *144:10 0.000964894
+4 *37:27 *144:10 0.000617475
+5 *65:19 *144:10 7.9586e-05
+6 *93:5 *560:A_BIST_BM[0] 0
+7 *93:11 *560:A_BIST_BM[0] 0.000241924
+8 *99:19 *144:10 0.00119627
+*RES
+1 *570:L_LO *144:10 49.7541 
+2 *144:10 *560:A_BIST_BM[0] 22.2557 
+*END
+
+*D_NET *145 0.00156732
+*CONN
+*I *560:A_BIST_BM[1] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *571:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_BM[1] 0.00055024
+2 *571:L_LO 0.00055024
+3 *95:9 *560:A_BIST_BM[1] 0.000466841
+*RES
+1 *571:L_LO *560:A_BIST_BM[1] 25.701 
+*END
+
+*D_NET *146 0.00158226
+*CONN
+*I *560:A_BIST_BM[2] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *572:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_BM[2] 0.000576157
+2 *572:L_LO 0.000576157
+3 *560:A_BIST_BM[2] *560:A_BM[2] 0.000238523
+4 *533:A *560:A_BIST_BM[2] 8.00842e-05
+5 *96:9 *560:A_BIST_BM[2] 0
+6 *97:26 *560:A_BIST_BM[2] 0.000111343
+*RES
+1 *572:L_LO *560:A_BIST_BM[2] 25.8504 
+*END
+
+*D_NET *147 0.00183167
+*CONN
+*I *560:A_BIST_BM[3] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *573:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_BM[3] 0.000513869
+2 *573:L_LO 0.000513869
+3 *68:17 *560:A_BIST_BM[3] 0.00030481
+4 *97:13 *560:A_BIST_BM[3] 0.000499124
+*RES
+1 *573:L_LO *560:A_BIST_BM[3] 25.5414 
+*END
+
+*D_NET *148 0.00127712
+*CONN
+*I *560:A_BIST_BM[4] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *574:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_BM[4] 0.000633539
+2 *574:L_LO 0.000633539
+3 *560:A_BIST_BM[4] *560:A_BM[4] 0
+4 *535:A *560:A_BIST_BM[4] 0
+5 *98:17 *560:A_BIST_BM[4] 1.0044e-05
+*RES
+1 *574:L_LO *560:A_BIST_BM[4] 25.4917 
+*END
+
+*D_NET *149 0.00261773
+*CONN
+*I *560:A_ADDR[6] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *616:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_ADDR[6] 0.000999645
+2 *616:X 0.000999645
+3 *558:A *560:A_ADDR[6] 0
+4 *560:A_ADDR[3] *560:A_ADDR[6] 0
+5 *560:A_BIST_ADDR[4] *560:A_ADDR[6] 0
+6 *560:A_ADDR[5] *560:A_ADDR[6] 1.2276e-05
+7 *560:A_BIST_ADDR[5] *560:A_ADDR[6] 5.35428e-05
+8 *560:A_BIST_ADDR[6] *560:A_ADDR[6] 5.35428e-05
+9 *133:10 *560:A_ADDR[6] 0
+10 *141:10 *560:A_ADDR[6] 0.000499078
+*RES
+1 *616:X *560:A_ADDR[6] 30.4854 
+*END
+
+*D_NET *150 0.00171497
+*CONN
+*I *560:A_BIST_BM[5] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *575:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_BM[5] 0.000243731
+2 *575:L_LO 0.00037928
+3 *150:10 0.000623011
+4 *560:A_BIST_BM[5] *560:A_BM[5] 0
+5 *41:37 *560:A_BIST_BM[5] 0
+6 *41:37 *150:10 0
+7 *43:25 *150:10 0.000234224
+8 *99:17 *560:A_BIST_BM[5] 0
+9 *113:16 *150:10 0.000234726
+*RES
+1 *575:L_LO *150:10 44.0067 
+2 *150:10 *560:A_BIST_BM[5] 21.9622 
+*END
+
+*D_NET *151 0.00126902
+*CONN
+*I *560:A_BIST_BM[6] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *576:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_BM[6] 0.000634512
+2 *576:L_LO 0.000634512
+3 *560:A_BIST_BM[6] *560:A_BM[6] 0
+4 *100:9 *560:A_BIST_BM[6] 0
+*RES
+1 *576:L_LO *560:A_BIST_BM[6] 26.1285 
+*END
+
+*D_NET *152 0.00309256
+*CONN
+*I *560:A_BIST_BM[7] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *577:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_BM[7] 0.000115855
+2 *577:L_LO 0.000277269
+3 *152:8 0.000393124
+4 *152:8 *175:12 0
+5 *41:27 *152:8 0.00126997
+6 *78:23 *152:8 0.00103634
+7 *101:11 *560:A_BIST_BM[7] 0
+*RES
+1 *577:L_LO *152:8 45.8865 
+2 *152:8 *560:A_BIST_BM[7] 20.8806 
+*END
+
+*D_NET *153 0.00280917
+*CONN
+*I *560:A_BIST_CLK I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *578:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_CLK 0.000180682
+2 *578:L_LO 0.000357449
+3 *153:10 0.000538131
+4 *560:A_BIST_CLK *560:A_BIST_MEN 0.000293564
+5 *153:10 *560:A_MEN 0.00030516
+6 *560:A_ADDR[2] *153:10 0.000181279
+7 *560:A_CLK *153:10 0.000563079
+8 *83:16 *153:10 0.000208637
+9 *99:19 *153:10 0.000181192
+*RES
+1 *578:L_LO *153:10 44.6247 
+2 *153:10 *560:A_BIST_CLK 21.9622 
+*END
+
+*D_NET *154 0.00113648
+*CONN
+*I *560:A_BIST_DIN[0] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *579:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_DIN[0] 0.000568242
+2 *579:L_LO 0.000568242
+3 *560:A_DIN[0] *560:A_BIST_DIN[0] 0
+4 *80:17 *560:A_BIST_DIN[0] 0
+*RES
+1 *579:L_LO *560:A_BIST_DIN[0] 25.7989 
+*END
+
+*D_NET *155 0.00165703
+*CONN
+*I *560:A_BIST_DIN[1] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *580:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_DIN[1] 0.000514377
+2 *580:L_LO 0.000514377
+3 *532:A *560:A_BIST_DIN[1] 0.000628273
+4 *560:A_DIN[1] *560:A_BIST_DIN[1] 0
+*RES
+1 *580:L_LO *560:A_BIST_DIN[1] 25.6187 
+*END
+
+*D_NET *156 0.00114876
+*CONN
+*I *560:A_BIST_DIN[2] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *581:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_DIN[2] 0.000574381
+2 *581:L_LO 0.000574381
+3 *560:A_DIN[2] *560:A_BIST_DIN[2] 0
+4 *131:8 *560:A_BIST_DIN[2] 0
+*RES
+1 *581:L_LO *560:A_BIST_DIN[2] 25.8813 
+*END
+
+*D_NET *157 0.0011862
+*CONN
+*I *560:A_BIST_DIN[3] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *582:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_DIN[3] 0.000593099
+2 *582:L_LO 0.000593099
+3 *560:A_DIN[3] *560:A_BIST_DIN[3] 0
+4 *63:9 *560:A_BIST_DIN[3] 0
+*RES
+1 *582:L_LO *560:A_BIST_DIN[3] 25.9225 
+*END
+
+*D_NET *158 0.00162897
+*CONN
+*I *560:A_BIST_DIN[4] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *583:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_DIN[4] 0.000543589
+2 *583:L_LO 0.000543589
+3 *536:A *560:A_BIST_DIN[4] 0.000541795
+4 *560:A_DIN[4] *560:A_BIST_DIN[4] 0
+*RES
+1 *583:L_LO *560:A_BIST_DIN[4] 25.9122 
+*END
+
+*D_NET *159 0.00113371
+*CONN
+*I *560:A_BIST_DIN[5] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *584:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_DIN[5] 0.000566857
+2 *584:L_LO 0.000566857
+3 *560:A_DIN[5] *560:A_BIST_DIN[5] 0
+*RES
+1 *584:L_LO *560:A_BIST_DIN[5] 25.701 
+*END
+
+*D_NET *160 0.00598038
+*CONN
+*I *560:A_ADDR[7] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *617:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_ADDR[7] 0.000819499
+2 *617:X 0.000897281
+3 *160:18 0.00171678
+4 *160:18 *560:A_BIST_EN 0
+5 *160:18 *560:A_BIST_WEN 0.000366061
+6 *160:18 *165:14 0
+7 *160:18 *166:10 1.54008e-05
+8 *160:18 *171:12 0.000369448
+9 *560:A_BIST_ADDR[2] *560:A_ADDR[7] 0
+10 *560:A_BIST_ADDR[7] *560:A_ADDR[7] 0.0001404
+11 *560:A_REN *160:18 0
+12 *617:A *160:18 1.50391e-05
+13 *618:A *160:18 1.54449e-05
+14 *83:16 *160:18 0
+15 *84:14 *160:18 0
+16 *99:19 *560:A_ADDR[7] 0.00162503
+17 *134:16 *560:A_ADDR[7] 0
+*RES
+1 *617:X *160:18 49.5172 
+2 *160:18 *560:A_ADDR[7] 29.0485 
+*END
+
+*D_NET *161 0.0011553
+*CONN
+*I *560:A_BIST_DIN[6] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *585:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_DIN[6] 0.000577649
+2 *585:L_LO 0.000577649
+3 *560:A_DIN[6] *560:A_BIST_DIN[6] 0
+*RES
+1 *585:L_LO *560:A_BIST_DIN[6] 25.7474 
+*END
+
+*D_NET *162 0.00116261
+*CONN
+*I *560:A_BIST_DIN[7] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *586:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_DIN[7] 0.000577397
+2 *586:L_LO 0.000577397
+3 *560:A_DIN[7] *560:A_BIST_DIN[7] 0
+4 *134:24 *560:A_BIST_DIN[7] 7.812e-06
+*RES
+1 *586:L_LO *560:A_BIST_DIN[7] 25.7886 
+*END
+
+*D_NET *163 0.00160486
+*CONN
+*I *560:A_BIST_EN I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *587:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_EN 0.000624944
+2 *587:L_LO 0.000624944
+3 *560:A_BIST_EN *166:10 0.000144768
+4 *560:A_ADDR[0] *560:A_BIST_EN 0.000105102
+5 *560:A_REN *560:A_BIST_EN 0
+6 *560:A_WEN *560:A_BIST_EN 0.000105102
+7 *83:16 *560:A_BIST_EN 0
+8 *84:14 *560:A_BIST_EN 0
+9 *160:18 *560:A_BIST_EN 0
+*RES
+1 *587:L_LO *560:A_BIST_EN 25.9585 
+*END
+
+*D_NET *164 0.00178145
+*CONN
+*I *560:A_BIST_MEN I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *588:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_MEN 0.000590682
+2 *588:L_LO 0.000590682
+3 *560:A_CLK *560:A_BIST_MEN 0.00030652
+4 *560:A_BIST_CLK *560:A_BIST_MEN 0.000293564
+5 *85:12 *560:A_BIST_MEN 0
+*RES
+1 *588:L_LO *560:A_BIST_MEN 26.0718 
+*END
+
+*D_NET *165 0.00261569
+*CONN
+*I *560:A_BIST_REN I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *589:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_REN 0.000425117
+2 *589:L_LO 0.000190398
+3 *165:14 0.000615515
+4 *560:A_BIST_REN *560:A_BIST_WEN 0.000470634
+5 *165:14 *171:12 0
+6 *560:A_BIST_ADDR[0] *165:14 8.00842e-05
+7 *560:A_BIST_ADDR[1] *560:A_BIST_REN 0.000494345
+8 *560:A_BIST_ADDR[1] *165:14 8.00842e-05
+9 *90:14 *165:14 0.000131404
+10 *98:32 *165:14 0.000128113
+11 *133:10 *165:14 0
+12 *160:18 *165:14 0
+*RES
+1 *589:L_LO *165:14 42.3433 
+2 *165:14 *560:A_BIST_REN 24.3414 
+*END
+
+*D_NET *166 0.00253434
+*CONN
+*I *560:A_BIST_WEN I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *590:L_LO O *D sg13cmos5l_tielo
+*CAP
+1 *560:A_BIST_WEN 0.000397298
+2 *590:L_LO 0.000132103
+3 *166:10 0.000529402
+4 *560:A_REN *560:A_BIST_WEN 0
+5 *560:A_BIST_EN *166:10 0.000144768
+6 *560:A_BIST_REN *560:A_BIST_WEN 0.000470634
+7 *90:14 *166:10 0.000239336
+8 *131:10 *166:10 0.000239336
+9 *160:18 *560:A_BIST_WEN 0.000366061
+10 *160:18 *166:10 1.54008e-05
+*RES
+1 *590:L_LO *166:10 42.06 
+2 *166:10 *560:A_BIST_WEN 24.1663 
+*END
+
+*D_NET *167 0.00107697
+*CONN
+*I *560:A_BM[0] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *591:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_BM[0] 0.000538486
+2 *591:L_HI 0.000538486
+3 *560:A_DIN[0] *560:A_BM[0] 0
+4 *93:5 *560:A_BM[0] 0
+5 *93:11 *560:A_BM[0] 0
+*RES
+1 *591:L_HI *560:A_BM[0] 25.0007 
+*END
+
+*D_NET *168 0.00110263
+*CONN
+*I *560:A_BM[1] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *592:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_BM[1] 0.000540334
+2 *592:L_HI 0.000540334
+3 *532:A *560:A_BM[1] 0
+4 *560:A_DIN[1] *560:A_BM[1] 0
+5 *95:9 *560:A_BM[1] 2.19663e-05
+*RES
+1 *592:L_HI *560:A_BM[1] 25.0418 
+*END
+
+*D_NET *169 0.00121609
+*CONN
+*I *560:A_BM[2] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *593:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_BM[2] 0.000488785
+2 *593:L_HI 0.000488785
+3 *560:A_DIN[2] *560:A_BM[2] 0
+4 *560:A_BIST_BM[2] *560:A_BM[2] 0.000238523
+5 *96:9 *560:A_BM[2] 0
+*RES
+1 *593:L_HI *560:A_BM[2] 25.083 
+*END
+
+*D_NET *170 0.00107302
+*CONN
+*I *560:A_BM[3] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *594:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_BM[3] 0.000536512
+2 *594:L_HI 0.000536512
+3 *560:A_DIN[3] *560:A_BM[3] 0
+4 *97:13 *560:A_BM[3] 0
+*RES
+1 *594:L_HI *560:A_BM[3] 24.8771 
+*END
+
+*D_NET *171 0.00523791
+*CONN
+*I *560:A_ADDR[8] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *618:X O *D sg13cmos5l_buf_1
+*CAP
+1 *560:A_ADDR[8] 0.000556282
+2 *618:X 0.000844954
+3 *171:12 0.00140124
+4 *558:A *171:12 0
+5 *560:A_BIST_ADDR[7] *560:A_ADDR[8] 0.0006852
+6 *560:A_BIST_ADDR[8] *560:A_ADDR[8] 5.35428e-05
+7 *84:14 *171:12 0.000932647
+8 *92:14 *171:12 0.0003946
+9 *98:32 *171:12 0
+10 *103:10 *171:12 0
+11 *133:10 *171:12 0
+12 *160:18 *171:12 0.000369448
+13 *165:14 *171:12 0
+*RES
+1 *618:X *171:12 49.3318 
+2 *171:12 *560:A_ADDR[8] 25.4178 
+*END
+
+*D_NET *172 0.00106055
+*CONN
+*I *560:A_BM[4] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *595:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_BM[4] 0.000530274
+2 *595:L_HI 0.000530274
+3 *560:A_DIN[4] *560:A_BM[4] 0
+4 *560:A_BIST_BM[4] *560:A_BM[4] 0
+5 *98:17 *560:A_BM[4] 0
+*RES
+1 *595:L_HI *560:A_BM[4] 24.7535 
+*END
+
+*D_NET *173 0.00115217
+*CONN
+*I *560:A_BM[5] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *596:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_BM[5] 0.000536042
+2 *596:L_HI 0.000536042
+3 *560:A_DIN[5] *560:A_BM[5] 0
+4 *560:A_BIST_BM[5] *560:A_BM[5] 0
+5 *41:37 *560:A_BM[5] 0
+6 *43:29 *560:A_BM[5] 0
+7 *99:17 *560:A_BM[5] 8.00842e-05
+*RES
+1 *596:L_HI *560:A_BM[5] 25.0212 
+*END
+
+*D_NET *174 0.00112283
+*CONN
+*I *560:A_BM[6] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *597:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_BM[6] 0.000561416
+2 *597:L_HI 0.000561416
+3 *560:A_DIN[6] *560:A_BM[6] 0
+4 *560:A_BIST_BM[6] *560:A_BM[6] 0
+5 *100:9 *560:A_BM[6] 0
+*RES
+1 *597:L_HI *560:A_BM[6] 25.5362 
+*END
+
+*D_NET *175 0.00281046
+*CONN
+*I *560:A_BM[7] I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *598:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_BM[7] 4.92285e-05
+2 *598:L_HI 0.000642783
+3 *175:12 0.000692011
+4 *560:A_DIN[7] *560:A_BM[7] 0
+5 *41:27 *175:12 0
+6 *78:23 *175:12 0.00103778
+7 *101:11 *560:A_BM[7] 0
+8 *101:11 *175:12 0.000113954
+9 *115:8 *175:12 0
+10 *119:10 *175:12 0.000274709
+11 *152:8 *175:12 0
+*RES
+1 *598:L_HI *175:12 48.5902 
+2 *175:12 *560:A_BM[7] 20.448 
+*END
+
+*D_NET *176 0.00098171
+*CONN
+*I *560:A_DLY I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *599:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_DLY 0.000490855
+2 *599:L_HI 0.000490855
+3 *643:A *560:A_DLY 0
+4 *94:8 *560:A_DLY 0
+*RES
+1 *599:L_HI *560:A_DLY 24.7535 
+*END
+
+*D_NET *177 0.00218604
+*CONN
+*I *560:A_MEN I *D RM_IHPSG13_1P_512x8_c3_bm_bist
+*I *600:L_HI O *D sg13cmos5l_tiehi
+*CAP
+1 *560:A_MEN 0.00042278
+2 *600:L_HI 3.05681e-05
+3 *177:8 0.000453348
+4 *560:A_ADDR[1] *560:A_MEN 0
+5 *560:A_CLK *560:A_MEN 0.000200341
+6 *83:16 *560:A_MEN 0.000402185
+7 *90:14 *177:8 0.000185831
+8 *131:10 *177:8 0.000185831
+9 *153:10 *560:A_MEN 0.00030516
+*RES
+1 *600:L_HI *177:8 40.8446 
+2 *177:8 *560:A_MEN 24.8874 
+*END
