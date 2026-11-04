@@ -65,9 +65,8 @@ Thumbs.db
 desktop.ini
 *.swp
 
-# Generated Mirrors & Switch Wrappers (reproducible from scripts/)
+# Generated Verilog Mirror (reproducible from scripts/)
 VERILOG_MIRROR_GENERATED/
-UNIFIED_GENERATED/
 
 # LibreLane Run Directories
 RUNS/

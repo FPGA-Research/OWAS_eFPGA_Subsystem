@@ -123,11 +123,27 @@ if [[ -n "${TARGET_SUBDIR}" ]]; then
 fi
 
 # -----------------------------------------------------------------------------
-# Tool Availability Verification
+# Tool Availability Verification (with Auto-Fallback for Containerized Builds)
 # -----------------------------------------------------------------------------
+export PATH="${REPO_ROOT}/tools/bin:${HOME}/.local/bin:${PATH}"
+
 if ! command -v sv2v >/dev/null 2>&1; then
-    echo "ERROR: sv2v is not found in PATH." >&2
-    echo "Please ensure sv2v is installed and added to your PATH." >&2
+    echo "[INFO] sv2v not found in PATH; installing standalone sv2v binary into ${REPO_ROOT}/tools/bin/sv2v..."
+    mkdir -p "${REPO_ROOT}/tools/bin"
+    python3 -c '
+import urllib.request, zipfile, io, os, stat
+url = "https://github.com/zachjs/sv2v/releases/latest/download/sv2v-Linux.zip"
+dst = os.path.join("'"${REPO_ROOT}"'", "tools", "bin", "sv2v")
+with urllib.request.urlopen(url) as r:
+    with zipfile.ZipFile(io.BytesIO(r.read())) as z:
+        with open(dst, "wb") as f:
+            f.write(z.read("sv2v-Linux/sv2v"))
+os.chmod(dst, os.stat(dst).st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+'
+fi
+
+if ! command -v sv2v >/dev/null 2>&1; then
+    echo "ERROR: sv2v is not found in PATH and automatic installation failed." >&2
     exit 1
 fi
 SV2V_BIN="$(command -v sv2v)"
@@ -145,9 +161,7 @@ if [[ "${EQUIV_MODE}" != "none" ]]; then
         echo "Slang plugin is required for reading SystemVerilog in logical equivalence checks." >&2
         exit 1
     fi
-fi
 
-if [[ "${EQUIV_MODE}" != "none" || -z "${TARGET_SUBDIR}" ]]; then
     if ! command -v iverilog >/dev/null 2>&1; then
         echo "ERROR: iverilog is not found in PATH." >&2
         echo "Please ensure Icarus Verilog is installed and added to your PATH." >&2
@@ -182,7 +196,7 @@ if [[ -z "${TARGET_SUBDIR}" ]]; then
 > Any manual edits made inside this directory will be overwritten on the next generation run.
 EOF
 
-    # Recreate RTL directory hierarchy in output mirror
+    # Recreate RTL directory hierarchy in output mirro
     find "${SRC_RTL}" -type d | while read -r dir; do
         rel_dir="${dir#"${SRC_RTL}"}"
         if [[ -n "${rel_dir}" ]]; then
@@ -242,7 +256,7 @@ EOF
         echo "MACROS SystemVerilog transpilation complete."
     fi
 
-    # Recreate VIVADO directory hierarchy in output mirror
+    # Recreate VIVADO directory hierarchy in output mirro
     if [[ -d "${SRC_VIVADO}" ]]; then
         find "${SRC_VIVADO}" -type d | while read -r dir; do
             rel_dir="${dir#"${SRC_VIVADO}"}"
@@ -268,7 +282,7 @@ EOF
         echo "VIVADO SystemVerilog transpilation complete."
     fi
 
-    # Recreate SOFT_LOGIC directory hierarchy in output mirror
+    # Recreate SOFT_LOGIC directory hierarchy in output mirro
     if [[ -d "${SRC_SOFT_LOGIC}" ]]; then
         find "${SRC_SOFT_LOGIC}" -type d ! -path "*/build*" | while read -r dir; do
             rel_dir="${dir#"${SRC_SOFT_LOGIC}"}"
@@ -294,7 +308,7 @@ EOF
         echo "SOFT_LOGIC SystemVerilog transpilation complete."
     fi
 
-    # Recreate TEST directory hierarchy in output mirror
+    # Recreate TEST directory hierarchy in output mirro
     if [[ -d "${SRC_TEST}" ]]; then
         find "${SRC_TEST}" -type d | while read -r dir; do
             rel_dir="${dir#"${SRC_TEST}"}"
@@ -561,17 +575,24 @@ else
 fi
 
 # -----------------------------------------------------------------------------
-# Flat Filelist Generation (Full Tree Mode Only)
+# Flat Filelist Generation in FILE_LISTS and VERILOG_MIRROR_GENERATED
 # -----------------------------------------------------------------------------
 if [[ -z "${TARGET_SUBDIR}" ]]; then
-    python3 "${REPO_ROOT}/scripts/flatten_filelists.py" \
-        --repo-root "${REPO_ROOT}" \
-        -f FILE_LISTS/efpga_subsystem.f \
-        -o FILE_LISTS/efpga_subsystem_global.f
-    python3 "${REPO_ROOT}/scripts/flatten_filelists.py" \
-        --repo-root "${OUT_DIR}" \
-        -f FILE_LISTS/efpga_subsystem.f \
-        -o FILE_LISTS/efpga_subsystem_global.f
+    for primary_flist in \
+        "FILE_LISTS/efpga_subsystem.f" \
+        "FILE_LISTS/vivado/efpga_subsystem_vivado.f" \
+        "FILE_LISTS/asic/efpga_subsystem_asic.f" \
+        "FILE_LISTS/asic/act_bank_container_asic.f" \
+        "FILE_LISTS/asic/psum_requant_container_asic.f"; do
+        python3 "${REPO_ROOT}/scripts/flatten_filelists.py" \
+            --repo-root "${REPO_ROOT}" \
+            -f "${primary_flist}" \
+            -o "${primary_flist}"
+        python3 "${REPO_ROOT}/scripts/flatten_filelists.py" \
+            --repo-root "${OUT_DIR}" \
+            -f "${primary_flist}" \
+            -o "${primary_flist}"
+    done
 fi
 
 # -----------------------------------------------------------------------------
