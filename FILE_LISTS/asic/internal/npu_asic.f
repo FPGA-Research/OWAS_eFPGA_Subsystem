@@ -4,8 +4,8 @@ MACROS/Cells/sg13cmos5l_lgcp_1.v
 MACROS/Cells/cg_cell.sv
 
 # Hardened NPU Container Macros (Tier-1 Blackboxes)
-MACROS/act_buffer/act_bank_container.v
-MACROS/psum_requant/psum_requant_container.v
+MACROS/act_bank_container/act_bank_container.v
+MACROS/psum_requant_container/psum_requant_container.v
 
 # NPU Core & Wrapper
 -f ../../internal/npu_core.f

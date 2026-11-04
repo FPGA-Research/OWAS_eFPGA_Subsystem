@@ -28,6 +28,7 @@ module RM_IHPSG13_1P_512x8_c3_bm_bist (
     input  wire [7:0]  A_BIST_BM
 );
 
+`ifndef SYNTHESIS
     reg [7:0] mem [0:511];
 
     always @(posedge A_CLK) begin
@@ -38,6 +39,7 @@ module RM_IHPSG13_1P_512x8_c3_bm_bist (
             A_DOUT <= mem[A_ADDR];
         end
     end
+`endif
 
 endmodule
 
@@ -64,6 +66,7 @@ module RM_IHPSG13_1P_256x32_c2_bm_bist (
     input  wire [31:0] A_BIST_BM
 );
 
+`ifndef SYNTHESIS
     reg [31:0] mem [0:255];
 
     always @(posedge A_CLK) begin
@@ -74,6 +77,7 @@ module RM_IHPSG13_1P_256x32_c2_bm_bist (
             A_DOUT <= mem[A_ADDR];
         end
     end
+`endif
 
 endmodule
 

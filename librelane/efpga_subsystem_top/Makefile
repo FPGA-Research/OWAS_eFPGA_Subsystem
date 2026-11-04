@@ -1,31 +1,31 @@
 REPO_ROOT := $(abspath ../..)
-PDK_ROOT ?= /shares/zitipoolhome/bm185/Desktop/SSD4TB/OWAS_NOV/fabulous_A5/PDK
+PDK_ROOT ?= $(abspath $(REPO_ROOT)/../PDK)
 PDK ?= ihp-sg13cmos5l
-LL_DIR ?= $(abspath ./librelane)
-NIX_DIR ?= /shares/zitipoolhome/bm185/Desktop/SSD4TB/OWAS_NOV/fabulous_A5/librelane
-FINAL_DIR ?= final
+LL_DIR ?= $(abspath .)
+NIX_DIR ?= $(abspath $(REPO_ROOT)/../librelane)
+VIEWS_DIR ?= $(REPO_ROOT)/MACROS/efpga_subsystem_top/views
 
 .PHONY: all
 all: librelane
 
 librelane: $(PDK_ROOT)/$(PDK)
-	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to final/ 
+	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to $(VIEWS_DIR)/ 
 .PHONY: librelane
 
 librelane-explore: $(PDK_ROOT)/$(PDK)
-	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to final/ --flow SynthesisExploration
+	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to $(VIEWS_DIR)/ --flow SynthesisExploration
 .PHONY: librelane-explore
 
 librelane-nodrc: $(PDK_ROOT)/$(PDK)
-	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to final/ --skip KLayout.DRC --skip Magic.DRC --skip KLayout.Antenna --skip KLayout.Density
+	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to $(VIEWS_DIR)/ --skip KLayout.DRC --skip Magic.DRC --skip KLayout.Antenna --skip KLayout.Density
 .PHONY: librelane-nodrc
 
 librelane-magicdrc: $(PDK_ROOT)/$(PDK)
-	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to final/ --skip KLayout.DRC
+	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to $(VIEWS_DIR)/ --skip KLayout.DRC
 .PHONY: librelane-magicdrc
 
 librelane-klayoutdrc: $(PDK_ROOT)/$(PDK)
-	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to final/ --skip Magic.DRC
+	librelane $(LL_DIR)/config.yaml --pdk $(PDK) --pdk-root $(PDK_ROOT) --manual-pdk --save-views-to $(VIEWS_DIR)/ --skip Magic.DRC
 .PHONY: librelane-klayoutdrc
 
 librelane-openroad: $(PDK_ROOT)/$(PDK)
@@ -40,8 +40,8 @@ librelane-klayout: $(PDK_ROOT)/$(PDK)
 zip: zip-final
 
 zip-final:
-	test -d "$(FINAL_DIR)"
-	find "$(FINAL_DIR)" -type f \( \
+	test -d "$(VIEWS_DIR)"
+	find "$(VIEWS_DIR)" -type f \( \
 		-name "*.gds" -o \
 		-name "*.def" -o \
 		-name "*.mag" -o \

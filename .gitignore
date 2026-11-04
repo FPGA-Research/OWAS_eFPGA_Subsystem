@@ -69,6 +69,10 @@ desktop.ini
 VERILOG_MIRROR_GENERATED/
 UNIFIED_GENERATED/
 
+# LibreLane Run Directories
+RUNS/
+runs/
+
 # bin files
 *.bin
 

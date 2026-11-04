@@ -9,9 +9,11 @@ meta:
 DESIGN_NAME: act_bank_container
 
 VERILOG_FILES:
-- dir::./*.sv
-- dir::../common/sram_bank.sv
-- dir::../common/RM_IHPSG13_1P_256x32_c2_bm_bist.v
+- dir::../../RTL/eFPGA_Subsystem/NPU_complex/act_buffer/act_bank_container.sv
+- dir::../../MACROS/SRAM/sram_bank.sv
+- dir::../../MACROS/SRAM/sram_macros.v
+- dir::../../MACROS/clock_gate/cg_cell.sv
+- dir::../../MACROS/clock_gate/sg13cmos5l_lgcp_1.v
 
 #VERILOG_DEFINES: [FUNCTIONAL]
 
