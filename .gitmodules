@@ -1,3 +1,4 @@
 [submodule "OWAS_Fabric"]
 	path = OWAS_Fabric
-	url = ./OWAS_Fabric
+	url = https://github.com/FPGA-Research/OWAS_Fabric.git
+	branch = main
