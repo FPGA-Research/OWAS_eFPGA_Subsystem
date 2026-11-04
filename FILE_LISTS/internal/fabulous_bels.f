@@ -1,0 +1,14 @@
+# =============================================================================
+# CrocoScale SoC -- FABulous BELs and Shared Primitives (9x16 Architecture)
+# =============================================================================
+OWAS_Fabric/Fabric/models_pack.v
+OWAS_Fabric/Tile/FLUT51PSDM/common/FLUT51PSDM_architecture.v
+OWAS_Fabric/Tile/FLUT51PSDM/common/MUX8LUT_frame_config_mux.v
+OWAS_Fabric/Tile/AXIL_S_IO_W/AXIL_S_BEL.v
+OWAS_Fabric/Tile/AXI_M_IO_W/AXI_M_BEL.v
+OWAS_Fabric/Tile/EXT_PMOD/EXT_PMOD_BEL.v
+OWAS_Fabric/Tile/NPU_CTRL_CFG/NPU_CTRL_CFG_BEL.v
+OWAS_Fabric/Tile/NPU_ACCUM_N/NPU_ACCUM_SRAM_BEL.v
+OWAS_Fabric/Tile/NPU_SLICE/NPU_SLICE_DATA_SRAM_BEL.v
+OWAS_Fabric/Tile/SOC_DEBUG_IO/SOC_DEBUG_CTRL_BEL.v
+
