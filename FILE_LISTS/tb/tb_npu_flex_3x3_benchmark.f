@@ -1,7 +1,7 @@
 -f ../internal/fabulous_bels.f
 -f ../npu.f
 -f ../internal/soft_logic_flex.f
-RTL/AXI_LIB/axi_ram.v
+TEST/AXI_VIP/axi_ram.v
 TEST/SoftLogic/common/efpga_boundary_harness.sv
 TEST/SoftLogic/flex/system/tb_npu_flex_3x3_benchmark.sv
 

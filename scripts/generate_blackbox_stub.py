@@ -8,8 +8,8 @@ ports) and generates a clean, synthesis/lint-ready `(* blackbox *)` stub model
 with deterministic output tie-offs.
 
 Defaults (when run without arguments):
-  --input  : FABulousProject/CrocoScale_Fabric/Fabric/eFPGA_top.v
-  --output : MACROS/FABulous/eFPGA_top.v
+  --input  : OWAS_Fabric/Fabric/eFPGA.v
+  --output : MACROS/FABulous/eFPGA.v
 
 Usage:
   python3 scripts/generate_blackbox_stub.py
@@ -165,17 +165,17 @@ Examples:
         "-i",
         "--input",
         type=Path,
-        default=REPO_ROOT / "FABulousProject" / "CrocoScale_Fabric" / "Fabric" / "eFPGA_top.v",
+        default=REPO_ROOT / "OWAS_Fabric" / "Fabric" / "eFPGA.v",
         metavar="SRC_FILE",
-        help="Input Verilog/SystemVerilog source file (default: FABulousProject/CrocoScale_Fabric/Fabric/eFPGA_top.v).",
+        help="Input Verilog/SystemVerilog source file (default: OWAS_Fabric/Fabric/eFPGA.v).",
     )
     parser.add_argument(
         "-o",
         "--output",
         type=Path,
-        default=REPO_ROOT / "MACROS" / "FABulous" / "eFPGA_top.v",
+        default=REPO_ROOT / "MACROS" / "FABulous" / "eFPGA.v",
         metavar="DST_FILE",
-        help="Output blackbox Verilog stub file (default: MACROS/FABulous/eFPGA_top.v).",
+        help="Output blackbox Verilog stub file (default: MACROS/FABulous/eFPGA.v).",
     )
     args = parser.parse_args()
     src = args.input if args.input.is_absolute() else REPO_ROOT / args.input

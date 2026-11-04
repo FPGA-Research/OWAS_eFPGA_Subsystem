@@ -1,3 +1,11 @@
+# AXI & AXI-Lite Register Slices
+RTL/AXI_LIB/axil_register_wr.v
+RTL/AXI_LIB/axil_register_rd.v
+RTL/AXI_LIB/axil_register.v
+RTL/AXI_LIB/axi_register_wr.v
+RTL/AXI_LIB/axi_register_rd.v
+RTL/AXI_LIB/axi_register.v
+
 # AXI Connectors, Monitors, and Decouplers
 RTL/eFPGA_Subsystem/AXI_Connector/pmp_math.sv
 RTL/eFPGA_Subsystem/AXI_Connector/axil_watchdog_slave_monitor.sv
@@ -13,4 +21,3 @@ RTL/eFPGA_Subsystem/AXI_Connector/efpga_manager.sv
 
 # Top Wrapper
 RTL/eFPGA_Subsystem/eFPGA_Subsystem_TOP/efpga_subsystem_top.sv
-
