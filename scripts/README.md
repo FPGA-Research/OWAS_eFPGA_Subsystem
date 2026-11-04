@@ -10,8 +10,9 @@ All build automation, code generation, formal verification, and bitstream compil
 | :--- | :--- |
 | **Regenerate `VERILOG_MIRROR_GENERATED/`** (with Yosys SAT proofs & Icarus lints) | `source ~/custom_functions/custom_functions.sh && pyenv Yosys && ./scripts/generate_verilog_mirror.sh` |
 | **Fast regenerate `VERILOG_MIRROR_GENERATED/`** (~2s, skips SAT proofs) | `./scripts/generate_verilog_mirror.sh -e none` |
+| **Generate `UNIFIED_GENERATED/` & `FILE_LISTS/unified/*.f`** | `python3 scripts/generate_unified_switches.py` |
 | **Install/update bitstream tools in `tools/` & compile `flex` bitstream** | `python3 scripts/generate_bitstream.py --install-tools`<br>`python3 scripts/generate_bitstream.py` |
-| **Run full-fabric bitstream simulation in Vivado `xsim`** | `python3 scripts/run_fabric_sim.py` |
+| **Run full-fabric bitstream simulation in Vivado `xsim`** | `python3 scripts/run_fabric_sim.py --quick` *(or omit `--quick` for full 5-layer suite)* |
 | **Sync `MACROS/FABulous/eFPGA.v` blackbox after FABulous regen** | `python3 scripts/generate_blackbox_stub.py` |
 | **Flatten a nested `.f` filelist into a single file** | `python3 scripts/flatten_filelists.py -f FILE_LISTS/efpga_subsystem.f -o FILE_LISTS/efpga_subsystem_global.f` |
 | **Strip Windows CRLF line endings from all `.f` files** | `python3 scripts/clean_filelists_crlf.py` |
@@ -50,10 +51,11 @@ python3 scripts/generate_bitstream.py
 
 ### 3. `run_fabric_sim.py` — Full-Fabric Bitstream Simulation Runner
 
-Compiles and runs a system testbench (`FILE_LISTS/tb/<tb>_fabric.f`) on the real `eFPGA_top` fabric in Vivado `xsim`, preloading `SOFT_LOGIC/build/flex/flex.hex` via `efpga_manager`.
+Compiles and runs a system testbench (`FILE_LISTS/tb/<tb>_fabric.f`) on the real `eFPGA_top` fabric in Vivado `xsim`, preloading `SOFT_LOGIC/build/flex/flex.hex` via `efpga_manager`. Supports `-q` / `--quick` for single-tile smoke verification (2,048 golden outputs in minutes instead of hours).
 
 ```bash
 python3 scripts/run_fabric_sim.py --help
+python3 scripts/run_fabric_sim.py --quick
 python3 scripts/run_fabric_sim.py --tb tb_npu_flex_crossbar_stress
 ```
 
@@ -110,4 +112,15 @@ Converts Windows CRLF (`\r\n`) to Unix LF (`\n`) across `.f` and `.flist` files.
 ```bash
 python3 scripts/clean_filelists_crlf.py --help
 python3 scripts/clean_filelists_crlf.py
+```
+
+---
+
+### 9. `generate_unified_switches.py` — Multi-Target Unified Switch & Filelist Generator
+
+Scans `FILE_LISTS/efpga_subsystem.f`, `FILE_LISTS/vivado/efpga_subsystem_vivado.f`, and `FILE_LISTS/asic/*.f` to automatically discover modules/packages with target-specific implementations, transpiles `.sv` variants to Verilog-2001 via `sv2v`, wraps them in `` `ifdef / `elsif / `else `` switches inside `UNIFIED_GENERATED/`, and generates `FILE_LISTS/unified/*_unified.f`.
+
+```bash
+python3 scripts/generate_unified_switches.py --help
+python3 scripts/generate_unified_switches.py
 ```
