@@ -16,7 +16,7 @@ import odb
 from reader import click_odb  # LibreLane's scripts/odbpy, on PYTHONPATH
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from remove_macro_obs import recreate, targets  # noqa: E402
+from lef_utils import fail, recreate, targets  # noqa: E402
 
 
 def original_master(db, master):
@@ -31,8 +31,7 @@ def original_master(db, master):
         and not lib.getName().startswith(f"{name}_no")
     ]
     if len(found) != 1:
-        print(f"[ERROR] {name}: {len(found)} original master(s) found", file=sys.stderr)
-        sys.exit(1)
+        fail(f"{name}: {len(found)} original master(s) found")
     return found[0]
 
 
@@ -53,8 +52,7 @@ def main(reader):
             orig = original_master(db, current)
             new = recreate(block, inst, orig)
             if new.getMaster().getLib().getName() != orig.getLib().getName():
-                print(f"[ERROR] {name}: not restored", file=sys.stderr)
-                sys.exit(1)
+                fail(f"{name}: not restored")
             restored += 1
         # TritonRoute reads every master of every library and stops (DRT-0405) when two
         # masters of the same name differ in PG pin count, used or not: drop the stripped
@@ -65,8 +63,7 @@ def main(reader):
             ln = lib.getName()
             if ln.startswith(f"{master.getName()}_no") and lib.findMaster(master.getName()) is not None:
                 if ln in used:
-                    print(f"[ERROR] library {ln} is still in use", file=sys.stderr)
-                    sys.exit(1)
+                    fail(f"library {ln} is still in use")
                 odb.dbLib.destroy(lib)
                 print(f"[INFO] removed stripped library {ln}")
         pins = {

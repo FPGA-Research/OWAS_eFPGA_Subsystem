@@ -9,6 +9,82 @@
 # Cells inserted just outside a region (absorb_margin) can join it too, see
 # regions_absorb_near.
 
+# Tunables; set any of them before this file is sourced to override it.
+#
+# Names of cells OpenROAD's resizer and CTS create (no hierarchy separator).
+if { ![info exists ::regions_new_cell_regexp] } {
+    set ::regions_new_cell_regexp {^(wire|fanout|hold|delaybuf|clkbuf|clkload|split|rebuffer|load_slew|max_[a-z]+|place|buffer)[0-9_][^.]*$}
+}
+# Expansion steps when looking for a free side next to overlapped obstacles.
+if { ![info exists ::regions_unstick_max_steps] } {
+    set ::regions_unstick_max_steps 3
+}
+# Grouped cells on obstacles named individually before legalization.
+if { ![info exists ::regions_report_on_obstacles_max] } {
+    set ::regions_report_on_obstacles_max 10
+}
+# Cells dpl could not place that are listed after a failure.
+if { ![info exists ::regions_report_dpl_failures_max] } {
+    set ::regions_report_dpl_failures_max 50
+}
+# Share of a fixed macro's area that must lie inside a region for the region's
+# group to get it during global placement; tolerates the macro edge sticking out
+# of the core or the site-snapped region. Same value as in regions_odb.py.
+if { ![info exists ::regions_lend_min_share] } {
+    set ::regions_lend_min_share 0.99
+}
+# Average displacement limit (um) if PLACEMENT_REGIONS_MAX_AVG_DISPLACEMENT is
+# not set, i.e. the hook runs outside the plugin's steps.
+if { ![info exists ::regions_default_max_avg_displacement] } {
+    set ::regions_default_max_avg_displacement 50.0
+}
+
+# Site width, row height and core origin, for snapping to the site/row grid.
+proc regions_grid {} {
+    set block [ord::get_db_block]
+    set site [[lindex [$block getRows] 0] getSite]
+    set core [$block getCoreArea]
+    return [list [$site getWidth] [$site getHeight] [$core xMin] [$core yMin]]
+}
+
+# Bounding box {xMin yMin xMax yMax} of all boxes of `region`.
+proc regions_bbox { region } {
+    set boxes [$region getBoundaries]
+    return [list \
+        [tcl::mathfunc::min {*}[lmap b $boxes { $b xMin }]] \
+        [tcl::mathfunc::min {*}[lmap b $boxes { $b yMin }]] \
+        [tcl::mathfunc::max {*}[lmap b $boxes { $b xMax }]] \
+        [tcl::mathfunc::max {*}[lmap b $boxes { $b yMax }]]]
+}
+
+# Fixed block instances (macros), in block order.
+proc regions_fixed_macros {} {
+    set macros [list]
+    foreach inst [[ord::get_db_block] getInsts] {
+        if { [$inst isFixed] && [[$inst getMaster] isBlock] } {
+            lappend macros $inst
+        }
+    }
+    return $macros
+}
+
+# 1 if `inst` is a movable core cell in no group.
+proc regions_ungrouped_movable { inst } {
+    return [expr { [$inst getGroup] eq "NULL" && ![$inst isFixed] && [[$inst getMaster] isCore] }]
+}
+
+# Group of the first entry of `boxes` ({group xMin yMin xMax yMax}, see
+# regions_absorb) that contains the point (x, y) (half-open), or "".
+proc regions_box_group { boxes x y } {
+    foreach entry $boxes {
+        lassign $entry group x0 y0 x1 y1
+        if { $x >= $x0 && $x < $x1 && $y >= $y0 && $y < $y1 } {
+            return $group
+        }
+    }
+    return ""
+}
+
 # 1 if `inst` has a signal net to a top-level port whose pin center lies more
 # than `limit` (DBU, Manhattan) outside every box of `region`.
 proc regions_far_port { inst region limit } {
@@ -51,6 +127,62 @@ proc regions_core_xy { inst } {
     return [list $x $y]
 }
 
+# 1 if at least one signal-net neighbor of `inst` is in the group named `target`
+# and none is in another group; ungrouped neighbors are ignored.
+proc regions_neighbors_in { inst target } {
+    set ok 0
+    foreach iterm [$inst getITerms] {
+        set net [$iterm getNet]
+        if { $net eq "NULL" || [$net isSpecial] } {
+            continue
+        }
+        set sig [$net getSigType]
+        if { $sig eq "POWER" || $sig eq "GROUND" } {
+            continue
+        }
+        foreach other [$net getITerms] {
+            set other_inst [$other getInst]
+            if { $other_inst eq $inst } {
+                continue
+            }
+            set other_group [$other_inst getGroup]
+            if { $other_group eq "NULL" } {
+                continue
+            }
+            if { [$other_group getName] ne $target } {
+                return 0
+            }
+            set ok 1
+        }
+    }
+    return $ok
+}
+
+# Adds each {inst group} pair of `candidates` whose cell passes
+# regions_neighbors_in to that group, repeated until nothing changes, so chains
+# of new cells are absorbed from the grouped end. Returns {absorbed remaining},
+# both lists of pairs.
+proc regions_absorb_connected { candidates } {
+    set absorbed [list]
+    set changed 1
+    while { $changed } {
+        set changed 0
+        set remaining [list]
+        foreach entry $candidates {
+            lassign $entry inst group
+            if { [regions_neighbors_in $inst [$group getName]] } {
+                $group addInst $inst
+                lappend absorbed $entry
+                set changed 1
+            } else {
+                lappend remaining $entry
+            }
+        }
+        set candidates $remaining
+    }
+    return [list $absorbed $candidates]
+}
+
 # Adds every movable, ungrouped core cell located inside a region to that
 # region's group if at least one neighbor is in the group and no neighbor is
 # in a different group. Ungrouped neighbors are allowed, so buffer chains and
@@ -79,7 +211,7 @@ proc regions_absorb {} {
         set count 0
         set kept_out 0
         foreach inst [$block getInsts] {
-            if { [$inst getGroup] ne "NULL" || [$inst isFixed] || ![[$inst getMaster] isCore] } {
+            if { ![regions_ungrouped_movable $inst] } {
                 continue
             }
             foreach pattern $patterns {
@@ -113,65 +245,17 @@ proc regions_absorb {} {
     # 1. Ungrouped movable core cells inside a region box.
     set candidates [list]
     foreach inst [$block getInsts] {
-        if { [$inst getGroup] ne "NULL" || [$inst isFixed] || ![[$inst getMaster] isCore] } {
+        if { ![regions_ungrouped_movable $inst] } {
             continue
         }
-        lassign [regions_core_xy $inst] x y
-        foreach entry $boxes {
-            lassign $entry group x0 y0 x1 y1
-            if { $x >= $x0 && $x < $x1 && $y >= $y0 && $y < $y1 } {
-                lappend candidates [list $inst $group]
-                break
-            }
+        set group [regions_box_group $boxes {*}[regions_core_xy $inst]]
+        if { $group ne "" } {
+            lappend candidates [list $inst $group]
         }
     }
 
-    # 2. Absorb by connectivity; iterate so chains of new buffers are absorbed.
-    set absorbed 0
-    set changed 1
-    while { $changed } {
-        set changed 0
-        set remaining [list]
-        foreach entry $candidates {
-            lassign $entry inst group
-            set target [$group getName]
-            set ok 0
-            set bad 0
-            foreach iterm [$inst getITerms] {
-                set net [$iterm getNet]
-                if { $net eq "NULL" || [$net isSpecial] } {
-                    continue
-                }
-                set sig [$net getSigType]
-                if { $sig eq "POWER" || $sig eq "GROUND" } {
-                    continue
-                }
-                foreach other [$net getITerms] {
-                    set other_inst [$other getInst]
-                    if { $other_inst eq $inst } {
-                        continue
-                    }
-                    set other_group [$other_inst getGroup]
-                    if { $other_group eq "NULL" } {
-                        continue
-                    }
-                    if { [$other_group getName] eq $target } {
-                        set ok 1
-                    } else {
-                        set bad 1
-                    }
-                }
-            }
-            if { $ok && !$bad } {
-                $group addInst $inst
-                incr absorbed
-                set changed 1
-            } else {
-                lappend remaining $entry
-            }
-        }
-        set candidates $remaining
-    }
+    # 2. Absorb by connectivity.
+    lassign [regions_absorb_connected $candidates] absorbed candidates
 
     # 3. Cells the resizer/CTS inserted (flat names like wire123, hold45) join
     #    the region they sit in even if their nets also reach another group or
@@ -192,7 +276,7 @@ proc regions_absorb {} {
     }
     set candidates $remaining
 
-    puts "\[INFO\] Placement regions: absorbed $absorbed new cell(s) by connectivity,\
+    puts "\[INFO\] Placement regions: absorbed [llength $absorbed] new cell(s) by connectivity,\
         $new_absorbed resizer/CTS cell(s) by location;\
         [llength $candidates] outsider(s) inside regions will be moved out."
 
@@ -232,25 +316,16 @@ proc regions_absorb_near { boxes } {
     # that region's margin.
     set candidates [list]
     foreach inst [$block getInsts] {
-        if { [$inst getGroup] ne "NULL" || [$inst isFixed] || ![[$inst getMaster] isCore] } {
+        if { ![regions_ungrouped_movable $inst] } {
             continue
         }
         if { ![regexp $::regions_new_cell_regexp [$inst getName]] } {
             continue
         }
-        set b [$inst getBBox]
-        lassign [regions_core_xy $inst] x y
-        set inside 0
-        foreach entry $boxes {
-            lassign $entry group x0 y0 x1 y1
-            if { $x >= $x0 && $x < $x1 && $y >= $y0 && $y < $y1 } {
-                set inside 1
-                break
-            }
-        }
-        if { $inside } {
+        if { [regions_box_group $boxes {*}[regions_core_xy $inst]] ne "" } {
             continue
         }
+        set b [$inst getBBox]
         set best ""
         foreach entry $near_boxes {
             lassign $entry group x0 y0 x1 y1 m
@@ -267,53 +342,10 @@ proc regions_absorb_near { boxes } {
         }
     }
 
+    lassign [regions_absorb_connected $candidates] absorbed candidates
     array set count {}
-    set changed 1
-    while { $changed } {
-        set changed 0
-        set remaining [list]
-        foreach entry $candidates {
-            lassign $entry inst group
-            set target [$group getName]
-            set ok 0
-            set bad 0
-            foreach iterm [$inst getITerms] {
-                set net [$iterm getNet]
-                if { $net eq "NULL" || [$net isSpecial] } {
-                    continue
-                }
-                set sig [$net getSigType]
-                if { $sig eq "POWER" || $sig eq "GROUND" } {
-                    continue
-                }
-                foreach other [$net getITerms] {
-                    set other_inst [$other getInst]
-                    if { $other_inst eq $inst } {
-                        continue
-                    }
-                    set other_group [$other_inst getGroup]
-                    if { $other_group eq "NULL" } {
-                        continue
-                    }
-                    if { [$other_group getName] eq $target } {
-                        set ok 1
-                    } else {
-                        set bad 1
-                    }
-                }
-            }
-            if { $ok && !$bad } {
-                $group addInst $inst
-                if { ![info exists count($target)] } {
-                    set count($target) 0
-                }
-                incr count($target)
-                set changed 1
-            } else {
-                lappend remaining $entry
-            }
-        }
-        set candidates $remaining
+    foreach entry $absorbed {
+        incr count([[lindex $entry 1] getName])
     }
 
     foreach {name margin} [regions_setting absorb_margin] {
@@ -325,32 +357,22 @@ proc regions_absorb_near { boxes } {
         region stay outside (no neighbor in it, or neighbors in another group)."
 }
 
-# Names of cells OpenROAD's resizer and CTS create (no hierarchy separator).
-if { ![info exists ::regions_new_cell_regexp] } {
-    set ::regions_new_cell_regexp {^(wire|fanout|hold|delaybuf|clkbuf|clkload|split|rebuffer|load_slew|max_[a-z]+|place|buffer)[0-9_][^.]*$}
-}
-
 # Moves grouped cells that stick out of their region's bbox (e.g. buffers the
 # resizer inserts at the region edge) fully inside it, on the site/row grid.
 # Like a cell on a macro at the region edge (see regions_unstick), a cell
 # starting outside the region makes dpl's search fail.
 proc regions_clamp {} {
     set block [ord::get_db_block]
-    set site [[lindex [$block getRows] 0] getSite]
-    set sw [$site getWidth]
-    set rh [$site getHeight]
-    set core [$block getCoreArea]
-    set ox [$core xMin]
-    set oy [$core yMin]
+    lassign [regions_grid] sw rh ox oy
 
     set moved 0
     foreach region [$block getRegions] {
-        set boxes [$region getBoundaries]
+        lassign [regions_bbox $region] x0 y0 x1 y1
         # Region bbox snapped inwards to the site/row grid.
-        set r0 [expr { $ox - (($ox - [tcl::mathfunc::min {*}[lmap b $boxes { $b xMin }]]) / $sw) * $sw }]
-        set r1 [expr { $oy - (($oy - [tcl::mathfunc::min {*}[lmap b $boxes { $b yMin }]]) / $rh) * $rh }]
-        set r2 [expr { $ox + (([tcl::mathfunc::max {*}[lmap b $boxes { $b xMax }]] - $ox) / $sw) * $sw }]
-        set r3 [expr { $oy + (([tcl::mathfunc::max {*}[lmap b $boxes { $b yMax }]] - $oy) / $rh) * $rh }]
+        set r0 [expr { $ox - (($ox - $x0) / $sw) * $sw }]
+        set r1 [expr { $oy - (($oy - $y0) / $rh) * $rh }]
+        set r2 [expr { $ox + (($x1 - $ox) / $sw) * $sw }]
+        set r3 [expr { $oy + (($y1 - $oy) / $rh) * $rh }]
         foreach group [$region getGroups] {
             foreach inst [$group getInsts] {
                 if { [$inst isFixed] } {
@@ -377,11 +399,9 @@ proc regions_clamp {} {
 proc regions_obstacles {} {
     set block [ord::get_db_block]
     set boxes [list]
-    foreach inst [$block getInsts] {
-        if { [$inst isFixed] && [[$inst getMaster] isBlock] } {
-            set b [$inst getBBox]
-            lappend boxes [list [$b xMin] [$b yMin] [$b xMax] [$b yMax] [$inst getName]]
-        }
+    foreach inst [regions_fixed_macros] {
+        set b [$inst getBBox]
+        lappend boxes [list [$b xMin] [$b yMin] [$b xMax] [$b yMax] [$inst getName]]
     }
     foreach blockage [$block getBlockages] {
         if { [$blockage isSoft] } {
@@ -391,6 +411,20 @@ proc regions_obstacles {} {
         lappend boxes [list [$b xMin] [$b yMin] [$b xMax] [$b yMax] "placement blockage"]
     }
     return $boxes
+}
+
+# Entries of `obstacles` (see regions_obstacles) that the box with lower-left
+# corner (x, y) and size w x h overlaps.
+proc regions_overlapping { obstacles x y w h } {
+    set hits [list]
+    foreach o $obstacles {
+        lassign $o o0 o1 o2 o3
+        if { $x + $w <= $o0 || $x >= $o2 || $y + $h <= $o1 || $y >= $o3 } {
+            continue
+        }
+        lappend hits $o
+    }
+    return $hits
 }
 
 # Moves grouped cells that gpl or the resizer left on a fixed macro or a hard
@@ -403,38 +437,18 @@ proc regions_obstacles {} {
 # A cell can overlap two obstacles at once (e.g. on the gap between two macros
 # flush with the same region edge), and a side of one can lie on another. So the
 # sides of every obstacle the cell overlaps are candidates, a candidate on
-# another obstacle expands into that one's sides (up to 3 steps), and the
-# nearest in-region candidate free of all obstacles wins.
-proc regions_unstick_overlaps { macros x y w h } {
-    set hits [list]
-    foreach m $macros {
-        lassign $m m0 m1 m2 m3
-        if { $x + $w <= $m0 || $x >= $m2 || $y + $h <= $m1 || $y >= $m3 } {
-            continue
-        }
-        lappend hits $m
-    }
-    return $hits
-}
-
+# another obstacle expands into that one's sides (up to
+# ::regions_unstick_max_steps steps), and the nearest in-region candidate free
+# of all obstacles wins.
 proc regions_unstick {} {
     set block [ord::get_db_block]
-    set macros [regions_obstacles]
-    set site [[lindex [$block getRows] 0] getSite]
-    set sw [$site getWidth]
-    set rh [$site getHeight]
-    set core [$block getCoreArea]
-    set ox [$core xMin]
-    set oy [$core yMin]
+    set obstacles [regions_obstacles]
+    lassign [regions_grid] sw rh ox oy
 
     set moved 0
     set stuck 0
     foreach region [$block getRegions] {
-        set boxes [$region getBoundaries]
-        set r0 [tcl::mathfunc::min {*}[lmap b $boxes { $b xMin }]]
-        set r1 [tcl::mathfunc::min {*}[lmap b $boxes { $b yMin }]]
-        set r2 [tcl::mathfunc::max {*}[lmap b $boxes { $b xMax }]]
-        set r3 [tcl::mathfunc::max {*}[lmap b $boxes { $b yMax }]]
+        lassign [regions_bbox $region] r0 r1 r2 r3
         foreach group [$region getGroups] {
             foreach inst [$group getInsts] {
                 if { [$inst isFixed] } {
@@ -445,33 +459,34 @@ proc regions_unstick {} {
                 set y0 [$b yMin]
                 set w [$b getDX]
                 set h [$b getDY]
-                if { [llength [regions_unstick_overlaps $macros $x0 $y0 $w $h]] == 0 } {
+                if { [llength [regions_overlapping $obstacles $x0 $y0 $w $h]] == 0 } {
                     continue
                 }
                 set best ""
                 set frontier [list [list $x0 $y0]]
                 array unset seen
-                for { set step 0 } { $step < 3 && [llength $frontier] > 0 } { incr step } {
+                for { set step 0 } { $step < $::regions_unstick_max_steps && [llength $frontier] > 0 } { incr step } {
                     set next [list]
                     foreach pos $frontier {
                         lassign $pos x y
-                        # Left, right, below, above each overlapped macro, snapped
-                        # outwards to the site/row grid with one site/row to spare.
+                        # Left, right, below, above each overlapped obstacle,
+                        # snapped outwards to the site/row grid with one site/row
+                        # to spare.
                         set sx [expr { $ox + (($x - $ox) / $sw) * $sw }]
                         set sy [expr { $oy + (($y - $oy) / $rh) * $rh }]
-                        foreach m [regions_unstick_overlaps $macros $x $y $w $h] {
-                            lassign $m m0 m1 m2 m3
+                        foreach o [regions_overlapping $obstacles $x $y $w $h] {
+                            lassign $o o0 o1 o2 o3
                             foreach {cx cy} [list \
-                                [expr { $ox + (($m0 - $w - $ox) / $sw) * $sw - $sw }] $sy \
-                                [expr { $ox - (($ox - $m2) / $sw) * $sw + $sw }] $sy \
-                                $sx [expr { $oy + (($m1 - $h - $oy) / $rh) * $rh - $rh }] \
-                                $sx [expr { $oy - (($oy - $m3) / $rh) * $rh + $rh }]] {
+                                [expr { $ox + (($o0 - $w - $ox) / $sw) * $sw - $sw }] $sy \
+                                [expr { $ox - (($ox - $o2) / $sw) * $sw + $sw }] $sy \
+                                $sx [expr { $oy + (($o1 - $h - $oy) / $rh) * $rh - $rh }] \
+                                $sx [expr { $oy - (($oy - $o3) / $rh) * $rh + $rh }]] {
                                 if { $cx < $r0 || $cx + $w > $r2 || $cy < $r1 || $cy + $h > $r3
                                      || [info exists seen($cx,$cy)] } {
                                     continue
                                 }
                                 set seen($cx,$cy) 1
-                                if { [llength [regions_unstick_overlaps $macros $cx $cy $w $h]] > 0 } {
+                                if { [llength [regions_overlapping $obstacles $cx $cy $w $h]] > 0 } {
                                     lappend next [list $cx $cy]
                                     continue
                                 }
@@ -504,27 +519,28 @@ proc regions_unstick {} {
 # from regions_check_displacement can be traced to them without a debug replay.
 proc regions_report_on_obstacles {} {
     set block [ord::get_db_block]
+    set dbu [$block getDbUnitsPerMicron]
     set obstacles [regions_obstacles]
+    set max $::regions_report_on_obstacles_max
     set count 0
     foreach inst [$block getInsts] {
         if { [$inst isFixed] || [$inst getGroup] eq "NULL" } {
             continue
         }
         set b [$inst getBBox]
-        set hits [regions_unstick_overlaps $obstacles [$b xMin] [$b yMin] [$b getDX] [$b getDY]]
+        set hits [regions_overlapping $obstacles [$b xMin] [$b yMin] [$b getDX] [$b getDY]]
         if { [llength $hits] == 0 } {
             continue
         }
         incr count
-        if { $count <= 10 } {
-            set dbu [$block getDbUnitsPerMicron]
+        if { $count <= $max } {
             puts "\[WARNING\] Placement regions: [$inst getName] ([[$inst getGroup] getName])\
                 at ([regions_um [$b xMin] $dbu], [regions_um [$b yMin] $dbu]) um is on\
                 [join [lmap h $hits { lindex $h 4 }] {, }]; dpl may fail it and brick-place its group."
         }
     }
-    if { $count > 10 } {
-        puts "\[WARNING\] Placement regions: ... [expr { $count - 10 }] more grouped cell(s) on macros/blockages."
+    if { $count > $max } {
+        puts "\[WARNING\] Placement regions: ... [expr { $count - $max }] more grouped cell(s) on macros/blockages."
     }
 }
 
@@ -633,13 +649,8 @@ proc regions_report_dpl_failures { log } {
     }
     set block [ord::get_db_block]
     set dbu [$block getDbUnitsPerMicron]
-    set macros [list]
-    foreach inst [$block getInsts] {
-        if { [$inst isFixed] && [[$inst getMaster] isBlock] } {
-            lappend macros $inst
-        }
-    }
-    set max_report 50
+    set macros [regions_fixed_macros]
+    set max_report $::regions_report_dpl_failures_max
     puts "\[INFO\] Placement regions: [llength $names] cell(s) dpl could not place\
         (start positions in um; first $max_report):"
     foreach name [lrange $names 0 [expr { $max_report - 1 }]] {
@@ -729,14 +740,14 @@ if { [info commands __regions_orig_detailed_placement] eq "" } {
 # Stops the step when legalization moved the cells far on average, e.g. after
 # dpl brick-placed a whole group (see regions_unstick). dpl reports that as
 # success, and the run would then crawl through GRT/repair_design for hours.
-# Limit in um, override with the process env REGIONS_DPL_MAX_AVG_DISPLACEMENT.
+# Limit in um: PLACEMENT_REGIONS_MAX_AVG_DISPLACEMENT.
 proc regions_check_displacement { log } {
     if { ![regexp -line {average displacement\s+([0-9.eE+-]+)\s*u} $log -> avg] } {
         return
     }
-    set limit 50.0
-    if { [info exists ::env(REGIONS_DPL_MAX_AVG_DISPLACEMENT)] } {
-        set limit $::env(REGIONS_DPL_MAX_AVG_DISPLACEMENT)
+    set limit $::regions_default_max_avg_displacement
+    if { [info exists ::env(PLACEMENT_REGIONS_MAX_AVG_DISPLACEMENT)] } {
+        set limit $::env(PLACEMENT_REGIONS_MAX_AVG_DISPLACEMENT)
     }
     if { $avg > $limit } {
         utl::error ORD 9310 "Placement regions: detailed_placement moved cells $avg um on\
@@ -752,8 +763,8 @@ proc regions_check_displacement { log } {
 proc regions_lend_macros {} {
     set block [ord::get_db_block]
     set lent [list]
-    foreach inst [$block getInsts] {
-        if { ![$inst isFixed] || ![[$inst getMaster] isBlock] || [$inst getGroup] ne "NULL" } {
+    foreach inst [regions_fixed_macros] {
+        if { [$inst getGroup] ne "NULL" } {
             continue
         }
         set bbox [$inst getBBox]
@@ -767,8 +778,7 @@ proc regions_lend_macros {} {
                     set inside [expr { $inside + double($w) * $h }]
                 }
             }
-            # Tolerate the macro edge sticking out of the core or the site-snapped region.
-            if { $inside >= 0.99 * $area } {
+            if { $inside >= $::regions_lend_min_share * $area } {
                 set group [lindex [$region getGroups] 0]
                 $group addInst $inst
                 lappend lent $group $inst

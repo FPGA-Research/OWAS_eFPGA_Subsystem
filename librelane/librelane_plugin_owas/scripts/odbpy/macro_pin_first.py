@@ -8,11 +8,10 @@
 # alphabetically, so a clock output pin is rarely first, and a clock generated on
 # it gets no delay buffers.
 #
-# OpenDB keeps a master's pins in LEF order and LEF masters are frozen, so the
-# macro's LEF (from MACROS) is copied with the PIN block moved to the front
-# (written to the step dir), read into its own library, and every instance of
-# the master is recreated with the copy (same name, placement, connections,
-# group). Geometry, pins and OBS are unchanged; only the pin order differs.
+# OpenDB keeps a master's pins in LEF order, so the macro's LEF (from MACROS) is
+# copied with the PIN block moved to the front (written to the step dir) and every
+# instance of the master is recreated with the copy, see lef_utils.py. Geometry,
+# pins and OBS are unchanged; only the pin order differs.
 import os
 import re
 import sys
@@ -21,7 +20,7 @@ import click
 from reader import click_odb  # LibreLane's scripts/odbpy, on PYTHONPATH
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from remove_macro_obs import macro_lef, recreate  # noqa: E402
+from lef_utils import fail, macro_lef, read_lef_master, recreate  # noqa: E402
 
 
 def pin_first(lef_text, pin):
@@ -38,18 +37,12 @@ def pin_first(lef_text, pin):
     return rest[: first.start()] + block.group(0) + rest[first.start() :]
 
 
-def fail(msg):
-    print(f"[ERROR] {msg}", file=sys.stderr)
-    sys.exit(1)
-
-
 @click.command()
 @click.option("--out-dir", required=True)
 @click_odb
 def main(reader, out_dir):
     pins = reader.config.get("MACRO_CLOCK_PIN_FIRST") or {}
     macros = reader.config.get("MACROS") or {}
-    db = reader.db
     block = reader.block
 
     for master_name, pin in pins.items():
@@ -76,13 +69,7 @@ def main(reader, out_dir):
         with open(out, "w") as f:
             f.write(text)
 
-        # through OpenROAD (not odb.read_lef), so STA knows the new master
-        libs_before = {lib.getName() for lib in db.getLibs()}
-        reader.add_lef(out)
-        new_libs = [lib for lib in db.getLibs() if lib.getName() not in libs_before]
-        new = new_libs[0].findMaster(master_name) if new_libs else None
-        if new is None:
-            fail(f"no master {master_name} in {out}")
+        new = read_lef_master(reader, out, master_name)
         old_pins = sorted(m.getName() for m in old.getMTerms())
         if sorted(m.getName() for m in new.getMTerms()) != old_pins:
             fail(f"{out}: pin set differs from the current {master_name} master")

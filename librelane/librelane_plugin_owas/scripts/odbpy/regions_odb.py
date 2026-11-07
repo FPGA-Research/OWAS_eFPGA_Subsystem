@@ -8,6 +8,13 @@ import click
 import odb
 from reader import click_odb  # LibreLane's scripts/odbpy, on PYTHONPATH
 
+# A macro with a share of its (in-core) area inside a region between these bounds
+# is "partly inside": gpl would spread the region's cells over it. The upper bound
+# is ::regions_lend_min_share in regions_dpl_hook.tcl; the lower one tolerates
+# slivers from snapping the region to the site grid.
+PARTLY_INSIDE_MIN = 0.01
+PARTLY_INSIDE_MAX = 0.99
+
 
 def err(msg):
     print(f"[ERROR] {msg}", file=sys.stderr)
@@ -135,9 +142,8 @@ def main(reader):
             rect = odb.Rect(llx, lly, urx, ury)
             for m in macros:
                 mb = to_rect(m.getBBox())
-                # Tolerate slivers from snapping the region to the site grid.
                 share = overlap(rect, mb) / overlap(core, mb)
-                if 0.01 <= share < 0.99:
+                if PARTLY_INSIDE_MIN <= share < PARTLY_INSIDE_MAX:
                     err(f"[{name}] macro {m.getName()} is only partly inside; gpl will place cells on it.")
                     failed |= strict
         elif group is None:

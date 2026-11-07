@@ -22,6 +22,19 @@ Importing the plugin also extends some of LibreLane's own steps (see
 [Global routing options](#global-routing-options)); with the new variables
 unset they behave as before.
 
+## Layout
+
+| Path | Content |
+|---|---|
+| `__init__.py` | imports the modules below |
+| `_common.py` | script paths, `PluginOdbpyStep` base class |
+| `grt.py` | global routing options; extends LibreLane's GRT steps |
+| `regions.py` | `Odb.AddPlacementRegions`, the `Regions.*` variants and their variables |
+| `macros.py` | `Odb.ConnectMacroRingStripes`, `Odb.RemoveMacroObstructions`, `Odb.RestoreMacroMasters`, `Odb.MacroClockPinFirst` |
+| `names.py` | `Odb.ShortenNames` |
+| `scripts/odbpy/` | scripts run by `openroad -python` (`lef_utils.py`: shared LEF/master helpers) |
+| `scripts/openroad/` | Tcl run or sourced by `openroad`; `regions_wrap.tcl` is the entry script of the `Regions.*` variants |
+
 ## Configure
 
 ```yaml
@@ -95,10 +108,9 @@ each legalization, every movable ungrouped cell located inside a region joins
 that region's group if at least one neighbor is in the group and none is in a
 different group. Ungrouped neighbors and port connections are allowed, so
 buffer chains, port buffers and nets leaving the region are covered. Cells the
-resizer/CTS created (flat names matching `regions_new_cell_regexp` in
-`regions_dpl_hook.tcl`; set `::regions_new_cell_regexp` before the hook is
-sourced to override it for another OpenROAD version) join the region they sit
-in regardless of their neighbors. Other cells with no neighbor in the region
+resizer/CTS created (flat names matching `::regions_new_cell_regexp`, a tunable
+at the top of `regions_dpl_hook.tcl`; recheck it for another OpenROAD version)
+join the region they sit in regardless of their neighbors. Other cells with no neighbor in the region
 (e.g. logic gpl dropped there) stay outsiders and are moved out; see
 `PL_MAX_DISPLACEMENT_*`.
 
@@ -143,16 +155,17 @@ not apply to the variants: substituting `Regions.RepairDesignPostGRT` /
 ## Legalization guard
 
 After every successful `detailed_placement` in a `Regions.*` step, the step
-stops with `ORD-9310` if the average displacement dpl reports is above 50 µm
-(process env `REGIONS_DPL_MAX_AVG_DISPLACEMENT` overrides the limit). A
-whole-group re-placement is reported by dpl as a success, and the run would
-otherwise spend hours routing it. When dpl fails, the cells it could not place
-(`DPL-0035`) are listed with their start position, region, nearest macro and
-nets.
+stops with `ORD-9310` if the average displacement dpl reports is above
+`PLACEMENT_REGIONS_MAX_AVG_DISPLACEMENT` (µm, default 50). A whole-group
+re-placement is reported by dpl as a success, and the run would otherwise spend
+hours routing it. When dpl fails, the cells it could not place (`DPL-0035`) are
+listed with their start position, region, nearest macro and nets.
 
 For debugging, the process env `REGIONS_DIAG_TCL` names a Tcl file that
 `regions_wrap.tcl` sources right after installing the hooks (e.g. to dump
-state instead of legalizing).
+state instead of legalizing). The hooks read their tunables (globals at the
+top of `regions_dpl_hook.tcl` and `hold_repeat.tcl`) at call time, so a diag
+file can also override them.
 
 ## Detailed placement optimization
 
