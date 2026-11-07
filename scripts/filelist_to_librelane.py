@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 scripts/filelist_to_librelane.py
-Writes the files of a .f filelist as a LibreLane config fragment
-({"VERILOG_FILES": [...]}, absolute paths, filelist order). Pass it to
+Writes the files of one or more .f filelists as a LibreLane config fragment
+({"VERILOG_FILES": [...]}, absolute paths, filelist order, duplicates removed). Pass it to
 librelane before the macro's config.yaml, which then needs no VERILOG_FILES.
 """
 import argparse
@@ -18,7 +18,7 @@ def main() -> int:
         prog="python3 scripts/filelist_to_librelane.py",
         description="Convert a .f filelist into a LibreLane VERILOG_FILES config fragment.",
     )
-    parser.add_argument("filelist", help="Input .f filelist path.")
+    parser.add_argument("filelists", nargs="+", help="Input .f filelist paths.")
     parser.add_argument("-o", "--output", required=True, help="Output JSON path.")
     parser.add_argument(
         "--repo-root",
@@ -28,7 +28,11 @@ def main() -> int:
     args = parser.parse_args()
 
     repo_root = Path(args.repo_root).resolve()
-    files = [repo_root / f for f in parse_flist(Path(args.filelist).resolve(), repo_root)]
+    files = []
+    for filelist in args.filelists:
+        for f in parse_flist(Path(filelist).resolve(), repo_root):
+            if repo_root / f not in files:
+                files.append(repo_root / f)
     missing = [str(f) for f in files if not f.is_file()]
     if missing:
         print("Missing files:\n  " + "\n  ".join(missing), file=sys.stderr)
