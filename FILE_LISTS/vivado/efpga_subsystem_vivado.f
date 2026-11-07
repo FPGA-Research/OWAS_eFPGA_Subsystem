@@ -1,6 +1,6 @@
 # Auto-generated flat file list
 # Source: FILE_LISTS/vivado/efpga_subsystem_vivado.f
-# Total files: 178
+# Total files: 179
 
 OWAS_Fabric/Fabric/models_pack.v
 OWAS_Fabric/Tile/FLUT51PSDM/common/FLUT51PSDM_architecture.v
@@ -157,6 +157,7 @@ OWAS_Fabric/Fabric/eFPGA_top.v
 VIVADO/target_config_pkg.sv
 VIVADO/cg_cell.sv
 RTL/eFPGA_Subsystem/NPU_complex/shared/sram/sram_bank.sv
+RTL/eFPGA_Subsystem/NPU_complex/act_buffer/containers/act_hold_delay.sv
 RTL/eFPGA_Subsystem/NPU_complex/act_buffer/containers/act_bank_container.sv
 RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv
 RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/psum_requant_container.sv
