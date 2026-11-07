@@ -4,19 +4,17 @@
 # Removes all obstructions on the given layers (REMOVE_MACRO_OBSTRUCTIONS) and the
 # power/ground pin shapes on the given layers (REMOVE_MACRO_PG_PINS) from macro
 # masters. Keys are instance names or master names (a master name applies to all
-# its instances). LEF masters are frozen in OpenDB (their shapes cannot be
-# deleted), so the macro's LEF (from MACROS) is copied without those shapes, read
-# into its own library and the instances are recreated with that master (same
-# name, placement and connections). dbInst.swapMaster is not used: its STA
-# callback compares the masters' Liberty cells and segfaults for macros without a
-# .lib (e.g. black-box macros).
+# its instances). The macro's LEF (from MACROS) is copied without those shapes and
+# the instances are recreated with that master, see lef_utils.py.
 import os
 import re
 import sys
 
 import click
-import odb
 from reader import click_odb  # LibreLane's scripts/odbpy, on PYTHONPATH
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from lef_utils import fail, macro_lef, read_lef_master, recreate, targets  # noqa: E402
 
 
 def strip_pg_pin_layers(lef_text, layers):
@@ -49,8 +47,7 @@ def strip_pg_pin_layers(lef_text, layers):
                 out.append("".join(kept))
                 ports += 1
         if not ports:
-            print(f"[ERROR] pin {name} would have no shapes left", file=sys.stderr)
-            sys.exit(1)
+            fail(f"pin {name} would have no shapes left")
         return f"  PIN {name}\n{''.join(out)}  END {name}\n"
 
     text = re.sub(r"^  PIN (\S+)\s*\n(.*?)^  END \1\s*\n", strip_pin, lef_text, flags=re.M | re.S)
@@ -76,54 +73,6 @@ def strip_obs_layers(lef_text, layers):
     return head + sep + "\n".join(kept) + sep2 + tail, dropped
 
 
-def macro_lef(macros, master_name):
-    entry = (macros or {}).get(master_name)
-    if not entry or not entry.get("lef"):
-        return None
-    return entry["lef"][0]
-
-
-def recreate(block, inst, master):
-    name = inst.getName()
-    x, y = inst.getLocation()
-    orient = inst.getOrient()
-    status = inst.getPlacementStatus()
-    halo = inst.getHalo()
-    halo_box = (halo.xMin(), halo.yMin(), halo.xMax(), halo.yMax()) if halo else None
-    group = inst.getGroup()
-    conns = [
-        (it.getMTerm().getName(), it.getNet()) for it in inst.getITerms() if it.getNet()
-    ]
-    odb.dbInst.destroy(inst)
-    new = odb.dbInst.create(block, master, name)
-    new.setOrient(orient)
-    new.setLocation(x, y)
-    new.setPlacementStatus(status)
-    if halo_box:
-        odb.dbBox.create(new, *halo_box)
-    if group:
-        group.addInst(new)
-    for mterm, net in conns:
-        new.findITerm(mterm).connect(net)
-    if len([it for it in new.getITerms() if it.getNet()]) != len(conns):
-        print(f"[ERROR] {name}: connections changed while recreating", file=sys.stderr)
-        sys.exit(1)
-    return new
-
-
-def targets(block, key):
-    """Instances for a config key: the instance of that name, else all instances of
-    the master of that name."""
-    inst = block.findInst(key)
-    if inst is not None:
-        return [inst]
-    insts = [i for i in block.getInsts() if i.getMaster().getName() == key]
-    if not insts:
-        print(f"[ERROR] no instance or master named {key}", file=sys.stderr)
-        sys.exit(1)
-    return insts
-
-
 @click.command()
 @click.option("--out-dir", required=True)
 @click_odb
@@ -131,7 +80,6 @@ def main(reader, out_dir):
     obs_cfg = reader.config.get("REMOVE_MACRO_OBSTRUCTIONS") or {}
     pg_cfg = reader.config.get("REMOVE_MACRO_PG_PINS") or {}
     macros = reader.config.get("MACROS") or {}
-    db = reader.db
     block = reader.block
 
     # instance name -> [instance, OBS layers, PG pin layers]
@@ -151,8 +99,7 @@ def main(reader, out_dir):
     for (master_name, obs_layers, pg_layers), insts in groups.items():
         lef = macro_lef(macros, master_name)
         if lef is None:
-            print(f"[ERROR] no LEF for {master_name} in MACROS", file=sys.stderr)
-            sys.exit(1)
+            fail(f"no LEF for {master_name} in MACROS")
 
         text, n_obs = strip_obs_layers(open(lef).read(), obs_layers)
         text, n_pg = strip_pg_pin_layers(text, pg_layers)
@@ -164,15 +111,7 @@ def main(reader, out_dir):
         with open(stripped, "w") as f:
             f.write(text)
 
-        # through OpenROAD (not odb.read_lef), so STA knows the new master;
-        # (STA must know every master an instance is created with)
-        libs_before = {lib.getName() for lib in db.getLibs()}
-        reader.add_lef(stripped)
-        new_libs = [lib for lib in db.getLibs() if lib.getName() not in libs_before]
-        new = new_libs[0].findMaster(master_name) if new_libs else None
-        if new is None:
-            print(f"[ERROR] no master {master_name} in {stripped}", file=sys.stderr)
-            sys.exit(1)
+        new = read_lef_master(reader, stripped, master_name)
 
         left_obs = [
             b
@@ -188,12 +127,10 @@ def main(reader, out_dir):
             if b.getTechLayer() is not None and b.getTechLayer().getName() in pg_layers
         ]
         if left_obs or left_pg:
-            print(
-                f"[ERROR] {master_name}: {len(left_obs)} OBS / {len(left_pg)} PG pin shapes"
-                f" left on the removed layers",
-                file=sys.stderr,
+            fail(
+                f"{master_name}: {len(left_obs)} OBS / {len(left_pg)} PG pin shapes"
+                f" left on the removed layers"
             )
-            sys.exit(1)
         for inst in insts:
             recreate(block, inst, new)
         names = ", ".join(sorted(i.getName() for i in insts)) if len(insts) < 3 else f"{len(insts)} instances"

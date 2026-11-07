@@ -105,6 +105,8 @@ def main(reader):
     block = reader.block
     tech = reader.db.getTech()
     dbu = block.getDbUnitsPerMicron()
+    # pad centers are snapped to the manufacturing grid (DBU)
+    grid = tech.getManufacturingGrid() if tech.hasManufacturingGrid() else 1
     total = 0
     skipped = 0
 
@@ -215,13 +217,13 @@ def main(reader):
                             ext = rect(s[0], s[3] if side == "low" else p[1],
                                        s[2], p[3] if side == "low" else s[1])
                             half = min(p[3] - p[1], s[2] - s[0]) // 2
-                            mid = ((p[1] + p[3]) // 2) // 5 * 5
+                            mid = ((p[1] + p[3]) // 2) // grid * grid
                             pad = rect(s[0], mid - half, s[2], mid + half)
                         else:
                             ext = rect(s[2] if side == "low" else p[0], s[1],
                                        p[2] if side == "low" else s[0], s[3])
                             half = min(p[2] - p[0], s[3] - s[1]) // 2
-                            mid = ((p[0] + p[2]) // 2) // 5 * 5
+                            mid = ((p[0] + p[2]) // 2) // grid * grid
                             pad = rect(mid - half, s[1], mid + half, s[3])
                         new = [(stripe_layer, ext)] + [(ly, pad) for ly in pad_layers]
                         bad = []

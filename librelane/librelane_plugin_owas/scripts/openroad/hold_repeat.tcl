@@ -18,11 +18,16 @@
 # LibreLane's rsz_timing_postgrt.tcl passes GRT_RESIZER_SETUP_SLACK_MARGIN to the setup
 # and the hold repair (separate calls); a large margin keeps hold buffers off logic shared
 # by hold-critical and setup-critical paths.
-if { [info commands repair_timing] ne "" && [info commands __hr_repair_timing] eq "" } {
-    rename repair_timing __hr_repair_timing
+# Minimum hold WNS/TNS gain (ns) for another repair_timing -hold call.
+if { ![info exists ::hold_repeat_min_gain] } {
+    set ::hold_repeat_min_gain 0.001
+}
+
+if { [info commands repair_timing] ne "" && [info commands __hold_repeat_orig_repair_timing] eq "" } {
+    rename repair_timing __hold_repeat_orig_repair_timing
     proc repair_timing { args } {
         if { [lsearch -exact $args -hold] < 0 } {
-            return [uplevel 1 [list __hr_repair_timing {*}$args]]
+            return [uplevel 1 [list __hold_repeat_orig_repair_timing {*}$args]]
         }
         if { [info exists ::env(_REGIONS_HOLD_SETUP_MARGIN)] } {
             set j [lsearch -exact $args -setup_margin]
@@ -40,17 +45,17 @@ if { [info commands repair_timing] ne "" && [info commands __hr_repair_timing] e
         set margin 0.0
         set i [lsearch -exact $args -hold_margin]
         if { $i >= 0 } { set margin [lindex $args [expr {$i + 1}]] }
-        set rc [uplevel 1 [list __hr_repair_timing {*}$args]]
+        set rc [uplevel 1 [list __hold_repeat_orig_repair_timing {*}$args]]
         for {set n 2} {$n <= $max_calls} {incr n} {
             set wns [sta::worst_slack -min]
             set tns [sta::total_negative_slack -min]
             puts [format "\[INFO\] hold_repeat: after call %d hold WNS %.4f TNS %.4f setup WNS %.4f" \
                 [expr {$n - 1}] $wns $tns [sta::worst_slack -max]]
             if { $wns >= $margin } { break }
-            set rc [uplevel 1 [list __hr_repair_timing {*}$args]]
+            set rc [uplevel 1 [list __hold_repeat_orig_repair_timing {*}$args]]
             set wns2 [sta::worst_slack -min]
             set tns2 [sta::total_negative_slack -min]
-            if { $wns2 <= $wns + 0.001 && $tns2 <= $tns + 0.001 } {
+            if { $wns2 <= $wns + $::hold_repeat_min_gain && $tns2 <= $tns + $::hold_repeat_min_gain } {
                 puts [format "\[INFO\] hold_repeat: call %d no progress (WNS %.4f TNS %.4f), stop" \
                     $n $wns2 $tns2]
                 break
