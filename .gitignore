@@ -71,6 +71,8 @@ VERILOG_MIRROR_GENERATED/
 # LibreLane Run Directories
 RUNS/
 runs/
+# VERILOG_FILES generated from the filelists (scripts/filelist_to_librelane.py)
+librelane/*/verilog_files.json
 
 # bin files
 *.bin
