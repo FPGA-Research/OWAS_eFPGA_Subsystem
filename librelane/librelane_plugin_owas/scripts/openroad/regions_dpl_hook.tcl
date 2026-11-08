@@ -47,14 +47,39 @@ proc regions_grid {} {
     return [list [$site getWidth] [$site getHeight] [$core xMin] [$core yMin]]
 }
 
-# Bounding box {xMin yMin xMax yMax} of all boxes of `region`.
-proc regions_bbox { region } {
-    set boxes [$region getBoundaries]
-    return [list \
-        [tcl::mathfunc::min {*}[lmap b $boxes { $b xMin }]] \
-        [tcl::mathfunc::min {*}[lmap b $boxes { $b yMin }]] \
-        [tcl::mathfunc::max {*}[lmap b $boxes { $b xMax }]] \
-        [tcl::mathfunc::max {*}[lmap b $boxes { $b yMax }]]]
+# Boxes {xMin yMin xMax yMax} of `region`.
+proc regions_boxes { region } {
+    return [lmap b [$region getBoundaries] { list [$b xMin] [$b yMin] [$b xMax] [$b yMax] }]
+}
+
+# 1 if a cell with lower-left corner (x, y) and size w x h lies fully inside
+# one of `boxes` ({xMin yMin xMax yMax} each).
+proc regions_fits { boxes x y w h } {
+    foreach box $boxes {
+        lassign $box b0 b1 b2 b3
+        if { $x >= $b0 && $x + $w <= $b2 && $y >= $b1 && $y + $h <= $b3 } {
+            return 1
+        }
+    }
+    return 0
+}
+
+# Lower-left corner {x y} closest (Manhattan) to (x, y) at which a w x h cell
+# lies fully inside one of `boxes`, each clamped separately; (x, y) itself if it
+# already fits. A cell larger than every box is clamped into the first one.
+proc regions_clamp_into { boxes x y w h } {
+    set best ""
+    foreach box $boxes {
+        lassign $box b0 b1 b2 b3
+        set nx [expr { max($b0, min($x, $b2 - $w)) }]
+        set ny [expr { max($b1, min($y, $b3 - $h)) }]
+        set d [expr { abs($nx - $x) + abs($ny - $y) }]
+        if { $best eq "" || $d < $best_d } {
+            set best [list $nx $ny]
+            set best_d $d
+        }
+    }
+    return $best
 }
 
 # Fixed block instances (macros), in block order.
@@ -357,22 +382,24 @@ proc regions_absorb_near { boxes } {
         region stay outside (no neighbor in it, or neighbors in another group)."
 }
 
-# Moves grouped cells that stick out of their region's bbox (e.g. buffers the
-# resizer inserts at the region edge) fully inside it, on the site/row grid.
-# Like a cell on a macro at the region edge (see regions_unstick), a cell
-# starting outside the region makes dpl's search fail.
+# Moves grouped cells that stick out of their region (e.g. buffers the resizer
+# inserts at the region edge) fully inside the nearest box of it, on the
+# site/row grid. Like a cell on a macro at the region edge (see
+# regions_unstick), a cell starting outside the region makes dpl's search fail.
 proc regions_clamp {} {
     set block [ord::get_db_block]
     lassign [regions_grid] sw rh ox oy
 
     set moved 0
     foreach region [$block getRegions] {
-        lassign [regions_bbox $region] x0 y0 x1 y1
-        # Region bbox snapped inwards to the site/row grid.
-        set r0 [expr { $ox - (($ox - $x0) / $sw) * $sw }]
-        set r1 [expr { $oy - (($oy - $y0) / $rh) * $rh }]
-        set r2 [expr { $ox + (($x1 - $ox) / $sw) * $sw }]
-        set r3 [expr { $oy + (($y1 - $oy) / $rh) * $rh }]
+        # Region boxes snapped inwards to the site/row grid.
+        set boxes [lmap box [regions_boxes $region] {
+            lassign $box x0 y0 x1 y1
+            list [expr { $ox - (($ox - $x0) / $sw) * $sw }] \
+                [expr { $oy - (($oy - $y0) / $rh) * $rh }] \
+                [expr { $ox + (($x1 - $ox) / $sw) * $sw }] \
+                [expr { $oy + (($y1 - $oy) / $rh) * $rh }]
+        }]
         foreach group [$region getGroups] {
             foreach inst [$group getInsts] {
                 if { [$inst isFixed] } {
@@ -381,8 +408,7 @@ proc regions_clamp {} {
                 set b [$inst getBBox]
                 set x [$b xMin]
                 set y [$b yMin]
-                set nx [expr { max($r0, min($x, $r2 - [$b getDX])) }]
-                set ny [expr { max($r1, min($y, $r3 - [$b getDY])) }]
+                lassign [regions_clamp_into $boxes $x $y [$b getDX] [$b getDY]] nx ny
                 if { $nx != $x || $ny != $y } {
                     $inst setLocation $nx $ny
                     incr moved
@@ -448,7 +474,7 @@ proc regions_unstick {} {
     set moved 0
     set stuck 0
     foreach region [$block getRegions] {
-        lassign [regions_bbox $region] r0 r1 r2 r3
+        set boxes [regions_boxes $region]
         foreach group [$region getGroups] {
             foreach inst [$group getInsts] {
                 if { [$inst isFixed] } {
@@ -481,7 +507,7 @@ proc regions_unstick {} {
                                 [expr { $ox - (($ox - $o2) / $sw) * $sw + $sw }] $sy \
                                 $sx [expr { $oy + (($o1 - $h - $oy) / $rh) * $rh - $rh }] \
                                 $sx [expr { $oy - (($oy - $o3) / $rh) * $rh + $rh }]] {
-                                if { $cx < $r0 || $cx + $w > $r2 || $cy < $r1 || $cy + $h > $r3
+                                if { ![regions_fits $boxes $cx $cy $w $h]
                                      || [info exists seen($cx,$cy)] } {
                                     continue
                                 }
