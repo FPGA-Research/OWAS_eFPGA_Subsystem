@@ -33,16 +33,21 @@ grt_critical_nets_variable = Variable(
 grt_extra_variables = [grt_resistance_aware_variable, grt_critical_nets_variable]
 
 
+def grt_extra_active(config) -> bool:
+    """True if one of the options is set."""
+    return bool(config.get("GRT_RESISTANCE_AWARE")) or (
+        config.get("GRT_CRITICAL_NETS_PERCENTAGE") is not None
+    )
+
+
 def grt_extra_env(config, env) -> bool:
     """Puts the options into the step's process env; True if one is set."""
-    active = False
     if config.get("GRT_RESISTANCE_AWARE"):
         env["_GRT_RESISTANCE_AWARE"] = "1"
-        active = True
     pct = config.get("GRT_CRITICAL_NETS_PERCENTAGE")
     if pct is not None:
         env["_GRT_CRITICAL_NETS_PCT"] = str(pct)
-        active = True
+    active = grt_extra_active(config)
     if active:
         env["_GRT_EXTRA_TCL"] = openroad_script("grt_extra.tcl")
     return active
@@ -69,8 +74,11 @@ def _install():
                 DiodesOnPorts, RepairAntennas):
         add_vars(cls)
 
-    # Regions.* variants run their script through regions_wrap.tcl, which sources
-    # grt_extra.tcl; plain steps get the env here.
+    # The plain steps (OpenROAD.GlobalRouting, also inside Odb.DiodesOnPorts and as
+    # the diode insertion's base, and the plain post-GRT repair steps) run their
+    # script through grt_extra_wrap.tcl when an option is set. The Regions.*
+    # variants replace the script with regions_wrap.tcl afterwards, which sources
+    # grt_extra.tcl itself.
     for cls in (GlobalRouting, RepairDesignPostGRT, ResizerTimingPostGRT):
         orig_prepare_env = cls.prepare_env
 
@@ -82,18 +90,15 @@ def _install():
 
         cls.prepare_env = prepare_env
 
-    # Plain OpenROAD.GlobalRouting (step and inside Odb.DiodesOnPorts): wrap its script.
-    orig_get_command = GlobalRouting.get_command
+        orig_get_command = cls.get_command
 
-    def get_command(self, _orig=orig_get_command):
-        command = _orig(self)
-        if self.config.get("GRT_RESISTANCE_AWARE") or (
-            self.config.get("GRT_CRITICAL_NETS_PERCENTAGE") is not None
-        ):
-            command[-1] = openroad_script("grt_extra_wrap.tcl")
-        return command
+        def get_command(self, _orig=orig_get_command):
+            command = _orig(self)
+            if grt_extra_active(self.config):
+                command[-1] = openroad_script("grt_extra_wrap.tcl")
+            return command
 
-    GlobalRouting.get_command = get_command
+        cls.get_command = get_command
 
 
 _install()

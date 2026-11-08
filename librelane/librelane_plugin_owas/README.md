@@ -202,12 +202,9 @@ paths can stay unrepaired with a large margin.
 `GRT_RESISTANCE_AWARE` (bool) and `GRT_CRITICAL_NETS_PERCENTAGE` (%) add
 `-resistance_aware` / `-critical_nets_percentage` to every `global_route` call
 (`grt_extra.tcl`) in `OpenROAD.GlobalRouting`, `OpenROAD.RepairAntennas`
-(its diode insertion), `Odb.DiodesOnPorts`, `Regions.RepairAntennas`,
-`Regions.RepairDesignPostGRT` and `Regions.ResizerTimingPostGRT`. The
-plugin also declares them on the plain `OpenROAD.RepairDesignPostGRT` /
-`OpenROAD.ResizerTimingPostGRT`, but there they currently have no effect (their
-scripts are not wrapped); use the `Regions.*` variants. Both unset: the steps
-run as in LibreLane.
+(its diode insertion), `Odb.DiodesOnPorts`, `OpenROAD.RepairDesignPostGRT`,
+`OpenROAD.ResizerTimingPostGRT` and their `Regions.*` variants. Both unset: the
+steps run as in LibreLane.
 
 ## Clock pin first (CTS latency balancing)
 
