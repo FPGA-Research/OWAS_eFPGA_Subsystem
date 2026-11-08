@@ -131,9 +131,10 @@ def main(reader, out_dir):
                 f"{master_name}: {len(left_obs)} OBS / {len(left_pg)} PG pin shapes"
                 f" left on the removed layers"
             )
+        # read the names first: recreate() destroys the instances
+        names = ", ".join(sorted(i.getName() for i in insts)) if len(insts) < 3 else f"{len(insts)} instances"
         for inst in insts:
             recreate(block, inst, new)
-        names = ", ".join(sorted(i.getName() for i in insts)) if len(insts) < 3 else f"{len(insts)} instances"
         print(
             f"[INFO] {master_name} ({names}): removed {n_obs} OBS shape(s) on"
             f" {', '.join(sorted(obs_layers)) or '-'} and {n_pg} PG pin shape(s) on"
