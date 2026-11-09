@@ -73,6 +73,8 @@ RUNS/
 runs/
 # VERILOG_FILES generated from the filelists (scripts/filelist_to_librelane.py)
 librelane/*/verilog_files.json
+# eFPGA LEF generated from the fabric views (scripts/efpga_tm1_obs_lef.py)
+librelane/efpga_subsystem_top/eFPGA_interface/eFPGA_tm1bands.lef
 
 # bin files
 *.bin
