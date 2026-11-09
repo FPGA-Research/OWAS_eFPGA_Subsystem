@@ -4,7 +4,7 @@
     "psum_requant_container": {
       "attributes": {
         "top": "00000000000000000000000000000001",
-        "src": "psum_requant_container.sv:3.8"
+        "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/psum_requant_container.sv:3.8"
       },
       "ports": {
         "clk_i": {
@@ -72,7 +72,7 @@
             "Y_WIDTH": "00000000000000000000000000110000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:41.29-41.47"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:41.29-41.47"
           },
           "port_directions": {
             "A": "input",
@@ -96,7 +96,7 @@
             "Y_WIDTH": "00000000000000000000000000000001"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:58.13-58.32"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:58.13-58.32"
           },
           "port_directions": {
             "A": "input",
@@ -120,7 +120,7 @@
             "Y_WIDTH": "00000000000000000000000000000110"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:59.37-59.56"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:59.37-59.56"
           },
           "port_directions": {
             "A": "input",
@@ -142,7 +142,7 @@
             "Y_WIDTH": "00000000000000000000000000000001"
           },
           "attributes": {
-            "src": "../common/sram_bank.sv:22.18-22.21"
+            "src": "../../MACROS/SRAM/sram_bank.sv:23.18-23.21"
           },
           "port_directions": {
             "A": "input",
@@ -164,7 +164,7 @@
             "Y_WIDTH": "00000000000000000000000000110000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:59.29-59.57"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:59.29-59.57"
           },
           "port_directions": {
             "A": "input",
@@ -184,7 +184,7 @@
             "WIDTH": "00000000000000000000000000110000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:59.62-59.98"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:59.62-59.98"
           },
           "port_directions": {
             "A": "input",
@@ -210,7 +210,7 @@
             "Y_WIDTH": "00000000000000000000000000110000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:59.28-59.99"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:59.28-59.99"
           },
           "port_directions": {
             "A": "input",
@@ -234,7 +234,7 @@
             "Y_WIDTH": "00000000000000000000000000110000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:66.24-66.50"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:66.24-66.50"
           },
           "port_directions": {
             "A": "input",
@@ -258,7 +258,7 @@
             "Y_WIDTH": "00000000000000000000000000110000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:67.24-67.53"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:67.24-67.53"
           },
           "port_directions": {
             "A": "input",
@@ -282,7 +282,7 @@
             "Y_WIDTH": "00000000000000000000000000110000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:69.24-69.69"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:69.24-69.69"
           },
           "port_directions": {
             "A": "input",
@@ -306,7 +306,7 @@
             "Y_WIDTH": "00000000000000000000000000000001"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:71.13-71.36"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:71.13-71.36"
           },
           "port_directions": {
             "A": "input",
@@ -330,7 +330,7 @@
             "Y_WIDTH": "00000000000000000000000000000001"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:73.18-73.41"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:73.18-73.41"
           },
           "port_directions": {
             "A": "input",
@@ -350,7 +350,7 @@
             "WIDTH": "00000000000000000000000000001000"
           },
           "attributes": {
-            "src": "psum_requant_container.sv:82.55-83.80"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/psum_requant_container.sv:82.55-83.80"
           },
           "port_directions": {
             "A": "input",
@@ -372,7 +372,7 @@
             "WIDTH": "00000000000000000000000000000001"
           },
           "attributes": {
-            "src": "psum_requant_container.sv:84.55-85.78"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/psum_requant_container.sv:84.55-85.78"
           },
           "port_directions": {
             "A": "input",
@@ -396,7 +396,7 @@
             "Y_WIDTH": "00000000000000000000000000000001"
           },
           "attributes": {
-            "src": "../common/sram_bank.sv:22.18-22.21"
+            "src": "../../MACROS/SRAM/sram_bank.sv:23.18-23.21"
           },
           "port_directions": {
             "A": "input",
@@ -414,7 +414,7 @@
             "WIDTH": "00000000000000000000000000001000"
           },
           "attributes": {
-            "src": "psum_requant_container.sv:102.22-103.52"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/psum_requant_container.sv:102.22-103.52"
           },
           "port_directions": {
             "A": "input",
@@ -438,7 +438,7 @@
             "WIDTH": "00000000000000000000000000001000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:79.5"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:79.5"
           },
           "port_directions": {
             "AD": "input",
@@ -464,7 +464,7 @@
             "WIDTH": "00000000000000000000000000110000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:35.5"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:35.5"
           },
           "port_directions": {
             "AD": "input",
@@ -490,7 +490,7 @@
             "WIDTH": "00000000000000000000000000000110"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:35.5"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:35.5"
           },
           "port_directions": {
             "AD": "input",
@@ -516,7 +516,7 @@
             "WIDTH": "00000000000000000000000000001000"
           },
           "attributes": {
-            "src": "npu_requantizer_lane.sv:35.5"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:35.5"
           },
           "port_directions": {
             "AD": "input",
@@ -541,7 +541,7 @@
           },
           "attributes": {
             "full_case": "00000000000000000000000000000001",
-            "src": "npu_requantizer_lane.sv:72.13-72.60|npu_requantizer_lane.sv:71.9-76.60"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:72.13-72.60|../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:71.9-76.60"
           },
           "port_directions": {
             "A": "input",
@@ -564,7 +564,7 @@
           },
           "attributes": {
             "full_case": "00000000000000000000000000000001",
-            "src": "npu_requantizer_lane.sv:59.13-59.100|npu_requantizer_lane.sv:58.9-62.12"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:59.13-59.100|../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:58.9-62.12"
           },
           "port_directions": {
             "A": "input",
@@ -587,7 +587,7 @@
           },
           "attributes": {
             "full_case": "00000000000000000000000000000001",
-            "src": "npu_requantizer_lane.sv:74.13-74.60|npu_requantizer_lane.sv:73.14-76.60"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:74.13-74.60|../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:73.14-76.60"
           },
           "port_directions": {
             "A": "input",
@@ -610,7 +610,7 @@
           },
           "attributes": {
             "full_case": "00000000000000000000000000000001",
-            "src": "npu_requantizer_lane.sv:72.13-72.60|npu_requantizer_lane.sv:71.9-76.60"
+            "src": "../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:72.13-72.60|../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv:71.9-76.60"
           },
           "port_directions": {
             "A": "input",
@@ -632,7 +632,7 @@
           },
           "attributes": {
             "hdlname": "bank_A_sram gen_ihp_256x32 u_sram_256x32",
-            "src": "../common/sram_bank.sv:51.45"
+            "src": "../../MACROS/SRAM/sram_bank.sv:50.45"
           },
           "port_directions": {
             "A_ADDR": "input",
@@ -680,7 +680,7 @@
           },
           "attributes": {
             "hdlname": "bank_B_sram gen_ihp_256x32 u_sram_256x32",
-            "src": "../common/sram_bank.sv:51.45"
+            "src": "../../MACROS/SRAM/sram_bank.sv:50.45"
           },
           "port_directions": {
             "A_ADDR": "input",
