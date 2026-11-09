@@ -3,6 +3,19 @@ FILELIST = $(REPO_ROOT)/FILE_LISTS/asic/efpga_subsystem_asic.f $(REPO_ROOT)/FILE
 
 include ../common.mk
 
+# eFPGA LEF with open TopMetal1 bands, regenerated when the fabric views change
+FABRIC_VIEWS = $(REPO_ROOT)/OWAS_Fabric/Fabric/macro/final_views
+TM1_LEF_SCRIPT = $(REPO_ROOT)/scripts/efpga_tm1_obs_lef.py
+TM1_LEF = $(LL_DIR)/eFPGA_interface/eFPGA_tm1bands.lef
+
+$(TM1_LEF): $(FABRIC_VIEWS)/lef/eFPGA.lef $(FABRIC_VIEWS)/gds/eFPGA.gds $(TM1_LEF_SCRIPT)
+	python3 $(TM1_LEF_SCRIPT) --lef $(word 1,$^) --gds $(word 2,$^) --out $@
+
+.PHONY: tm1-lef
+tm1-lef: $(TM1_LEF)
+
+librelane librelane-explore librelane-nodrc librelane-magicdrc librelane-klayoutdrc: $(TM1_LEF)
+
 .PHONY: zip zip-final
 zip: zip-final
 
