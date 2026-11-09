@@ -26,6 +26,7 @@ zip-final:
 		-name "*.def" -o \
 		-name "*.mag" -o \
 		-name "*.odb" -o \
+		-name "*.sdf" -o \
 		-name "*.spef" \
 	\) -exec sh -c '\
 		set -eu; \
