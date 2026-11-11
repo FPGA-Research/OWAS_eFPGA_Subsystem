@@ -14,7 +14,9 @@ All build automation, code generation, formal verification, and bitstream compil
 | **Run full-fabric bitstream simulation in Vivado `xsim`** | `python3 scripts/run_fabric_sim.py --quick` *(or omit `--quick` for full 5-layer suite)* |
 | **Sync `MACROS/FABulous/eFPGA.v` blackbox after FABulous regen** | `python3 scripts/generate_blackbox_stub.py` |
 | **Flatten a nested `.f` filelist into a single file** | `python3 scripts/flatten_filelists.py -f FILE_LISTS/efpga_subsystem.f -o <flat_out.f>` |
+| **Turn `.f` filelists into LibreLane `VERILOG_FILES`** *(called by the `librelane/` Makefiles)* | `python3 scripts/filelist_to_librelane.py FILE_LISTS/asic/act_bank_container_asic.f -o <out.json>` |
 | **Strip Windows CRLF line endings from all `.f` files** | `python3 scripts/clean_filelists_crlf.py` |
+| **Regenerate the eFPGA LEF with open TopMetal1 bands** *(in `make nix`)* | `make -C librelane/efpga_subsystem_top tm1-lef` |
 
 ---
 

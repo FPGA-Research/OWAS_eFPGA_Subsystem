@@ -48,8 +48,6 @@ foreach vdd $::env(VDD_NETS) gnd $::env(GND_NETS) {
 set_voltage_domain -name CORE -power $::env(VDD_NET) -ground $::env(GND_NET) \
     -secondary_power $secondary
 
-
-
 if { $::env(PDN_MULTILAYER) == 1 } {
 
     set arg_list [list]
@@ -77,15 +75,23 @@ if { $::env(PDN_MULTILAYER) == 1 } {
         -starts_with POWER \
         {*}$arg_list
 
-    add_pdn_stripe \
-        -grid stdcell_grid \
-        -layer $::env(PDN_HORIZONTAL_LAYER) \
-        -width $::env(PDN_HWIDTH) \
-        -pitch $::env(PDN_HPITCH) \
-        -offset $::env(PDN_HOFFSET) \
-        -spacing $::env(PDN_HSPACING) \
-        -starts_with POWER \
-        {*}$arg_list
+    set hstripe_pitch $::env(PDN_HPITCH)
+    set hstripe_offsets [list $::env(PDN_HOFFSET)]
+    if { [info exists ::pdn_hstripe_offsets] } {
+        set hstripe_pitch $::pdn_hstripe_pitch
+        set hstripe_offsets $::pdn_hstripe_offsets
+    }
+    foreach hstripe_offset $hstripe_offsets {
+        add_pdn_stripe \
+            -grid stdcell_grid \
+            -layer $::env(PDN_HORIZONTAL_LAYER) \
+            -width $::env(PDN_HWIDTH) \
+            -pitch $hstripe_pitch \
+            -offset $hstripe_offset \
+            -spacing $::env(PDN_HSPACING) \
+            -starts_with POWER \
+            {*}$arg_list
+    }
 
     add_pdn_connect \
         -grid stdcell_grid \
@@ -130,7 +136,6 @@ if { $::env(PDN_ENABLE_RAILS) == 1 } {
         -grid stdcell_grid \
         -layers "$::env(PDN_RAIL_LAYER) $::env(PDN_VERTICAL_LAYER)"
 }
-
 
 # Adds the core ring if enabled.
 if { $::env(PDN_CORE_RING) == 1 } {
@@ -195,30 +200,6 @@ add_pdn_connect \
 
 # SRAM macros
 
-#define_pdn_grid \
-#    -macro \
-#    -instances "\
-#    i_chip_core.sram_0" \
-#    -name sram_NS \
-#    -starts_with POWER
-#
-#add_pdn_stripe \
-#    -grid sram_NS \
-#    -layer Metal5 \
-#    -width 2.81 \
-#    -pitch 11.24 \
-#    -offset 2.81 \
-#    -spacing 2.81 \
-#    -nets "VSS VDD" \
-#    -starts_with POWER
-#
-#add_pdn_connect \
-#    -grid sram_NS \
-#    -layers "Metal4 Metal5"
-#add_pdn_connect \
-#    -grid sram_NS \
-#    -layers "Metal5 TopMetal1"
-#
 define_pdn_grid \
     -macro \
     -cells act_bank_container \
@@ -228,6 +209,14 @@ define_pdn_grid \
 add_pdn_connect \
     -grid act_sram \
     -layers "Metal3 TopMetal1"
+
+define_pdn_grid \
+    -macro \
+    -cells psum_requant_container \
+    -name psum_sram \
+    -starts_with POWER \
+    -halo "0 0"
+
 add_pdn_connect \
-    -grid act_sram \
-    -layers "Metal2 Metal4"
+    -grid psum_sram \
+    -layers "Metal4 TopMetal1"

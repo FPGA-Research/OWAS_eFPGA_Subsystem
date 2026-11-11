@@ -48,8 +48,6 @@ foreach vdd $::env(VDD_NETS) gnd $::env(GND_NETS) {
 set_voltage_domain -name CORE -power $::env(VDD_NET) -ground $::env(GND_NET) \
     -secondary_power $secondary
 
-
-
 if { $::env(PDN_MULTILAYER) == 1 } {
 
     set arg_list [list]
@@ -131,7 +129,6 @@ if { $::env(PDN_ENABLE_RAILS) == 1 } {
         -layers "$::env(PDN_RAIL_LAYER) $::env(PDN_VERTICAL_LAYER)"
 }
 
-
 # Adds the core ring if enabled.
 if { $::env(PDN_CORE_RING) == 1 } {
     if { $::env(PDN_MULTILAYER) == 1 } {
@@ -159,12 +156,7 @@ if { $::env(PDN_CORE_RING) == 1 } {
             -core_offset "$::env(PDN_CORE_RING_VOFFSET) $::env(PDN_CORE_RING_HOFFSET)" \
             {*}$arg_list
 
-        if { [info exists ::env(PDN_CORE_VERTICAL_LAYER)] } {
-            add_pdn_connect \
-                -grid stdcell_grid \
-                -layers "$::env(PDN_CORE_VERTICAL_LAYER) $::env(PDN_HORIZONTAL_LAYER)"
-        }
-
+        # No Metal2 ring <-> TopMetal1 connect: the top level connects to the Metal2 ring edges
         if { [info exists ::env(PDN_CORE_HORIZONTAL_LAYER)] } {
             add_pdn_connect \
                 -grid stdcell_grid \
@@ -192,40 +184,3 @@ define_pdn_grid \
 add_pdn_connect \
     -grid macro \
     -layers "$::env(PDN_VERTICAL_LAYER) $::env(PDN_HORIZONTAL_LAYER)"
-
-# SRAM macros
-
-#define_pdn_grid \
-#    -macro \
-#    -instances "\
-#    i_chip_core.sram_0" \
-#    -name sram_NS \
-#    -starts_with POWER
-#
-#add_pdn_stripe \
-#    -grid sram_NS \
-#    -layer Metal5 \
-#    -width 2.81 \
-#    -pitch 11.24 \
-#    -offset 2.81 \
-#    -spacing 2.81 \
-#    -nets "VSS VDD" \
-#    -starts_with POWER
-#
-#add_pdn_connect \
-#    -grid sram_NS \
-#    -layers "Metal4 Metal5"
-#add_pdn_connect \
-#    -grid sram_NS \
-#    -layers "Metal5 TopMetal1"
-#
-#define_pdn_grid \
-#    -macro \
-#    -instances "\
-#    i_chip_core.sram_1" \
-#    -name sram_WE \
-#    -starts_with POWER
-#
-#add_pdn_connect \
-#    -grid sram_WE \
-#    -layers "Metal4 TopMetal1"
