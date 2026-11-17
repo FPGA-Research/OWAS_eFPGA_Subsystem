@@ -7,64 +7,76 @@ meta:
 
 DESIGN_NAME: psum_requant_container
 
-VERILOG_FILES:
-- dir::../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/psum_requant_container.sv
-- dir::../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/containers/requantizer/npu_requantizer_lane.sv
-- dir::../../MACROS/SRAM/sram_bank.sv
-- dir::../../MACROS/SRAM/sram_macros.v
-- dir::../../MACROS/Cells/cg_cell.sv
-- dir::../../MACROS/Cells/sg13cmos5l_lgcp_1.v
-
-#VERILOG_DEFINES: [FUNCTIONAL]
-
 USE_SLANG: True
-#SLANG_ARGUMENTS: ['--keep-hierarchy']
-# NOTE: Seems to only report false positives, flow runs also with the unmapped
-# cells
-ERROR_ON_SYNTH_CHECKS: False
 
-PRIMARY_GDSII_STREAMOUT_TOOL: klayout
 
 PNR_SDC_FILE: dir::constraint.sdc
 SIGNOFF_SDC_FILE: dir::constraint.sdc
 FALLBACK_SDC: dir::constraint.sdc
 IO_PIN_ORDER_CFG: dir::pin_order.cfg
+PDN_CFG: dir::pdn_cfg.tcl
 
 # Timing
 CLOCK_PORT: clk_i
 CLOCK_NET: clk_i
-CLOCK_PERIOD: 10.0
-
+CLOCK_PERIOD: 20
 # NOTE: Use these if the setup timing is violated in the typical corner
-PL_RESIZER_SETUP_SLACK_MARGIN: 2.5
+PL_RESIZER_SETUP_SLACK_MARGIN: 4
 PL_RESIZER_SETUP_MAX_BUFFER_PCT: 80
-
-ERROR_ON_DISCONNECTED_PINS: False
+PL_TIMING_DRIVEN: true
+RUN_POST_GRT_DESIGN_REPAIR: true
+RUN_POST_GRT_RESIZER_TIMING: true
+GRT_RESIZER_SETUP_SLACK_MARGIN: 2
+DESIGN_REPAIR_MAX_SLEW_PCT: 40
+DESIGN_REPAIR_MAX_CAP_PCT: 40
+GRT_DESIGN_REPAIR_MAX_SLEW_PCT: 40
+GRT_DESIGN_REPAIR_MAX_CAP_PCT: 40
 
 # Floorplanning
 
 FP_SIZING: absolute
 SYNTH_STRATEGY: "AREA 3"
 
-DIE_AREA: [0, 0, 460, 480]
-#PDN_CORE_RING: True
+DIE_AREA: [0, 0, 460, 500]
 PL_TARGET_DENSITY_PCT: 65
 GRT_ALLOW_CONGESTION: true
 
 # Allow free displacement (set to number that is definitely bigger than the die
 # size for each dimension)
-#PL_MAX_DISPLACEMENT_X: 2000
 PL_MAX_DISPLACEMENT_Y: 2000
 
+BOTTOM_MARGIN_MULT: 3
+TOP_MARGIN_MULT: 3
+LEFT_MARGIN_MULT: 20
+RIGHT_MARGIN_MULT: 20
 # PDN Setup
 
 VDD_NETS:
 - VDD
 GND_NETS:
 - VSS
-
-PDN_MULTILAYER: True
-
+# TopMetal1 stripes on the top-level PG grid (pitch 46.03), no core ring
+PDN_CORE_RING: False
+PDN_EXTEND_TO: boundary
+PDN_HPITCH: 46.03
+PDN_HOFFSET: 4.90
+PDN_HWIDTH: 2
+PDN_HSPACING: 4
+# Keep signal TopMetal1 off the stripes so the top-level PDN can run over the macro
+ROUTING_OBSTRUCTIONS:
+  - [TopMetal1, 0, 11.84, 460, 26.64]
+  - [TopMetal1, 0, 57.87, 460, 72.67]
+  - [TopMetal1, 0, 103.9, 460, 118.7]
+  - [TopMetal1, 0, 149.93, 460, 164.73]
+  - [TopMetal1, 0, 195.96, 460, 210.76]
+  - [TopMetal1, 0, 241.99, 460, 256.79]
+  - [TopMetal1, 0, 288.02, 460, 302.82]
+  - [TopMetal1, 0, 334.05, 460, 348.85]
+  - [TopMetal1, 0, 380.08, 460, 394.88]
+  - [TopMetal1, 0, 426.11, 460, 440.91]
+  - [TopMetal1, 0, 472.14, 460, 486.94]
+PDN_HORIZONTAL_HALO: 2
+PDN_VERTICAL_HALO: 2
 PDN_MACRO_CONNECTIONS:
   - "bank_A_sram.gen_ihp_256x32.u_sram_256x32 VDD VSS VDD! VSS!"
   - "bank_A_sram.gen_ihp_256x32.u_sram_256x32 VDD VSS VDDARRAY! VSS!"
@@ -74,20 +86,20 @@ PDN_MACRO_CONNECTIONS:
 MACROS:
   RM_IHPSG13_1P_256x32_c2_bm_bist:
     gds:
-      - dir::../../../PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/gds/RM_IHPSG13_1P_256x32_c2_bm_bist.gds
+      - pdk_dir::libs.ref/sg13cmos5l_sram/gds/RM_IHPSG13_1P_256x32_c2_bm_bist.gds
     lef:
-      - dir::../../../PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lef/RM_IHPSG13_1P_256x32_c2_bm_bist.lef
+      - pdk_dir::libs.ref/sg13cmos5l_sram/lef/RM_IHPSG13_1P_256x32_c2_bm_bist.lef
     lib:
       "*_typ_1p20V_25C":
-        - dir::../../../PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_256x32_c2_bm_bist_typ_1p20V_25C.lib
+        - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_256x32_c2_bm_bist_typ_1p20V_25C.lib
       "nom_fast_1p32V_m40C":
-        - dir::../../../PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_256x32_c2_bm_bist_fast_1p32V_m55C.lib
+        - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_256x32_c2_bm_bist_fast_1p32V_m55C.lib
       "nom_slow_1p08V_125C":
-        - dir::../../../PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_256x32_c2_bm_bist_slow_1p08V_125C.lib
+        - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_256x32_c2_bm_bist_slow_1p08V_125C.lib
     instances:
       bank_A_sram.gen_ihp_256x32.u_sram_256x32:
-        location: [30, 340]
+        location: [30, 360]
         orientation: FN
       bank_B_sram.gen_ihp_256x32.u_sram_256x32:
-        location: [30, 17]
+        location: [30, 20]
         orientation: FS

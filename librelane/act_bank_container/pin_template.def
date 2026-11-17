@@ -1,0 +1,323 @@
+VERSION 5.8 ;
+DIVIDERCHAR "/" ;
+BUSBITCHARS "[]" ;
+DESIGN act_bank_container ;
+UNITS DISTANCE MICRONS 1000 ;
+DIEAREA ( 0 0 ) ( 275000 168900 ) ;
+
+PINS 78 ;
+    - act_addr[0] + NET act_addr[0] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 152460 200 ) N ;
+    - act_addr[1] + NET act_addr[1] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 149940 200 ) N ;
+    - act_addr[2] + NET act_addr[2] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 147420 200 ) N ;
+    - act_addr[3] + NET act_addr[3] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 144900 200 ) N ;
+    - act_addr[4] + NET act_addr[4] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 142380 200 ) N ;
+    - act_addr[5] + NET act_addr[5] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 139860 200 ) N ;
+    - act_addr[6] + NET act_addr[6] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 137340 200 ) N ;
+    - act_addr[7] + NET act_addr[7] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 134820 200 ) N ;
+    - act_addr[8] + NET act_addr[8] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 132300 200 ) N ;
+    - act_rdata_east[0] + NET act_rdata_east[0] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 15540 168700 ) N ;
+    - act_rdata_east[1] + NET act_rdata_east[1] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 22260 168700 ) N ;
+    - act_rdata_east[2] + NET act_rdata_east[2] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 28980 168700 ) N ;
+    - act_rdata_east[3] + NET act_rdata_east[3] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 35700 168700 ) N ;
+    - act_rdata_east[4] + NET act_rdata_east[4] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 42420 168700 ) N ;
+    - act_rdata_east[5] + NET act_rdata_east[5] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 49140 168700 ) N ;
+    - act_rdata_east[6] + NET act_rdata_east[6] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 55860 168700 ) N ;
+    - act_rdata_east[7] + NET act_rdata_east[7] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 62580 168700 ) N ;
+    - act_rdata_west[0] + NET act_rdata_west[0] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 192780 200 ) N ;
+    - act_rdata_west[1] + NET act_rdata_west[1] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 190260 200 ) N ;
+    - act_rdata_west[2] + NET act_rdata_west[2] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 187740 200 ) N ;
+    - act_rdata_west[3] + NET act_rdata_west[3] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 185220 200 ) N ;
+    - act_rdata_west[4] + NET act_rdata_west[4] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 182700 200 ) N ;
+    - act_rdata_west[5] + NET act_rdata_west[5] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 180180 200 ) N ;
+    - act_rdata_west[6] + NET act_rdata_west[6] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 177660 200 ) N ;
+    - act_rdata_west[7] + NET act_rdata_west[7] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 175140 200 ) N ;
+    - act_wdata[0] + NET act_wdata[0] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 129780 200 ) N ;
+    - act_wdata[1] + NET act_wdata[1] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 127260 200 ) N ;
+    - act_wdata[2] + NET act_wdata[2] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 124740 200 ) N ;
+    - act_wdata[3] + NET act_wdata[3] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 122220 200 ) N ;
+    - act_wdata[4] + NET act_wdata[4] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 119700 200 ) N ;
+    - act_wdata[5] + NET act_wdata[5] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 117180 200 ) N ;
+    - act_wdata[6] + NET act_wdata[6] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 114660 200 ) N ;
+    - act_wdata[7] + NET act_wdata[7] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 112140 200 ) N ;
+    - act_we + NET act_we + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 109620 200 ) N ;
+    - clk_i + NET clk_i + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 74340 200 ) N ;
+    - clk_o + NET clk_o + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 8820 168700 ) N ;
+    - out_act_east[0] + NET out_act_east[0] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 210420 168700 ) N ;
+    - out_act_east[1] + NET out_act_east[1] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 217140 168700 ) N ;
+    - out_act_east[2] + NET out_act_east[2] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 223860 168700 ) N ;
+    - out_act_east[3] + NET out_act_east[3] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 230580 168700 ) N ;
+    - out_act_east[4] + NET out_act_east[4] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 237300 168700 ) N ;
+    - out_act_east[5] + NET out_act_east[5] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 244020 168700 ) N ;
+    - out_act_east[6] + NET out_act_east[6] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 250740 168700 ) N ;
+    - out_act_east[7] + NET out_act_east[7] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 257460 168700 ) N ;
+    - out_act_west[0] + NET out_act_west[0] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 172620 200 ) N ;
+    - out_act_west[1] + NET out_act_west[1] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 170100 200 ) N ;
+    - out_act_west[2] + NET out_act_west[2] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 167580 200 ) N ;
+    - out_act_west[3] + NET out_act_west[3] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 165060 200 ) N ;
+    - out_act_west[4] + NET out_act_west[4] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 162540 200 ) N ;
+    - out_act_west[5] + NET out_act_west[5] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 160020 200 ) N ;
+    - out_act_west[6] + NET out_act_west[6] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 157500 200 ) N ;
+    - out_act_west[7] + NET out_act_west[7] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 154980 200 ) N ;
+    - weight_in_east[0] + NET weight_in_east[0] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 69300 168700 ) N ;
+    - weight_in_east[1] + NET weight_in_east[1] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 76020 168700 ) N ;
+    - weight_in_east[2] + NET weight_in_east[2] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 82740 168700 ) N ;
+    - weight_in_east[3] + NET weight_in_east[3] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 89460 168700 ) N ;
+    - weight_in_east[4] + NET weight_in_east[4] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 96180 168700 ) N ;
+    - weight_in_east[5] + NET weight_in_east[5] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 102900 168700 ) N ;
+    - weight_in_east[6] + NET weight_in_east[6] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 109620 168700 ) N ;
+    - weight_in_east[7] + NET weight_in_east[7] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 116340 168700 ) N ;
+    - weight_in_west[0] + NET weight_in_west[0] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 107100 200 ) N ;
+    - weight_in_west[1] + NET weight_in_west[1] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 104580 200 ) N ;
+    - weight_in_west[2] + NET weight_in_west[2] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 102060 200 ) N ;
+    - weight_in_west[3] + NET weight_in_west[3] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 99540 200 ) N ;
+    - weight_in_west[4] + NET weight_in_west[4] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 97020 200 ) N ;
+    - weight_in_west[5] + NET weight_in_west[5] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 94500 200 ) N ;
+    - weight_in_west[6] + NET weight_in_west[6] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 91980 200 ) N ;
+    - weight_in_west[7] + NET weight_in_west[7] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 89460 200 ) N ;
+    - weight_shift_en_east + NET weight_shift_en_east + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 176820 168700 ) N ;
+    - weight_shift_en_west + NET weight_shift_en_west + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 86940 200 ) N ;
+    - xbar_sel_east[0] + NET xbar_sel_east[0] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 183540 168700 ) N ;
+    - xbar_sel_east[1] + NET xbar_sel_east[1] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 190260 168700 ) N ;
+    - xbar_sel_east[2] + NET xbar_sel_east[2] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 196980 168700 ) N ;
+    - xbar_sel_east[3] + NET xbar_sel_east[3] + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 203700 168700 ) N ;
+    - xbar_sel_west[0] + NET xbar_sel_west[0] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 84420 200 ) N ;
+    - xbar_sel_west[1] + NET xbar_sel_west[1] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 81900 200 ) N ;
+    - xbar_sel_west[2] + NET xbar_sel_west[2] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 79380 200 ) N ;
+    - xbar_sel_west[3] + NET xbar_sel_west[3] + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
+        + PLACED ( 76860 200 ) N ;
+END PINS
+
+END DESIGN

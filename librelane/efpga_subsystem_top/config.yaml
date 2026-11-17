@@ -2,108 +2,150 @@ meta:
   version: 3
   flow: Classic
   substituting_steps:
-    OpenROAD.IRDropReport: null
-    OpenROAD.CTS: null
-    OpenROAD.Resizer*: null
-    OpenROAD.Repair*: null
-    OpenROAD.STA*: null 
-    Magic.DRC: null
-    KLayout.DRC: null
-    Netgen.LVS: null
-    Checker.*: null
+    "-OpenROAD.GlobalPlacementSkipIO": Odb.AddPlacementRegions
+    OpenROAD.GlobalPlacement: Regions.GlobalPlacement
+    OpenROAD.RepairDesignPostGPL: Regions.RepairDesignPostGPL
+    OpenROAD.DetailedPlacement: Regions.DetailedPlacement
+    "-OpenROAD.CTS": Odb.MacroClockPinFirst
+    OpenROAD.CTS: Regions.CTS
+    OpenROAD.ResizerTimingPostCTS: Regions.ResizerTimingPostCTS
+    OpenROAD.RepairDesignPostGRT: Regions.RepairDesignPostGRT
+    OpenROAD.ResizerTimingPostGRT: Regions.ResizerTimingPostGRT
+    OpenROAD.RepairAntennas: null
+    "-OpenROAD.DetailedRouting": Regions.RepairAntennas
+    OpenROAD.DetailedRouting: Regions.DetailedRouting
+    "-OpenROAD.RCX": Odb.ShortenNames
+    "-Odb.AddPDNObstructions": Odb.RemoveMacroObstructions
+    "+OpenROAD.GeneratePDN": Odb.ConnectMacroRingStripes
+    "-Odb.RemovePDNObstructions": Odb.RestoreMacroMasters
 
 DESIGN_NAME: efpga_subsystem_top
 
-VERILOG_FILES:
-  - dir::../../MACROS/target_config_pkg.sv
-  - dir::../../RTL/eFPGA_Subsystem/eFPGA_Subsystem_TOP/efpga_subsystem_top.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/axi_decoupler.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/axi_watchdog_master_monitor.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/axi_watchdog_slave_monitor.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/axil_decoupler.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/axil_watchdog_master_monitor.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/axil_watchdog_slave_monitor.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/bridge_fabric_master_to_soc.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/bridge_soc_to_fabric_slave.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/efpga_connector.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/efpga_manager.sv
-  - dir::../../RTL/eFPGA_Subsystem/AXI_Connector/pmp_math.sv
-  - dir::../../RTL/AXI_LIB/axi_register.v
-  - dir::../../RTL/AXI_LIB/axi_register_rd.v
-  - dir::../../RTL/AXI_LIB/axi_register_wr.v
-  - dir::../../RTL/AXI_LIB/axil_register.v
-  - dir::../../RTL/AXI_LIB/axil_register_rd.v
-  - dir::../../RTL/AXI_LIB/axil_register_wr.v
-  - dir::../../RTL/eFPGA_Subsystem/NPU_complex/NPU_complex_TOP/npu_wrapper.sv
-  - dir::../../RTL/eFPGA_Subsystem/NPU_complex/act_buffer/act_buffer_TOP/act_buffer_top.sv
-  - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/compute_core_TOP/compute_core_top.sv
-  - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/crossbar/npu_crossbar.sv
-  - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/quant_config/quant_shift_chain.sv
-  - dir::../../MACROS/Cells/cg_cell.sv
-  - dir::../../MACROS/Cells/sg13cmos5l_lgcp_1.v
-  - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/systolic_array/pe.sv
-  - dir::../../RTL/eFPGA_Subsystem/NPU_complex/compute_core/systolic_array/systolic_array.sv
-  - dir::../../RTL/eFPGA_Subsystem/NPU_complex/psum_requant/psum_requant_TOP/psum_requant_top.sv
-  - dir::../../OWAS_Fabric/Fabric/ConfigFSM.v
-  - dir::../../OWAS_Fabric/Fabric/Frame_Data_Reg.v
-  - dir::../../OWAS_Fabric/Fabric/Frame_Select.v
-  - dir::../../OWAS_Fabric/Fabric/bitbang.v
-  - dir::../../OWAS_Fabric/Fabric/config_UART.v
-  - dir::../../OWAS_Fabric/Fabric/eFPGA_Config.v
-  - dir::../../OWAS_Fabric/Fabric/eFPGA_top.v
-  - dir::../../OWAS_Fabric/Fabric/models_pack.v
-
-
 USE_SLANG: true
+SYNTH_AUTONAME: true
+SYNTH_STRATEGY: AREA 0
+EXTRA_EXCLUDED_CELLS: ["sg13cmos5l_IOPad*"]
 VERILOG_DEFINES: [LIBRELANE_HARD_MACROS, IHP_SG13CMOS5L]
 ERROR_ON_SYNTH_CHECKS: false
 RUN_MAGIC_DRC: False
-RUN_KLAYOUT_DRC: False
+RUN_KLAYOUT_DRC: True
 CLOCK_PORT: clk_i
 CLOCK_NET: clk_i
-CLOCK_PERIOD: 10.0
+CLOCK_PERIOD: 20.0
+PNR_SDC_FILE: dir::efpga_subsystem_top.sdc
+SIGNOFF_SDC_FILE: dir::efpga_subsystem_top.sdc
 
 FP_SIZING: absolute
-# Shift the macro layout right by 200 um and widen the die to preserve the PSUM column's right-edge position.
 DIE_AREA: [0, 0, 4000, 4250]
 PL_TARGET_DENSITY_PCT: 50
+PL_MAX_PHI_COEFFICIENT: 1.03
+PLACEMENT_REGIONS:
+  west_io:
+    instances:
+      - "efpga_connector_inst.*"
+      - "m_axi_*"
+      - "s_axil_*"
+      - "axi4_*"
+      - "fabric_inst.eFPGA_Config_inst.*"
+      - "fabric_inst.FrameData*"
+      - "fabric_inst.FrameAddressRegister*"
+      - "fabric_inst.LongFrameStrobe*"
+      - "axil_*"
+      - "efpga_com_*"
+      - "efpga_config_*"
+      - "efpga_fault_irq_o*"
+      - "bb_*"
+      - "sclk_*"
+      - "bitbang_*"
+    late_port_margin: 50
+    late_instances:
+      - "input*"
+      - "output*"
+      - "efpga_subsystem_top*"
+    area: [5.76, 15.12, 213.52, 4233.26]
+    utilization: 50
+    gpl_max_density: 80
+    dpl_padding: 4
+    absorb_margin: 25
+  npu_east:
+    instances:
+      - "npu_inst.*"
+      - "fabric_inst.NPU_*"
+    area: [2872.56, 15.12, 3994.08, 4233.26]
+    utilization: 70
+ROUTING_OBSTRUCTIONS:
+  - [Metal4, 223.92, 190.99, 2872.56, 4040.29]
+  - [Metal3, 223.92, 192.49, 2872.56, 206.43]
+  - [TopMetal1, 223.92, 190.99, 2872.56, 4040.29]
+  - [TopMetal1, 3534.24, 146.97, 3994.24, 4191.28]
 FP_OBSTRUCTIONS:
-# - [3774.24, 15.12, 3794.24, 4784.88]
-#  - [300, 15.12, 2647.68, 100]
-# - [300, 4629.7, 2647.68, 4784.88]
+  - [3534.24, 646.97, 3994.24, 653.30]
+  - [3534.24, 1153.30, 3994.24, 1159.63]
+  - [3534.24, 1659.63, 3994.24, 1665.96]
+  - [3534.24, 2165.96, 3994.24, 2172.29]
+  - [3534.24, 2672.29, 3994.24, 2678.62]
+  - [3534.24, 3178.62, 3994.24, 3184.95]
+  - [3534.24, 3684.95, 3994.24, 3691.28]
 SLANG_ARGUMENTS: ['--keep-hierarchy']
-#SYNTH_HIERARCHY. _MODE: keep
 GPL_CELL_PADDING: 4
 DPL_CELL_PADDING: 2
+DPL_IMPROVE_PLACEMENT_SEED: 1
+# Mirroring is not reproducible after the hold repair (OpenROAD tie-break); off keeps runs deterministic
+PL_OPTIMIZE_MIRRORING: false
+PL_MAX_DISPLACEMENT_X: 500
+PL_MAX_DISPLACEMENT_Y: 2300
 
 VDD_NETS: [VDD]
 GND_NETS: [VSS]
-PDN_MULTILAYER: true
+PDN_HPITCH: 46.03
+PDN_HOFFSET: 10
+PDN_EXTEND_TO: boundary
 PDN_CFG: dir::pdn_cfg.tcl
+REMOVE_MACRO_OBSTRUCTIONS:
+  fabric_inst.eFPGA_inst: [TopMetal1]
+  psum_requant_container: [TopMetal1]
+REMOVE_MACRO_PG_PINS:
+  psum_requant_container: [TopMetal1]
 IO_PIN_ORDER_CFG: dir::pin_order.cfg
-PL_TIME_DRIVEN: False
+PL_TIMING_DRIVEN: False
 GRT_ALLOW_CONGESTION: True
-DRT_OPT_ITERS: 5
 ERROR_ON_DISCONNECTED_PINS: False
-GRT_OVERFLOW_ITERS: 1
-DRT_ANTENNA_REPAIR_ITERS: 0
-GRT_ANTENNA_REPAIR_ITERS: 0
+MAX_SLEW_VIOLATION_CORNERS: ['*']
+MAX_CAP_VIOLATION_CORNERS: ['*']
+GRT_OVERFLOW_ITERS: 5
+GRT_ANTENNA_REPAIR_MARGIN: 15
+DRT_ANTENNA_REPAIR_ITERS: 6
+DRT_SAVE_DRC_REPORT_ITERS: 1
+DIODE_ON_PORTS: in
+DIODE_CELL: sg13cmos5l_antennanp/A
 
+MACRO_RING_STRIPE_CONNECT:
+  act_bank_container:
+    stripe_layer: Metal4
+    pin_layer: Metal2
+    max_gap: "1.0"
+    max_depth: "9.0"
+    nets: "VDD VSS"
 PDN_MACRO_CONNECTIONS:
   - "npu_inst\\.act_buffer_stage\\.gen_containers.*\\.container_inst.* VDD VSS VDD VSS"
   - "npu_inst\\.psum_requant_stage\\.gen_containers.*\\.container_inst.* VDD VSS VDD VSS"
+  - "fabric_inst\\.eFPGA_inst VDD VSS VPWR VGND"
 
+# Blackbox views = the filelist stubs (with parameters, like the RTL instances); no nl views
 MACROS:
   eFPGA:
     gds:
       - dir::../../OWAS_Fabric/Fabric/macro/final_views/gds/eFPGA.gds
     lef:
-      - dir::../../OWAS_Fabric/Fabric/macro/final_views/lef/eFPGA.lef
-    nl:
-      - dir::../../OWAS_Fabric/Fabric/macro/final_views/nl/eFPGA.nl.v
+      - dir::eFPGA_interface/eFPGA_tm1bands.lef
+    vh:
+      - dir::../../MACROS/FABulous/eFPGA.v
+    lib:
+      "*":
+        - dir::eFPGA_interface/eFPGA_interface.lib
     instances:
       "fabric_inst.eFPGA_inst":
-        location: [200, 200]
+        location: [223.92, 190.99]
         orientation: N
 
   act_bank_container:
@@ -111,8 +153,8 @@ MACROS:
       - dir::../../MACROS/act_bank_container/views/gds/act_bank_container.gds
     lef:
       - dir::../../MACROS/act_bank_container/views/lef/act_bank_container.lef
-    nl:
-      - dir::../../MACROS/act_bank_container/views/nl/act_bank_container.nl.v
+    vh:
+      - dir::../../MACROS/act_bank_container/act_bank_container.v
     lib:
       "*_typ_1p20V_25C":
         - dir::../../MACROS/act_bank_container/views/lib/nom_typ_1p20V_25C/act_bank_container__nom_typ_1p20V_25C.lib
@@ -122,28 +164,28 @@ MACROS:
         - dir::../../MACROS/act_bank_container/views/lib/nom_slow_1p08V_125C/act_bank_container__nom_slow_1p08V_125C.lib
     instances:
       "npu_inst.act_buffer_stage.gen_containers[0].container_inst":
-        location: [2922.56, 318.98]
+        location: [2872.56, 301.97]
         orientation: R270
       "npu_inst.act_buffer_stage.gen_containers[1].container_inst":
-        location: [2922.56, 779.3]
+        location: [2872.56, 762.29]
         orientation: R270
       "npu_inst.act_buffer_stage.gen_containers[2].container_inst":
-        location: [2922.56, 1239.62]
+        location: [2872.56, 1222.61]
         orientation: R270
       "npu_inst.act_buffer_stage.gen_containers[3].container_inst":
-        location: [2922.56, 1699.94]
+        location: [2872.56, 1682.93]
         orientation: R270
       "npu_inst.act_buffer_stage.gen_containers[4].container_inst":
-        location: [2922.56, 2160.26]
+        location: [2872.56, 2143.25]
         orientation: R270
       "npu_inst.act_buffer_stage.gen_containers[5].container_inst":
-        location: [2922.56, 2620.58]
+        location: [2872.56, 2603.57]
         orientation: R270
       "npu_inst.act_buffer_stage.gen_containers[6].container_inst":
-        location: [2922.56, 3080.9]
+        location: [2872.56, 3063.89]
         orientation: R270
       "npu_inst.act_buffer_stage.gen_containers[7].container_inst":
-        location: [2922.56, 3541.22]
+        location: [2872.56, 3524.21]
         orientation: R270
 
   psum_requant_container:
@@ -151,8 +193,8 @@ MACROS:
       - dir::../../MACROS/psum_requant_container/views/gds/psum_requant_container.gds
     lef:
       - dir::../../MACROS/psum_requant_container/views/lef/psum_requant_container.lef
-    nl:
-      - dir::../../MACROS/psum_requant_container/views/nl/psum_requant_container.nl.v
+    vh:
+      - dir::../../MACROS/psum_requant_container/psum_requant_container.v
     lib:
       "*_typ_1p20V_25C":
         - dir::../../MACROS/psum_requant_container/views/lib/nom_typ_1p20V_25C/psum_requant_container__nom_typ_1p20V_25C.lib
@@ -162,26 +204,46 @@ MACROS:
         - dir::../../MACROS/psum_requant_container/views/lib/nom_slow_1p08V_125C/psum_requant_container__nom_slow_1p08V_125C.lib
     instances:
       "npu_inst.psum_requant_stage.gen_containers[0].container_inst":
-        location: [3534.24, 100]
+        location: [3534.24, 146.97]
         orientation: R0
       "npu_inst.psum_requant_stage.gen_containers[1].container_inst":
-        location: [3534.24, 580]
+        location: [3534.24, 653.30]
         orientation: R0
       "npu_inst.psum_requant_stage.gen_containers[2].container_inst":
-        location: [3534.24, 1060]
+        location: [3534.24, 1159.63]
         orientation: R0
       "npu_inst.psum_requant_stage.gen_containers[3].container_inst":
-        location: [3534.24, 1540]
+        location: [3534.24, 1665.96]
         orientation: R0
       "npu_inst.psum_requant_stage.gen_containers[4].container_inst":
-        location: [3534.24, 2020]
+        location: [3534.24, 2172.29]
         orientation: R0
       "npu_inst.psum_requant_stage.gen_containers[5].container_inst":
-        location: [3534.24, 2500]
+        location: [3534.24, 2678.62]
         orientation: R0
       "npu_inst.psum_requant_stage.gen_containers[6].container_inst":
-        location: [3534.24, 2980]
+        location: [3534.24, 3184.95]
         orientation: R0
       "npu_inst.psum_requant_stage.gen_containers[7].container_inst":
-        location: [3534.24, 3460]
+        location: [3534.24, 3691.28]
         orientation: R0
+
+RUN_POST_GRT_DESIGN_REPAIR: True
+RUN_POST_GRT_RESIZER_TIMING: True
+GRT_DESIGN_REPAIR_MAX_WIRE_LENGTH: 500
+GRT_DESIGN_REPAIR_MAX_SLEW_PCT: 40
+GRT_DESIGN_REPAIR_MAX_CAP_PCT: 50
+
+LAYERS_RC:
+  "*":
+    Metal1: {res: 0.00084375, cap: 0.0001273}
+    Metal2: {res: 0.000515, cap: 0.0001721}
+    Metal3: {res: 0.000515, cap: 0.0001702}
+    Metal4: {res: 0.000515, cap: 0.0001698}
+    TopMetal1: {res: 0.0000128, cap: 0.0002051}
+GRT_RESIZER_SETUP_SLACK_MARGIN: 0.5
+HOLD_REPAIR_REPEATS: 12
+GRT_RESIZER_HOLD_SLACK_MARGIN: 0.2
+GRT_HOLD_REPAIR_SETUP_MARGIN: 0.25
+MACRO_CLOCK_PIN_FIRST:
+  act_bank_container: clk_o
