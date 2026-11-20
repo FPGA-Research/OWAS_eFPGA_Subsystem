@@ -33,6 +33,18 @@ PL_RESIZER_HOLD_MAX_BUFFER_PCT: 100
 GRT_RESIZER_HOLD_MAX_BUFFER_PCT: 100
 # Keep the hold delay chains (MACROS/Cells/act_hold_delay.sv)
 RSZ_DONT_TOUCH_RX: "^u_hold_dly_"
+# The PDK default RCX rules are the sg13g2 file (7 layers): TopMetal1 gets its thin Metal5 tables
+RCX_RULESETS:
+  "nom_*": dir::../rcx/sg13cmos5l.TYP.rules
+# Wire RC for the resizer estimates, same as efpga_subsystem_top (the PDK sets none, so the
+# estimates used the tech LEF C, about half the RCX wire C)
+LAYERS_RC:
+  "*":
+    Metal1: {res: 0.00084375, cap: 0.0001273}
+    Metal2: {res: 0.000515, cap: 0.0001824}
+    Metal3: {res: 0.000515, cap: 0.0001804}
+    Metal4: {res: 0.000515, cap: 0.0001800}
+    TopMetal1: {res: 0.0000128, cap: 0.0002051}
 
 ERROR_ON_DISCONNECTED_PINS: False
 # Floorplanning
