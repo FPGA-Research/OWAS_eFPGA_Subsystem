@@ -14,6 +14,9 @@ PNR_SDC_FILE: dir::constraint.sdc
 SIGNOFF_SDC_FILE: dir::constraint.sdc
 FALLBACK_SDC: dir::constraint.sdc
 IO_PIN_ORDER_CFG: dir::pin_order.cfg
+# 1 um deep west-edge pins (default 0.4): the macro LEF leaves the pin-connected metal out of pins and OBS, so a
+# jog right at a short pin's inner end gave a same-net Metal3 notch (M3.b) with the top-level access wire
+IO_PIN_H_LENGTH: 1.0
 PDN_CFG: dir::pdn_cfg.tcl
 
 # Timing
@@ -52,6 +55,11 @@ SYNTH_STRATEGY: "AREA 3"
 
 DIE_AREA: [0, 0, 460, 500]
 PL_TARGET_DENSITY_PCT: 65
+# No cells in the west strip beside bank_A_sram: the ~50 west pins there plus cells placed in the strip
+# overflowed its vertical tracks in GRT, the spill went over the SRAM (Metal4 full of its straps) and DRT
+# shorted on them. Clean with this blockage at density 60/65/70 (hard and soft)
+FP_OBSTRUCTIONS:
+  - [0, 352, 30, 500]
 GRT_ALLOW_CONGESTION: true
 
 # Allow free displacement (set to number that is definitely bigger than the die
@@ -88,6 +96,27 @@ ROUTING_OBSTRUCTIONS:
   - [TopMetal1, 0, 380.08, 460, 394.88]
   - [TopMetal1, 0, 426.11, 460, 440.91]
   - [TopMetal1, 0, 472.14, 460, 486.94]
+  # The top-level Metal4 PDN stripes (VDD x 31.02+50n, VSS 34.02+50n, 1 um wide) run over the whole macro
+  # height; the macro's own Metal4 stripes span only y 15.93 (VDD) / 21.93 (VSS) to 476.85 / 482.85. Keep
+  # signal Metal4 out from under the top stripes in the bottom and top margins (no signal pins there)
+  - [Metal4, 30.5, 0, 35.5, 22.50]
+  - [Metal4, 30.5, 476.30, 35.5, 500]
+  - [Metal4, 80.5, 0, 85.5, 22.50]
+  - [Metal4, 80.5, 476.30, 85.5, 500]
+  - [Metal4, 130.5, 0, 135.5, 22.50]
+  - [Metal4, 130.5, 476.30, 135.5, 500]
+  - [Metal4, 180.5, 0, 185.5, 22.50]
+  - [Metal4, 180.5, 476.30, 185.5, 500]
+  - [Metal4, 230.5, 0, 235.5, 22.50]
+  - [Metal4, 230.5, 476.30, 235.5, 500]
+  - [Metal4, 280.5, 0, 285.5, 22.50]
+  - [Metal4, 280.5, 476.30, 285.5, 500]
+  - [Metal4, 330.5, 0, 335.5, 22.50]
+  - [Metal4, 330.5, 476.30, 335.5, 500]
+  - [Metal4, 380.5, 0, 385.5, 22.50]
+  - [Metal4, 380.5, 476.30, 385.5, 500]
+  - [Metal4, 430.5, 0, 435.5, 22.50]
+  - [Metal4, 430.5, 476.30, 435.5, 500]
 PDN_HORIZONTAL_HALO: 2
 PDN_VERTICAL_HALO: 2
 PDN_MACRO_CONNECTIONS:

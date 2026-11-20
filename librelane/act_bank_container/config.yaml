@@ -84,8 +84,10 @@ LEFT_MARGIN_MULT: 18
 RT_MAX_LAYER: Metal4
 PDN_OBSTRUCTIONS:
   - [Metal4, 0, 156.20, 275, 165.60]
+# The top-level Metal4 PDN stripe pair runs through the band y 158.2-164.7 (efpga_subsystem_top, act placed E).
+# Up to the die edge: act Metal4 above the band makes the LEF writer merge one OBS over the band (Magic illegal overlap)
 ROUTING_OBSTRUCTIONS:
-  - [Metal4, 0, 157.40, 275, 165.60]
+  - [Metal4, 0, 157.40, 275, 168.90]
   - [Metal3, 0, 0, 8.14, 168.90]
   - [Metal4, 0, 0, 8.14, 168.90]
   - [Metal3, 266.42, 0, 275, 168.90]
